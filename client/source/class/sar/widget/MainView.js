@@ -17,75 +17,93 @@ qx.Class.define("sar.widget.MainView", {
   construct: function(optionNumber) {
     this.base(arguments);
 
-    this._setLayout(new qx.ui.layout.VBox());
+    this._setLayout(new qx.ui.layout.VBox(20));
+
+    this.__stepButtons = [];
+    this.__steps = [];
 
     this.builLayout();
-  },
 
-  events: {
-    "optionSelected": "qx.event.type.Data"
+    this.setStartingPoint(optionNumber);
   },
 
   members: {
-    _createChildControlImpl: function(id) {
-      let control;
-      switch (id) {
-        case "steps-layout":
-          control = new qx.ui.basic.Label().set({
-            value: "Welcome to the IEC 62209-3 Validation"
-          });
-          this._add(control);
-          break;
-        case "intro-subtitle":
-          control = new qx.ui.basic.Label().set({
-            value: "A Gaussian-process-model-based approach for robust, independent, and implementation-agnostic validation of complex multi-variable measurement systems: application to SAR measurement systems",
-          });
-          this._add(control);
-          break;
-        case "intro-description":
-          control = new qx.ui.basic.Label().set({
-            value: "Resource-efficient and robust validation of complex measurement systems that would require millions of test permutations for comprehensive coverage is an unsolved problem. In the paper, a general, robust, trustworthy, efficient, and comprehensive validation approach based on a Gaussian Process model (GP) of the test system has been developed that can operate system-agnostically, prevents calibration to a fixed set of known validation benchmarks, and supports large configuration spaces. The approach includes three steps that can be performed independently by different parties: 1) GP model creation, 2) model confirmation, and 3) model-based critical search for failures. The new approach has been applied to two systems utilizing different measurement methods for compliance testing of radiofrequency-emitting devices according to two independent standards, i.e., IEC 62209-1528 for scanning systems and IEC 62209-3 for array systems. The results demonstrate that the proposed measurement system validation is practical and feasible. It reduces the effort to a minimum such that it can be routinely performed by any test lab or other user and constitutes a pragmatic approach for establishing validity and effective equivalence of the two measurement device classes.",
-            rich: true,
-            wrap: true
-          });
-          this._add(control);
-          break;
-        case "options-helper":
-          control = new qx.ui.basic.Label().set({
-            value: "Where do you want to start from?"
-          });
-          this._add(control);
-          break;
-        case "options-layout":
-          control = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
-          this._add(control);
-          break;
-        case "option-0": {
-          const layout = this.getChildControl("options-layout");
-          control = new sar.widget.LargeCard("Create my own Model");
-          control.addListener("execute", () => this.fireDataEvent("optionSelected", 0));
-          layout.add(control);
-          break;
-        }
-        case "option-1": {
-          const layout = this.getChildControl("options-layout");
-          control = new sar.widget.LargeCard("Import Model");
-          control.addListener("execute", () => this.fireDataEvent("optionSelected", 1));
-          layout.add(control);
-          break;
-        }
-      }
-      return control || this.base(arguments, id);
-    },
+    __stepButtons: null,
+    __steps: null,
 
     builLayout: function() {
-      this.getChildControl("intro-title");
-      this.getChildControl("intro-subtitle");
-      this.getChildControl("intro-description");
+      const introTitle = new qx.ui.basic.Label().set({
+        value: "IEC 62209-3 Validation",
+        font: "text-30"
+      });
+      this._add(introTitle);
+      
+      const stepsGrid = new qx.ui.layout.Grid(20, 10);
+      stepsGrid.setColumnAlign(0, "center", "middle");
+      stepsGrid.setColumnAlign(1, "center", "middle");
+      stepsGrid.setColumnAlign(2, "center", "middle");
+      stepsGrid.setColumnAlign(3, "center", "middle");
+      stepsGrid.setColumnAlign(4, "center", "middle");
+      stepsGrid.setColumnAlign(5, "center", "middle");
+      const stepsLayout = new qx.ui.container.Composite(stepsGrid).set({
+        allowGrowX: false
+      });
+      [
+        "Model Creation",
+        "Model Confirmation",
+        "Critical Data Space Search",
+      ].forEach((sectionText, idx) => {
+        const sectionLabel = new qx.ui.basic.Label().set({
+          value: sectionText,
+          font: "text-18"
+        });
+        stepsLayout.add(sectionLabel, {
+          row: 0,
+          column: idx*2,
+          colSpan: 2
+        });
+      });
+      [{
+        icon: null,
+        label: "Test Set Generation",
+      }, {
+        icon: null,
+        label: "Analysis & Creation",
+      }, {
+        icon: null,
+        label: "Test Set Generation",
+      }, {
+        icon: null,
+        label: "Confirm Model",
+      }, {
+        icon: null,
+        label: "Explore Space",
+      }, {
+        icon: null,
+        label: "Verify",
+      }].forEach((section, idx) => {
+        const stepButton = new sar.widget.StepButton(section.label, section.icon);
+        this.__stepButtons.push(stepButton);
+        stepsLayout.add(stepButton, {
+          row: 1,
+          column: idx
+        });
+      });
+      this._add(stepsLayout);
 
-      this.getChildControl("options-helper");
-      this.getChildControl("option-0");
-      this.getChildControl("option-1");
+      const stepsStack = new qx.ui.container.Stack();
+      [
+        new sar.steps.Step0(),
+        new sar.steps.Step1(),
+      ].forEach(step => {
+        this.__steps.push(step);
+        stepsStack.add(step);
+      })
+      this._add(stepsStack);
+    },
+
+    setStartingPoint: function(optionNumber) {
+      this.__stepButtons[optionNumber*2].setValue(true);
     }
   }
 });

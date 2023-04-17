@@ -63,7 +63,7 @@ qx.Class.define("sar.widget.IntroPage", {
           break;
         case "options-helper":
           control = this.self().introLabel().set({
-            value: "Where do you want to start from?",
+            value: "Where do you want to start the procedure from?",
             font: "text-18"
           });
           this._add(control);
