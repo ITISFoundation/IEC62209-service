@@ -33,7 +33,7 @@ qx.Class.define("sar.widget.MainView", {
 
     builLayout: function() {
       const introTitle = new qx.ui.basic.Label().set({
-        value: "IEC 62209-3 Validation",
+        value: "IEC 62209-3 Validation Procedure",
         font: "text-30"
       });
       this._add(introTitle);
