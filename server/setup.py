@@ -38,7 +38,7 @@ SETUP = dict(
     package_dir={
         "": "src",
     },
-    python_requires="~=3.10",
+    python_requires="~=3.10.0",
     install_requires=INSTALL_REQUIREMENTS,
 )
 
