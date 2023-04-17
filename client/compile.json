@@ -19,6 +19,10 @@
     "class": "sar.Application",
     "theme": "sar.theme.Theme",
     "name": "sar",
+    "include": [
+      "iconfont.material.Load",
+      "iconfont.fontawesome5.Load"
+    ],
     "bootPath": "source/boot"
   }]
 }
