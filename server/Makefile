@@ -16,7 +16,7 @@ install-dev: ## install development
 CLIENT_DIR := $(abspath $(CURDIR)/../client)
 
 start-dev: ## starts app for development
-	export CLIENT_INDEX_PATH="$(CLIENT_DIR)/source-output/index.html" && \
+	export CLIENT_INDEX_PATH="$(CLIENT_DIR)/compiled/source/index.html" && \
 	uvicorn iec62209_service.main:the_app \
       --host 0.0.0.0 \
       --reload \
