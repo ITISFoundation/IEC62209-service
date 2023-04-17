@@ -1,12 +1,7 @@
-from pathlib import Path
 from fastapi import FastAPI
+
 from .api_routes import router
-from pydantic import BaseSettings
-
-
-class ApplicationSettings(BaseSettings):
-    CLIENT_INDEX_PATH: Path
-
+from .settings import ApplicationSettings
 
 
 def create_app():
@@ -16,5 +11,3 @@ def create_app():
     app.state.settings = ApplicationSettings()
 
     return app
-
-

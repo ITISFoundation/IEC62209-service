@@ -1,11 +1,13 @@
 from enum import Enum
 from pathlib import Path
-from fastapi import status
-from fastapi import APIRouter, Depends, FastAPI, File, HTMLResponse, Request, UploadFile
-from iec62209 import Work
-from pydantic import BaseModel, Field, conint
 
-from .application import ApplicationSettings
+from fastapi import APIRouter, Depends, Request, UploadFile
+from fastapi.responses import HTMLResponse
+
+# from iec62209 import Work
+from pydantic import BaseModel, conint
+
+from .settings import ApplicationSettings
 
 #
 # Dependency injection
@@ -40,10 +42,10 @@ class MyEnum(str, Enum):
 router = APIRouter()
 
 
-@router.get("/")
+@router.get("/", response_class=HTMLResponse)
 async def get_index(settings: ApplicationSettings = Depends(get_app_settings)):
     html_content = Path(settings.CLIENT_INDEX_PATH).read_text()
-    return HTMLResponse(content=html_content, status_code=status)
+    return html_content
 
 
 @router.get("/demo/{name}", response_model=Demo)
