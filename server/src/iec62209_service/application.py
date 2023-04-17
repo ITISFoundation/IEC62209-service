@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from .api_routes import router
+from .api import router
 from .settings import ApplicationSettings
 
 
