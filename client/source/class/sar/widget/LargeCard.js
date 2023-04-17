@@ -17,8 +17,6 @@ qx.Class.define("sar.widget.LargeCard", {
   construct: function(text) {
     this.base(arguments);
 
-    this._setLayout(new qx.ui.layout.VBox());
-
     this.set({
       width: 200,
       height: 200
