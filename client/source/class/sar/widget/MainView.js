@@ -11,10 +11,10 @@
 
 ************************************************************************ */
 
-qx.Class.define("sar.widget.IntroPage", {
+qx.Class.define("sar.widget.MainView", {
   extend: qx.ui.core.Widget,
 
-  construct: function() {
+  construct: function(optionNumber) {
     this.base(arguments);
 
     this._setLayout(new qx.ui.layout.VBox());
@@ -39,8 +39,6 @@ qx.Class.define("sar.widget.IntroPage", {
         case "intro-subtitle":
           control = new qx.ui.basic.Label().set({
             value: "A Gaussian-process-model-based approach for robust, independent, and implementation-agnostic validation of complex multi-variable measurement systems: application to SAR measurement systems",
-            rich: true,
-            wrap: true
           });
           this._add(control);
           break;
@@ -54,7 +52,7 @@ qx.Class.define("sar.widget.IntroPage", {
           break;
         case "options-helper":
           control = new qx.ui.basic.Label().set({
-            value: "Where do you start from?"
+            value: "Where do you want to start from?"
           });
           this._add(control);
           break;

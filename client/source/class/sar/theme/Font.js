@@ -4,15 +4,42 @@
 
    License: MIT license
 
-   Authors: undefined
+   Authors: @odeimaiz
 
 ************************************************************************ */
 
-qx.Theme.define("sar.theme.Font",
-{
+qx.Theme.define("sar.theme.Font", {
   extend : qx.theme.indigo.Font,
 
-  fonts :
-  {
+  fonts: {
+    "text-30": {
+      size: 30,
+      family: ["Roboto", "sanf-serif"],
+      color: "text"
+    },
+
+    "text-24": {
+      size: 24,
+      family: ["Roboto", "sanf-serif"],
+      color: "text"
+    },
+
+    "text-18": {
+      size: 18,
+      family: ["Roboto", "sanf-serif"],
+      color: "text"
+    },
+
+    "text-16": {
+      size: 16,
+      family: ["Roboto", "sanf-serif"],
+      color: "text"
+    },
+
+    "text-14": {
+      size: 14,
+      family: ["Roboto", "sanf-serif"],
+      color: "text"
+    }
   }
 });

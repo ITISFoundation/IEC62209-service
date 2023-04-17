@@ -36,17 +36,24 @@ qx.Class.define("sar.Application", {
 
       const scroll = new qx.ui.container.Scroll();
       scroll.add(mainLayout);
+
+      this.__addIntroPage();
+
       const doc = this.getRoot();
-      const padding = 20;
+      const padding = 30;
       doc.add(scroll, {
         left: padding,
         top: padding,
         right: padding,
         bottom: padding
       });
+    },
+
+    __addIntroPage: function() {
+      this.__mainLayout.removeAll();
 
       const introPage = new sar.widget.IntroPage();
-      mainLayout.add(introPage);
+      this.__mainLayout.add(introPage);
 
       introPage.addListener("optionSelected", e => {
         const selection = e.getData();
@@ -55,12 +62,10 @@ qx.Class.define("sar.Application", {
     },
 
     __startingPointSelected: function(optionNumber) {
-      const mainLayout = this.__mainLayout;
-      mainLayout.removeAll();
+      this.__mainLayout.removeAll();
 
-      console.log("optionNumber", optionNumber);
-      const introPage = new sar.widget.IntroPage();
-      mainLayout.add(introPage);
+      const introPage = new sar.widget.MainView(optionNumber);
+      this.__mainLayout.add(introPage);
     }
   }
 });
