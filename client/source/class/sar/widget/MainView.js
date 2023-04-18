@@ -80,7 +80,7 @@ qx.Class.define("sar.widget.MainView", {
       }, {
         icon: null,
         label: "Confirm Model",
-        step: new sar.steps.Step0(),
+        step: new sar.steps.Step3(),
       }, {
         icon: null,
         label: "Explore Space",
