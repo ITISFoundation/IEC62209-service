@@ -14,7 +14,7 @@
 qx.Class.define("sar.widget.MainView", {
   extend: qx.ui.core.Widget,
 
-  construct: function(optionNumber) {
+  construct: function(optionNumber = 0) {
     this.base(arguments);
 
     this._setLayout(new qx.ui.layout.VBox(20));

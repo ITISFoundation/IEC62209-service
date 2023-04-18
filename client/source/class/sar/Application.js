@@ -38,7 +38,7 @@ qx.Class.define("sar.Application", {
       scroll.add(mainLayout);
 
       // this.__addIntroPage();
-      const mainView = new sar.widget.MainView(0);
+      const mainView = new sar.widget.MainView();
       this.__mainLayout.add(mainView);
 
       const doc = this.getRoot();
