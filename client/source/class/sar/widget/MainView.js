@@ -76,7 +76,7 @@ qx.Class.define("sar.widget.MainView", {
       }, {
         icon: null,
         label: "Test Set Generation",
-        step: new sar.steps.Step0(),
+        step: new sar.steps.Step2(),
       }, {
         icon: null,
         label: "Confirm Model",

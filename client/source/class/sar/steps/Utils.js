@@ -67,8 +67,25 @@ qx.Class.define("sar.steps.Utils", {
           selectBox.setSelection([listItem]);
         }
       });
-
       return selectBox;
+    },
+
+    addMeasAreaToForm: function(form) {
+      form.addGroupHeader("Meas. area (mm)");
+      const xMin = new qx.ui.form.Spinner().set({
+        minimum: 120,
+        maximum: 120,
+        value: 120,
+        enabled: false
+      });
+      form.add(xMin, "x");
+      const yMin = new qx.ui.form.Spinner().set({
+        minimum: 240,
+        maximum: 240,
+        value: 240,
+        enabled: false
+      });
+      form.add(yMin, "y");
     },
 
     createTabPage: function(title, widget) {
