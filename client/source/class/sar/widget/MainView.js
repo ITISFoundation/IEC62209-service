@@ -66,27 +66,27 @@ qx.Class.define("sar.widget.MainView", {
 
       const stepsStack = new qx.ui.container.Stack();
       [{
-        icon: null,
+        icon: "sar/icons/step0_icon.png",
         label: "Training Set Generation",
         step: new sar.steps.Step0(),
       }, {
-        icon: null,
+        icon: "sar/icons/step1_icon.png",
         label: "Analysis & Creation",
         step: new sar.steps.Step1(),
       }, {
-        icon: null,
+        icon: "sar/icons/step2_icon.png",
         label: "Test Set Generation",
         step: new sar.steps.Step2(),
       }, {
-        icon: null,
+        icon: "sar/icons/step3_icon.png",
         label: "Confirm Model",
         step: new sar.steps.Step3(),
       }, {
-        icon: null,
+        icon: "sar/icons/step4_icon.png",
         label: "Explore Space",
         step: new sar.steps.Step4(),
       }, {
-        icon: null,
+        icon: "sar/icons/step5_icon.png",
         label: "Verify",
         step: new sar.steps.Step5(),
       }].forEach((section, idx) => {
