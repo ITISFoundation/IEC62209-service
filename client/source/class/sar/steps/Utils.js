@@ -104,6 +104,7 @@ qx.Class.define("sar.steps.Utils", {
 
     createImageViewer: function(source) {
       const distributionImage = new qx.ui.basic.Image().set({
+        maxWidth: 600,
         source,
         scale: true,
         alignX: "center"
