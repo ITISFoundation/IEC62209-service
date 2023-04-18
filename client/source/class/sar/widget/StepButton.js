@@ -77,8 +77,8 @@ qx.Class.define("sar.widget.StepButton", {
       this.getContentElement().setStyles({
         "border-radius": "4px",
         "border-width": "1px",
-        "border-style": "double",
-        "border-color": isActive ? "blue" : "black"
+        "border-style": "solid",
+        "border-color": isActive ? "#5768c4" : "#0e0e0e"
       });
     }
   }
