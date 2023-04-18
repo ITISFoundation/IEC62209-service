@@ -12,7 +12,7 @@
 ************************************************************************ */
 
 qx.Class.define("sar.widget.StepButton", {
-  extend: qx.ui.form.ToggleButton,
+  extend: qx.ui.core.Widget,
 
   construct: function(text, iconSrc) {
     this.base(arguments);
@@ -21,8 +21,11 @@ qx.Class.define("sar.widget.StepButton", {
     const height = 120;
     this.set({
       width,
-      height
+      height,
+      cursor: "pointer",
+      padding: 10
     });
+    this.initIsActive();
 
     const grid = new qx.ui.layout.Grid(5, 5);
     grid.setRowHeight(0, height-60);
@@ -56,6 +59,26 @@ qx.Class.define("sar.widget.StepButton", {
       this._add(label, {
         row: 1,
         column: 0
+      });
+    }
+  },
+
+  properties: {
+    isActive: {
+      check: "Boolean",
+      init: false,
+      apply: "__applyIsActive",
+      event: "changeIsActive"
+    }
+  },
+
+  members: {
+    __applyIsActive: function(isActive) {
+      this.getContentElement().setStyles({
+        "border-radius": "4px",
+        "border-width": "1px",
+        "border-style": "double",
+        "border-color": isActive ? "blue" : "black"
       });
     }
   }

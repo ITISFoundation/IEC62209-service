@@ -14,7 +14,7 @@
 qx.Class.define("sar.widget.MainView", {
   extend: qx.ui.core.Widget,
 
-  construct: function(optionNumber = 0) {
+  construct: function() {
     this.base(arguments);
 
     this._setLayout(new qx.ui.layout.VBox(20));
@@ -23,8 +23,6 @@ qx.Class.define("sar.widget.MainView", {
     this.__steps = [];
 
     this.builLayout();
-
-    this.setStartingPoint(optionNumber);
   },
 
   members: {
@@ -120,18 +118,16 @@ qx.Class.define("sar.widget.MainView", {
         step: new sar.steps.Step5(),
       }].forEach((section, idx) => {
         const stepButton = new sar.widget.StepButton(section.label, section.icon);
-        stepButton.addListener("changeValue", e => {
-          if (e.getData()) {
-            stepsStack.setSelection([section.step]);
-          }
-          this.__stepButtons.forEach((stepButton, buttonIdx) => {
-            if (buttonIdx !== idx) {
-              stepButton.setValue(false);
-            }
-          })
-        })
-        stepsStack.add(section.step);
         this.__stepButtons.push(stepButton);
+        stepButton.addListener("tap", () => {
+          // show step
+          stepsStack.setSelection([section.step]);
+          // mark step as active and the rest inactive
+          this.__stepButtons.forEach((stepButton, buttonIdx) => {
+            stepButton.setIsActive(buttonIdx === idx);
+          })
+        });
+        stepsStack.add(section.step);
         stepsLayout.add(stepButton, {
           row: 1,
           column: idx
@@ -140,11 +136,8 @@ qx.Class.define("sar.widget.MainView", {
       this._add(stepsLayout);
       this._add(stepsStack);
 
-      this.__stepButtons[0].setValue(true);
-    },
-
-    setStartingPoint: function(optionNumber) {
-      this.__stepButtons[optionNumber*2].setValue(true);
+      // start with the first step by default
+      this.__stepButtons[0].setIsActive(true);
     }
   }
 });
