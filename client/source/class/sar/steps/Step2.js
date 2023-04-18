@@ -27,6 +27,9 @@ qx.Class.define("sar.steps.Step2", {
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 
+      const loadModelSection = sar.steps.Utils.loadModelSection(null, false);
+      optionsLayout.add(loadModelSection);
+
       const form = new qx.ui.form.Form();
 
       const modulationSelectBox = new qx.ui.form.SelectBox();
@@ -136,8 +139,7 @@ qx.Class.define("sar.steps.Step2", {
       const sampleSize = new qx.ui.form.Spinner().set({
         minimum: 40,
         maximum: 40,
-        value: 40,
-        enabled: false
+        value: 40
       });
       form.add(sampleSize, "Sample size");
 

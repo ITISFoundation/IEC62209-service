@@ -15,6 +15,20 @@ qx.Class.define("sar.steps.Utils", {
   type: "static",
 
   statics: {
+    loadModelSection: function() {
+      const loadModelLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(5));
+
+      const loadModelButton = new qx.ui.form.Button("Load Model").set({
+        allowGrowX: false
+      });
+      loadModelLayout.add(loadModelButton);
+
+      const modelViewer = sar.steps.Utils.modelViewer(null, false);
+      loadModelLayout.add(modelViewer);
+
+      return loadModelLayout;
+    },
+
     modelViewer: function(data, enabled = true) {
       const form1 = new qx.ui.form.Form();
 

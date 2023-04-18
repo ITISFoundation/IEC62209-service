@@ -28,6 +28,9 @@ qx.Class.define("sar.steps.Step3", {
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 
+      const loadModelSection = sar.steps.Utils.loadModelSection(null, false);
+      optionsLayout.add(loadModelSection);
+
       const stepGrid = new qx.ui.layout.Grid(20, 20);
       stepGrid.setColumnFlex(0, 1);
       stepGrid.setColumnFlex(1, 1);
@@ -40,21 +43,6 @@ qx.Class.define("sar.steps.Step3", {
       optionsLayout.add(stepLayout);
 
       let row = 0;
-      const loadModelButton = new qx.ui.form.Button("Load Model");
-      stepLayout.add(loadModelButton, {
-        row,
-        column: 0
-      });
-      row++;
-
-      const modelViewer = sar.steps.Utils.modelViewer(null, false);
-      stepLayout.add(modelViewer, {
-        row,
-        column: 0,
-        colSpan: 2
-      });
-      row++;
-
       const loadTestButton = new qx.ui.form.Button("Load Test Data");
       stepLayout.add(loadTestButton, {
         row,
@@ -129,13 +117,6 @@ qx.Class.define("sar.steps.Step3", {
         column: 1
       });
       row++;
-
-      const exportButton = new qx.ui.form.Button("Export Model");
-      stepLayout.add(exportButton, {
-        row,
-        column: 0,
-        colSpan: 2
-      });
 
       return optionsLayout;
     },

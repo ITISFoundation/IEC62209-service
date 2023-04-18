@@ -70,10 +70,35 @@ qx.Class.define("sar.steps.Step1", {
         column: 1
       });
 
-      const createButton = new qx.ui.form.Button("Create & Analyze");
+      const createButton = new qx.ui.form.Button("Create & Analyze").set({
+        allowGrowY: false
+      });
       stepLayout.add(createButton, {
         row: 2,
         column: 0
+      });
+
+      const resultsGrid = new qx.ui.layout.Grid(10, 10);
+      const resultsLayout = new qx.ui.container.Composite(resultsGrid).set({
+        allowGrowX: false
+      });
+      const acceptanceTitle = new qx.ui.basic.Label().set({
+        value: "Acceptance criteria:"
+      });
+      resultsLayout.add(acceptanceTitle, {
+        row: 0,
+        column: 0
+      });
+      const normalityTitle = new qx.ui.basic.Label().set({
+        value: "Normalized rms error 10.% < 25%:"
+      });
+      resultsLayout.add(normalityTitle, {
+        row: 1,
+        column: 0
+      });
+      stepLayout.add(resultsLayout, {
+        row: 2,
+        column: 1
       });
 
       const exportButton = new qx.ui.form.Button("Export Model");

@@ -29,11 +29,8 @@ qx.Class.define("sar.steps.Step4", {
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 
-      const loadModelButton = new qx.ui.form.Button("Load Model");
-      optionsLayout.add(loadModelButton);
-
-      const modelViewer = sar.steps.Utils.modelViewer(null, false);
-      optionsLayout.add(modelViewer);
+      const loadModelSection = sar.steps.Utils.loadModelSection(null, false);
+      optionsLayout.add(loadModelSection);
 
       const form = new qx.ui.form.Form();
       form.addGroupHeader("Explore space");
