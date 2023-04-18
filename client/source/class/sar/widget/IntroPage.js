@@ -94,10 +94,11 @@ qx.Class.define("sar.widget.IntroPage", {
       this.getChildControl("intro-title");
       this.getChildControl("intro-subtitle");
       this.getChildControl("intro-description");
-
+      /*
       this.getChildControl("options-helper");
       this.getChildControl("option-0");
       this.getChildControl("option-1");
+      */
     }
   }
 });

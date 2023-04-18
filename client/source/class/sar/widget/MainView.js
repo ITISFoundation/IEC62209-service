@@ -32,11 +32,40 @@ qx.Class.define("sar.widget.MainView", {
     __stepsStack: null,
 
     builLayout: function() {
+      const introLayout = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
       const introTitle = new qx.ui.basic.Label().set({
         value: "IEC 62209-3 Validation Procedure",
         font: "text-30"
       });
-      this._add(introTitle);
+      introLayout.add(introTitle)
+      const infoButton = new qx.ui.basic.Image().set({
+        source: "sar/icons/info.png",
+        cursor: "pointer",
+        alignY: "middle",
+        scale: true,
+        width: 30,
+        height: 30,
+      });
+      infoButton.addListener("tap", () => {
+        const win = new qx.ui.window.Window("Info").set({
+          layout: new qx.ui.layout.VBox(0),
+          contentPadding: 20,
+          resizable: false,
+          showClose: true,
+          showMaximize: false,
+          showMinimize: false,
+          modal: true,
+          width: 750
+        });
+        const introPage = new sar.widget.IntroPage();
+        win.add(introPage), {
+          flex: 1
+        };
+        win.center();
+        win.open();
+      });
+      introLayout.add(infoButton)
+      this._add(introLayout);
 
       const stepsGrid = new qx.ui.layout.Grid(20, 10);
       stepsGrid.setColumnAlign(0, "center", "middle");

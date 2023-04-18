@@ -37,7 +37,9 @@ qx.Class.define("sar.Application", {
       const scroll = new qx.ui.container.Scroll();
       scroll.add(mainLayout);
 
-      this.__addIntroPage();
+      // this.__addIntroPage();
+      const mainView = new sar.widget.MainView(0);
+      this.__mainLayout.add(mainView);
 
       const doc = this.getRoot();
       const padding = 30;
@@ -64,8 +66,8 @@ qx.Class.define("sar.Application", {
     __startingPointSelected: function(optionNumber) {
       this.__mainLayout.removeAll();
 
-      const introPage = new sar.widget.MainView(optionNumber);
-      this.__mainLayout.add(introPage);
+      const mainView = new sar.widget.MainView(optionNumber);
+      this.__mainLayout.add(mainView);
     }
   }
 });
