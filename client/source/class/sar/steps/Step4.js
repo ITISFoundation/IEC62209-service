@@ -11,59 +11,54 @@
 
 ************************************************************************ */
 
-qx.Class.define("sar.steps.Step0", {
+qx.Class.define("sar.steps.Step4", {
   extend: sar.steps.StepBase,
 
   members: {
     // overriden
     _getDescriptionText: function() {
       return "\
-        Generates a random latin hypercube sample with 8 dimensions and saves the results to a .csv file. The 8 test variables are:\
-        <br>frequency, output power, peak to average power ratio (PAPR), bandwidth (BW), distance (mm), angle (deg), x (mm), and y (mm).\
-        <br><br>When performing the SAR measurements, fill in the SAR (SAR1g and/or SAR10g), and uncertainty (U1g and/or U10g) values. The uncertainty values should be reported with a 95% confidence level (k = 2 standard deviations).\
+        Explores the space of the valid model to find the most critical regions of the test space, such that:\
+        <br>- the test cases are pulled toward the most extreme regions of the data pace,\
+        <br>- the test cases exert a repulsive force on each other to ensure even coverage of the critical regions,\
+        <br>- the test cases have meaningful coordinates.\
+        <br><br>The resulting test conditions, with the computed z-values and associated probabilities to pass the mpe value are saved as a csv file.\
       "
     },
 
     _createOptions: function() {
-      const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
+      const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+
+      const loadModelButton = new qx.ui.form.Button("Load Model");
+      optionsLayout.add(loadModelButton);
 
       const form = new qx.ui.form.Form();
-      form.addGroupHeader("Frequency range (MHz)");
-      const fRangeMin = new qx.ui.form.Spinner().set({
-        minimum: 300,
-        maximum: 300,
-        value: 300,
+      form.addGroupHeader("Explore space");
+      const iteraions = new qx.ui.form.Spinner().set({
+        minimum: 8,
+        maximum: 8,
+        value: 8,
         enabled: false
       });
-      form.add(fRangeMin, "Min");
-      const fRangeMax = new qx.ui.form.Spinner().set({
-        minimum: 6000,
-        maximum: 6000,
-        value: 6000,
+      form.add(iteraions, "Iterations");
+      const minFail = new qx.ui.form.Spinner().set({
+        minimum: 0,
+        maximum: 10,
+        value: 5,
         enabled: false
       });
-      form.add(fRangeMax, "Max");
-      sar.steps.Utils.addMeasAreaToForm(form);
-
-      const sampleSize = new qx.ui.form.Spinner().set({
-        minimum: 50,
-        maximum: 50,
-        value: 50,
-        enabled: false
-      });
-      form.add(sampleSize, "Sample size");
-
+      form.add(minFail, "Min fail prob (%)");
       const formRenderer = new qx.ui.form.renderer.Single(form);
       optionsLayout.add(formRenderer);
 
-      const createButton = new qx.ui.form.Button("Create Training data");
-      createButton.addListener("execute", () => console.log("Create Training data"));
-      optionsLayout.add(createButton);
+      const searchButton = new qx.ui.form.Button("Search");
+      searchButton.addListener("execute", () => console.log("search"));
+      optionsLayout.add(searchButton);
 
-      const exportButton = new qx.ui.form.Button("Export Training data").set({
+      const exportButton = new qx.ui.form.Button("Export Tests").set({
         enabled: false
       });
-      exportButton.addListener("execute", () => console.log("Export Training data"));
+      exportButton.addListener("execute", () => console.log("Export tests"));
       optionsLayout.add(exportButton);
 
       return optionsLayout;
@@ -72,21 +67,15 @@ qx.Class.define("sar.steps.Step0", {
     __createDataTable: function() {
       const tableModel = new qx.ui.table.model.Simple();
       tableModel.setColumns([
-        "no.",
-        "antenna",
-        "freq. (MHz)",
-        "Pin (dBm)",
-        "mod.",
-        "PAPR (db)",
-        "BW (MHz)",
-        "d (mm)",
-        "O (*)",
+        "ant",
+        "Pf (dBm)",
+        "modulation",
+        "s (mm)",
+        "0",
         "x (mm)",
         "y (mm)",
-        "SAR 1g (W/Kg)",
-        "SAR 10g (W/Kg)",
-        "U 1g (dB)",
-        "U 10g (dB)",
+        "sard",
+        "fail %",
       ]);
       const custom = {
         tableColumnModel: function(obj) {
