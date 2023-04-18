@@ -19,8 +19,8 @@ qx.Class.define("sar.steps.Step0", {
     _getDescriptionText: function() {
       return "\
         Generates a random latin hypercube sample with 8 dimensions and saves the results to a .csv file. The 8 test variables are:\
-        frequency, output power, peak to average power ratio (PAPR), bandwidth (BW), distance (mm), angle (deg), x (mm), and y (mm).\
-        When performing the SAR measurements, fill in the SAR (SAR1g and/or SAR10g), and uncertainty (U1g and/or U10g) values. The uncertainty values should be reported with a 95% confidence level (k = 2 standard deviations).\
+        <br>frequency, output power, peak to average power ratio (PAPR), bandwidth (BW), distance (mm), angle (deg), x (mm), and y (mm).\
+        <br>When performing the SAR measurements, fill in the SAR (SAR1g and/or SAR10g), and uncertainty (U1g and/or U10g) values. The uncertainty values should be reported with a 95% confidence level (k = 2 standard deviations).\
       "
     },
 
@@ -128,27 +128,9 @@ qx.Class.define("sar.steps.Step0", {
       return tabPage;
     },
 
-    __createDistribitionImage: function() {
-      const distributionImage = new qx.ui.basic.Image().set({
-        source: "sar/plots/step0_distribution.png",
-        scale: true,
-        alignX: "center"
-      });
-      return distributionImage;
-    },
-
     __createDistributionView: function() {
-      const distributionImage = this.__createDistribitionImage();
-      const layout = new qx.ui.layout.Canvas();
-      const tabPage = new qx.ui.tabview.Page("Distribution").set({
-        layout
-      });
-      tabPage.add(distributionImage, {
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0
-      });
+      const distributionImage = sar.steps.Utils.createImageViewer("sar/plots/step0_distribution.png")
+      const tabPage = sar.steps.Utils.createTabPage("Distribution", distributionImage);
       return tabPage;
     },
 

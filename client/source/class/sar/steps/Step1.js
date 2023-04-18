@@ -19,10 +19,10 @@ qx.Class.define("sar.steps.Step1", {
     _getDescriptionText: function() {
       return "\
         Builds a model and outputs the empirical (blue) and theoretical (red) semi-variogram after rescaling to an isotropic space.\
-        The system analyses geostatistical properties along each direction in the data space, computes an invertible mapping that converts the space to an isotropic one.\
-        The tests evaluate whether:\
-        - the acceptance criteria are met for each measurement,\
-        - the normalized mean squared error (nrsme) is within 0.25 to ensure that the variogram model fits the empirical variances\
+        <br>The system analyses geostatistical properties along each direction in the data space, computes an invertible mapping that converts the space to an isotropic one.\
+        <br>The tests evaluate whether:\
+        <br>- the acceptance criteria are met for each measurement,\
+        <br>- the normalized mean squared error (nrsme) is within 0.25 to ensure that the variogram model fits the empirical variances\
       "
     },
 
@@ -32,53 +32,76 @@ qx.Class.define("sar.steps.Step1", {
       const formRenderer1 = sar.steps.Utils.modelViewer(null, false);
       optionsLayout.add(formRenderer1);
 
+      const stepGrid = new qx.ui.layout.Grid(20, 20);
+      stepGrid.setColumnFlex(0, 1);
+      stepGrid.setColumnFlex(1, 1);
+      stepGrid.setRowFlex(0, 0);
+      stepGrid.setRowFlex(1, 1);
+      stepGrid.setColumnMinWidth(0, 200);
+      const stepLayout = new qx.ui.container.Composite(stepGrid).set({
+        allowGrowX: false
+      });
+      optionsLayout.add(stepLayout);
 
-      const form2 = new qx.ui.form.Form();
-      const fRangeMin = new qx.ui.form.TextField();
-      form2.add(fRangeMin, "Frequency range (MHz). Min");
-      const fRangeMax = new qx.ui.form.TextField();
-      form2.add(fRangeMax, "Frequency range (MHz). Max");
-      const formRenderer2 = new qx.ui.form.renderer.Single(form2);
-      optionsLayout.add(formRenderer2);
+      const loadButton = new qx.ui.form.Button("Load Training Data");
+      stepLayout.add(loadButton, {
+        row: 0,
+        column: 0
+      });
+
+      const sarSelectBox = sar.steps.Utils.sarSelectBox(null, false);
+      stepLayout.add(sarSelectBox, {
+        row: 1,
+        column: 0
+      });
+
+      const sarSelected = new qx.ui.basic.Label().set({
+        alignY: "middle",
+        rich: true,
+        wrap: true,
+        selectable: true
+      });
+      sarSelectBox.addListener("changeSelection", e => {
+        const listItem = e.getData()[0];
+        sarSelected.setValue(listItem.getLabel())
+      }, this);
+      stepLayout.add(sarSelected, {
+        row: 1,
+        column: 1
+      });
+
+      const createButton = new qx.ui.form.Button("Create & Analyze");
+      stepLayout.add(createButton, {
+        row: 2,
+        column: 0
+      });
+
+      const exportButton = new qx.ui.form.Button("Export Model");
+      stepLayout.add(exportButton, {
+        row: 3,
+        column: 0,
+        colSpan: 2
+      });
 
       return optionsLayout;
     },
 
-    __createDataTable: function() {
-      const tableModel = new qx.ui.table.model.Simple();
-      tableModel.setColumns([
-        "no.",
-        "antenna",
-        "freq. (MHz)",
-        "Pin (dBm)",
-        "mod.",
-        "PAPR (db)",
-        "BW (MHz)",
-        "d (mm)",
-        "O (*)",
-        "x (mm)",
-        "y (mm)",
-        "SAR 1g (W/Kg)",
-        "SAR 10g (W/Kg)",
-        "U 1g (dB)",
-        "U 10g (dB)",
-      ]);
-      const custom = {
-        tableColumnModel: function(obj) {
-          return new qx.ui.table.columnmodel.Resize(obj);
-        }
-      };
-      const table = new qx.ui.table.Table(tableModel, custom).set({
-        selectable: true,
-        statusBarVisible: false,
-        showCellFocusIndicator: false,
-        forceLineHeight: false
-      });
-      table.getTableColumnModel().setDataCellRenderer(0, new qx.ui.table.cellrenderer.Number());
-      table.getTableColumnModel().setDataCellRenderer(1, new qx.ui.table.cellrenderer.String());
-      table.getTableColumnModel().setDataCellRenderer(2, new qx.ui.table.cellrenderer.Number());
-      table.setColumnWidth(0, 20);
-      return table;
+    __createVariogramView: function() {
+      const variogramImage = sar.steps.Utils.createImageViewer("sar/plots/step1_variogram.png")
+      const tabPage = sar.steps.Utils.createTabPage("Variogram", variogramImage);
+      return tabPage;
+    },
+
+    __createDeviationsView: function() {
+      const deviationsImage = sar.steps.Utils.createImageViewer("sar/plots/step1_deviations.png")
+      const tabPage = sar.steps.Utils.createTabPage("Deviations", deviationsImage);
+      return tabPage;
+    },
+
+    __createMarginalsView: function() {
+      const marginalsImage = sar.steps.Utils.createImageViewer("sar/plots/step1_marginals.png")
+      const tabPage = sar.steps.Utils.createTabPage("Marginals", marginalsImage);
+      return tabPage;
     },
 
     _createResults: function() {
@@ -89,13 +112,14 @@ qx.Class.define("sar.steps.Step1", {
       });
       resultsLayout.add(resultsTabView);
 
-      const dataTable = this.__createDataTable();
-      const layout = new qx.ui.layout.VBox();
-      const tabPage = new qx.ui.tabview.Page("Data").set({
-        layout
-      });
-      tabPage.add(dataTable)
-      resultsTabView.add(tabPage);
+      const variogramView = this.__createVariogramView()
+      resultsTabView.add(variogramView);
+
+      const deviationsView = this.__createDeviationsView()
+      resultsTabView.add(deviationsView);
+
+      const marginalsView = this.__createMarginalsView()
+      resultsTabView.add(marginalsView);
 
       return resultsLayout;
     }
