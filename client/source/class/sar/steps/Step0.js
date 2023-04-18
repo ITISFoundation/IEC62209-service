@@ -56,14 +56,14 @@ qx.Class.define("sar.steps.Step0", {
       const formRenderer = new qx.ui.form.renderer.Single(form);
       optionsLayout.add(formRenderer);
 
-      const createButton = new qx.ui.form.Button("Create");
-      createButton.addListener("execute", () => console.log("Create training data"));
+      const createButton = new qx.ui.form.Button("Create Training data");
+      createButton.addListener("execute", () => console.log("Create Training data"));
       optionsLayout.add(createButton);
 
-      const exportButton = new qx.ui.form.Button("Export").set({
+      const exportButton = new qx.ui.form.Button("Export Training data").set({
         enabled: false
       });
-      exportButton.addListener("execute", () => console.log("Export training data"));
+      exportButton.addListener("execute", () => console.log("Export Training data"));
       optionsLayout.add(exportButton);
 
       return optionsLayout;
