@@ -29,7 +29,7 @@ qx.Class.define("sar.widget.MainView", {
 
   members: {
     __stepButtons: null,
-    __steps: null,
+    __stepsStack: null,
 
     builLayout: function() {
       const introTitle = new qx.ui.basic.Label().set({
@@ -63,26 +63,45 @@ qx.Class.define("sar.widget.MainView", {
           colSpan: 2
         });
       });
+
+      const stepsStack = new qx.ui.container.Stack();
       [{
         icon: null,
         label: "Training Set Generation",
+        step: new sar.steps.Step0(),
       }, {
         icon: null,
         label: "Analysis & Creation",
+        step: new sar.steps.Step1(),
       }, {
         icon: null,
         label: "Test Set Generation",
+        step: new sar.steps.Step0(),
       }, {
         icon: null,
         label: "Confirm Model",
+        step: new sar.steps.Step0(),
       }, {
         icon: null,
         label: "Explore Space",
+        step: new sar.steps.Step0(),
       }, {
         icon: null,
         label: "Verify",
+        step: new sar.steps.Step0(),
       }].forEach((section, idx) => {
         const stepButton = new sar.widget.StepButton(section.label, section.icon);
+        stepButton.addListener("changeValue", e => {
+          if (e.getData()) {
+            stepsStack.setSelection([section.step]);
+          }
+          this.__stepButtons.forEach((stepButton, buttonIdx) => {
+            if (buttonIdx !== idx) {
+              stepButton.setValue(false);
+            }
+          })
+        })
+        stepsStack.add(section.step);
         this.__stepButtons.push(stepButton);
         stepsLayout.add(stepButton, {
           row: 1,
@@ -90,16 +109,9 @@ qx.Class.define("sar.widget.MainView", {
         });
       });
       this._add(stepsLayout);
-
-      const stepsStack = new qx.ui.container.Stack();
-      [
-        new sar.steps.Step0(),
-        new sar.steps.Step1(),
-      ].forEach(step => {
-        this.__steps.push(step);
-        stepsStack.add(step);
-      })
       this._add(stepsStack);
+
+      this.__stepButtons[0].setValue(true);
     },
 
     setStartingPoint: function(optionNumber) {
