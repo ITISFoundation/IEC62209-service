@@ -88,7 +88,7 @@ qx.Class.define("sar.widget.MainView", {
       }, {
         icon: null,
         label: "Verify",
-        step: new sar.steps.Step0(),
+        step: new sar.steps.Step5(),
       }].forEach((section, idx) => {
         const stepButton = new sar.widget.StepButton(section.label, section.icon);
         stepButton.addListener("changeValue", e => {
