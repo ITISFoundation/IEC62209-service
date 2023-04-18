@@ -37,7 +37,7 @@ qx.Class.define("sar.widget.MainView", {
         font: "text-30"
       });
       this._add(introTitle);
-      
+
       const stepsGrid = new qx.ui.layout.Grid(20, 10);
       stepsGrid.setColumnAlign(0, "center", "middle");
       stepsGrid.setColumnAlign(1, "center", "middle");

@@ -25,20 +25,47 @@ qx.Class.define("sar.steps.StepBase", {
 
   members: {
     __builLayout: function() {
-      const leftLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+      const stepGrid = new qx.ui.layout.Grid(20, 20);
+      stepGrid.setColumnFlex(0, 1);
+      stepGrid.setColumnFlex(1, 1);
+      stepGrid.setColumnMinWidth(0, 500);
+      stepGrid.setColumnMinWidth(1, 500);
+      const stepLayout = new qx.ui.container.Composite(stepGrid).set({
+        allowGrowX: false
+      });
 
-      const decription = this._createDescription();
-      leftLayout.add(decription);
+      const text = this._getDescriptionText();
+      const descriptionLabel = new qx.ui.basic.Label().set({
+        value: text,
+        rich: true,
+        wrap: true,
+        selectable: true
+      });
+      stepLayout.add(descriptionLabel, {
+        row: 0,
+        column: 0
+      });
 
       const options = this._createOptions();
-      leftLayout.add(options);
-
-      this._add(decription);
+      stepLayout.add(options, {
+        row: 1,
+        column: 0
+      });
 
       const results = this._createResults();
-      this._add(results, {
+      stepLayout.add(results, {
+        row: 0,
+        column: 1,
+        rowSpan: 2
+      });
+
+      this._add(stepLayout, {
         flex: 1
       });
+    },
+
+    _getDescriptionText: function() {
+      throw new Error("Abstract method called!");
     }
   }
 });
