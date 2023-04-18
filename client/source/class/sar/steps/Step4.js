@@ -32,6 +32,9 @@ qx.Class.define("sar.steps.Step4", {
       const loadModelButton = new qx.ui.form.Button("Load Model");
       optionsLayout.add(loadModelButton);
 
+      const modelViewer = sar.steps.Utils.modelViewer(null, false);
+      optionsLayout.add(modelViewer);
+
       const form = new qx.ui.form.Form();
       form.addGroupHeader("Explore space");
       const iteraions = new qx.ui.form.Spinner().set({

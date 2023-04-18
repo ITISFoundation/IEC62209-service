@@ -142,7 +142,7 @@ qx.Class.define("sar.steps.Step3", {
 
     __createQQView: function() {
       const marginalsImage = sar.steps.Utils.createImageViewer("sar/plots/step3_qq.png")
-      const tabPage = sar.steps.Utils.createTabPage("Marginals", marginalsImage);
+      const tabPage = sar.steps.Utils.createTabPage("QQ plot", marginalsImage);
       return tabPage;
     },
 
@@ -154,13 +154,13 @@ qx.Class.define("sar.steps.Step3", {
 
     __createResidualsView: function() {
       const marginalsImage = sar.steps.Utils.createImageViewer("sar/plots/step3_residuals.png")
-      const tabPage = sar.steps.Utils.createTabPage("Marginals", marginalsImage);
+      const tabPage = sar.steps.Utils.createTabPage("Residuals", marginalsImage);
       return tabPage;
     },
 
     __createSemivariogramView: function() {
-      const variogramImage = sar.steps.Utils.createImageViewer("sar/plots/step3_semivariogram.png")
-      const tabPage = sar.steps.Utils.createTabPage("Variogram", variogramImage);
+      const semivariogramImage = sar.steps.Utils.createImageViewer("sar/plots/step3_semivariogram.png")
+      const tabPage = sar.steps.Utils.createTabPage("Semivariogram", semivariogramImage);
       return tabPage;
     },
 

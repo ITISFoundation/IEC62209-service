@@ -29,7 +29,7 @@ qx.Class.define("sar.steps.Step1", {
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 
-      const formRenderer1 = sar.steps.Utils.modelViewer(null, false);
+      const formRenderer1 = sar.steps.Utils.modelViewer(null, true);
       optionsLayout.add(formRenderer1);
 
       const stepGrid = new qx.ui.layout.Grid(20, 20);
