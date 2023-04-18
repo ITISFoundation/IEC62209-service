@@ -26,35 +26,57 @@ qx.Class.define("sar.steps.Step0", {
 
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
-      
-      const form1 = new qx.ui.form.Form();
 
-      const systemName = new qx.ui.form.TextField();
-      form1.add(systemName, "System name");
+      const form = new qx.ui.form.Form();
+      form.addGroupHeader("Frequency range (MHz)");
+      const fRangeMin = new qx.ui.form.Spinner().set({
+        minimum: 300,
+        maximum: 300,
+        value: 300,
+        enabled: false
+      });
+      form.add(fRangeMin, "Min");
+      const fRangeMax = new qx.ui.form.Spinner().set({
+        minimum: 6000,
+        maximum: 6000,
+        value: 6000,
+        enabled: false
+      });
+      form.add(fRangeMax, "Max");
+      form.addGroupHeader("Meas. area (mm)");
+      const xMin = new qx.ui.form.Spinner().set({
+        minimum: 120,
+        maximum: 120,
+        value: 120,
+        enabled: false
+      });
+      form.add(xMin, "x");
+      const yMin = new qx.ui.form.Spinner().set({
+        minimum: 240,
+        maximum: 240,
+        value: 240,
+        enabled: false
+      });
+      form.add(yMin, "y");
+      const sampleSize = new qx.ui.form.Spinner().set({
+        minimum: 50,
+        maximum: 50,
+        value: 50,
+        enabled: false
+      });
+      form.add(sampleSize, "Sample size");
+      const formRenderer = new qx.ui.form.renderer.Single(form);
+      optionsLayout.add(formRenderer);
 
-      const phantomType = new qx.ui.form.TextField();
-      form1.add(phantomType, "Phantom type");
+      const createButton = new qx.ui.form.Button("Create");
+      createButton.addListener("execute", () => console.log("Create training data"));
+      optionsLayout.add(createButton);
 
-      const hardwareVersion = new qx.ui.form.TextField();
-      form1.add(hardwareVersion, "Hardware version");
-
-      const softwareVersion = new qx.ui.form.TextField();
-      form1.add(softwareVersion, "Software version");
-
-      const formRenderer1 = new qx.ui.form.renderer.Single(form1);
-      optionsLayout.add(formRenderer1);
-
-
-      const form2 = new qx.ui.form.Form();
-
-      const fRangeMin = new qx.ui.form.TextField();
-      form2.add(fRangeMin, "Frequency range (MHz). Min");
-
-      const fRangeMax = new qx.ui.form.TextField();
-      form2.add(fRangeMax, "Frequency range (MHz). Max");
-
-      const formRenderer2 = new qx.ui.form.renderer.Single(form2);
-      optionsLayout.add(formRenderer2);
+      const exportButton = new qx.ui.form.Button("Export").set({
+        enabled: false
+      });
+      exportButton.addListener("execute", () => console.log("Export training data"));
+      optionsLayout.add(exportButton);
 
       return optionsLayout;
     },

@@ -18,41 +18,26 @@ qx.Class.define("sar.steps.Step1", {
     // overriden
     _getDescriptionText: function() {
       return "\
-        Generates a random latin hypercube sample with 8 dimensions and saves the results to a .csv file. The 8 test variables are:\
-        frequency, output power, peak to average power ratio (PAPR), bandwidth (BW), distance (mm), angle (deg), x (mm), and y (mm).\
-        When performing the SAR measurements, fill in the SAR (SAR1g and/or SAR10g), and uncertainty (U1g and/or U10g) values. The uncertainty values should be reported with a 95% confidence level (k = 2 standard deviations).\
+        Builds a model and outputs the empirical (blue) and theoretical (red) semi-variogram after rescaling to an isotropic space.\
+        The system analyses geostatistical properties along each direction in the data space, computes an invertible mapping that converts the space to an isotropic one.\
+        The tests evaluate whether:\
+        - the acceptance criteria are met for each measurement,\
+        - the normalized mean squared error (nrsme) is within 0.25 to ensure that the variogram model fits the empirical variances\
       "
     },
 
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
-      
-      const form1 = new qx.ui.form.Form();
 
-      const systemName = new qx.ui.form.TextField();
-      form1.add(systemName, "System name");
-
-      const phantomType = new qx.ui.form.TextField();
-      form1.add(phantomType, "Phantom type");
-
-      const hardwareVersion = new qx.ui.form.TextField();
-      form1.add(hardwareVersion, "Hardware version");
-
-      const softwareVersion = new qx.ui.form.TextField();
-      form1.add(softwareVersion, "Software version");
-
-      const formRenderer1 = new qx.ui.form.renderer.Single(form1);
+      const formRenderer1 = sar.steps.Utils.modelViewer(null, false);
       optionsLayout.add(formRenderer1);
 
 
       const form2 = new qx.ui.form.Form();
-
       const fRangeMin = new qx.ui.form.TextField();
       form2.add(fRangeMin, "Frequency range (MHz). Min");
-
       const fRangeMax = new qx.ui.form.TextField();
       form2.add(fRangeMax, "Frequency range (MHz). Max");
-
       const formRenderer2 = new qx.ui.form.renderer.Single(form2);
       optionsLayout.add(formRenderer2);
 

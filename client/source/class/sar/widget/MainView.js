@@ -65,7 +65,7 @@ qx.Class.define("sar.widget.MainView", {
       });
       [{
         icon: null,
-        label: "Test Set Generation",
+        label: "Training Set Generation",
       }, {
         icon: null,
         label: "Analysis & Creation",

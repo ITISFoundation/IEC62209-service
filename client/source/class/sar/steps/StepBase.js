@@ -28,6 +28,8 @@ qx.Class.define("sar.steps.StepBase", {
       const stepGrid = new qx.ui.layout.Grid(20, 20);
       stepGrid.setColumnFlex(0, 1);
       stepGrid.setColumnFlex(1, 1);
+      stepGrid.setRowFlex(0, 0);
+      stepGrid.setRowFlex(1, 1);
       stepGrid.setColumnMinWidth(0, 500);
       stepGrid.setColumnMinWidth(1, 500);
       const stepLayout = new qx.ui.container.Composite(stepGrid).set({
