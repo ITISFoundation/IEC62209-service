@@ -29,9 +29,6 @@ qx.Class.define("sar.steps.Verify", {
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 
-      const loadModelSection = sar.steps.Utils.loadModelSection(null, false);
-      optionsLayout.add(loadModelSection);
-
       const stepGrid = new qx.ui.layout.Grid(20, 20);
       stepGrid.setColumnFlex(0, 1);
       stepGrid.setColumnFlex(1, 1);

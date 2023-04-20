@@ -75,20 +75,31 @@ qx.Class.define("sar.widget.MainView", {
       const stepsLayout = new qx.ui.container.Composite(stepsGrid).set({
         allowGrowX: false
       });
-      [
-        "Model Creation",
-        "Model Confirmation",
-        "Critical Data Space Search",
-      ].forEach((sectionText, idx) => {
+
+      let col = 0;
+      [{
+        label: "Model Creation",
+        colSpan: 2
+      }, {
+        label: "",
+        colSpan: 1
+      }, {
+        label: "Model Confirmation",
+        colSpan: 2
+      }, {
+        label: "Critical Data Space Search",
+        colSpan: 2
+      }].forEach(sectionInfo => {
         const sectionLabel = new qx.ui.basic.Label().set({
-          value: sectionText,
+          value: sectionInfo.label,
           font: "text-18"
         });
         stepsLayout.add(sectionLabel, {
           row: 0,
-          column: idx*2,
-          colSpan: 2
+          column: col,
+          colSpan: sectionInfo.colSpan
         });
+        col += sectionInfo.colSpan
       });
 
       const stepsStack = new qx.ui.container.Stack();
@@ -100,6 +111,10 @@ qx.Class.define("sar.widget.MainView", {
         icon: "sar/icons/step1_icon.png",
         label: "Analysis & Creation",
         step: new sar.steps.AnalysisCreation(),
+      }, {
+        icon: "sar/icons/file-import.svg",
+        label: "Load Model",
+        step: new sar.steps.LoadModel(),
       }, {
         icon: "sar/icons/step2_icon.png",
         label: "Test Set Generation",

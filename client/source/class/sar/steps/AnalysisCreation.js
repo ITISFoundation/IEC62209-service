@@ -29,9 +29,6 @@ qx.Class.define("sar.steps.AnalysisCreation", {
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 
-      const formRenderer = sar.steps.Utils.modelViewer(null, true);
-      optionsLayout.add(formRenderer);
-
       const stepGrid = new qx.ui.layout.Grid(20, 20);
       stepGrid.setColumnFlex(0, 1);
       stepGrid.setColumnFlex(1, 1);

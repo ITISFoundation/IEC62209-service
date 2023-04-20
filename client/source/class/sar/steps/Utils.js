@@ -72,7 +72,7 @@ qx.Class.define("sar.steps.Utils", {
         text: "SAR 10g",
       }, {
         id: "both",
-        text: "Both",
+        text: "SAR 1g and 10g",
       }].forEach((sarEntry, idx) => {
         const listItem = new qx.ui.form.ListItem(sarEntry.text);
         listItem.id = sarEntry.id;

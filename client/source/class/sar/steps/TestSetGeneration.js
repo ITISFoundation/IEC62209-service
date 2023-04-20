@@ -27,9 +27,6 @@ qx.Class.define("sar.steps.TestSetGeneration", {
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 
-      const loadModelSection = sar.steps.Utils.loadModelSection(null, false);
-      optionsLayout.add(loadModelSection);
-
       const form = new qx.ui.form.Form();
 
       const modulationSelectBox = new qx.ui.form.SelectBox();
@@ -49,6 +46,42 @@ qx.Class.define("sar.steps.TestSetGeneration", {
       });
       modulationSelectBox.setEnabled(false);
       form.add(modulationSelectBox, "Modulation set");
+
+      const vpifaSelectBox = new qx.ui.form.SelectBox();
+      [{
+        id: "VPIFAV1",
+        text: "VPIFA v1",
+      }, {
+        id: "VPIFAV2",
+        text: "VPIFA v2",
+      }].forEach((sarEntry, idx) => {
+        const listItem = new qx.ui.form.ListItem(sarEntry.text);
+        listItem.id = sarEntry.id;
+        vpifaSelectBox.add(listItem);
+        if (idx === 1) {
+          vpifaSelectBox.setSelection([listItem]);
+        }
+      });
+      vpifaSelectBox.setEnabled(false);
+      form.add(vpifaSelectBox, "Select VPIFA set");
+
+      const peakSelectBox = new qx.ui.form.SelectBox();
+      [{
+        id: "peakV1",
+        text: "2-PEAK antenna v1",
+      }, {
+        id: "peakV2",
+        text: "2-PEAK antenna v2",
+      }].forEach((sarEntry, idx) => {
+        const listItem = new qx.ui.form.ListItem(sarEntry.text);
+        listItem.id = sarEntry.id;
+        peakSelectBox.add(listItem);
+        if (idx === 1) {
+          peakSelectBox.setSelection([listItem]);
+        }
+      });
+      peakSelectBox.setEnabled(false);
+      form.add(peakSelectBox, "Select 2-PEAK set");
 
       form.addGroupHeader("BW range (MHz)");
       const bwRangeMin = new qx.ui.form.Spinner().set({
@@ -97,42 +130,6 @@ qx.Class.define("sar.steps.TestSetGeneration", {
         enabled: false
       });
       form.add(fRangeMax, "Max");
-
-      const vpifaSelectBox = new qx.ui.form.SelectBox();
-      [{
-        id: "VPIFAV1",
-        text: "VPIFA v1",
-      }, {
-        id: "VPIFAV2",
-        text: "VPIFA v2",
-      }].forEach((sarEntry, idx) => {
-        const listItem = new qx.ui.form.ListItem(sarEntry.text);
-        listItem.id = sarEntry.id;
-        vpifaSelectBox.add(listItem);
-        if (idx === 1) {
-          vpifaSelectBox.setSelection([listItem]);
-        }
-      });
-      vpifaSelectBox.setEnabled(false);
-      form.add(vpifaSelectBox, "Select VPIFA set");
-
-      const peakSelectBox = new qx.ui.form.SelectBox();
-      [{
-        id: "peakV1",
-        text: "2-PEAK antenna v1",
-      }, {
-        id: "peakV2",
-        text: "2-PEAK antenna v2",
-      }].forEach((sarEntry, idx) => {
-        const listItem = new qx.ui.form.ListItem(sarEntry.text);
-        listItem.id = sarEntry.id;
-        peakSelectBox.add(listItem);
-        if (idx === 1) {
-          peakSelectBox.setSelection([listItem]);
-        }
-      });
-      peakSelectBox.setEnabled(false);
-      form.add(peakSelectBox, "Select 2-PEAK set");
 
       sar.steps.Utils.addMeasAreaToForm(form);
 

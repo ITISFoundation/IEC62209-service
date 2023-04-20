@@ -39,23 +39,29 @@ qx.Class.define("sar.steps.StepBase", {
         wrap: true,
         selectable: true
       });
-      this._add(descriptionLabel, {
-        row: 0,
-        column: 0
-      });
+      if (descriptionLabel) {
+        this._add(descriptionLabel, {
+          row: 0,
+          column: 0
+        });
+      }
 
       const options = this._createOptions();
-      this._add(options, {
-        row: 1,
-        column: 0
-      });
+      if (options) {
+        this._add(options, {
+          row: 1,
+          column: 0
+        });
+      }
 
       const results = this._createResults();
-      this._add(results, {
-        row: 0,
-        column: 1,
-        rowSpan: 2
-      });
+      if (results) {
+        this._add(results, {
+          row: 0,
+          column: 1,
+          rowSpan: 2
+        });
+      }
     },
 
     _getDescriptionText: function() {
