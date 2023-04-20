@@ -10,7 +10,7 @@
 
 qx.Theme.define("sar.theme.Decoration",
 {
-  extend : qx.theme.indigo.Decoration,
+  extend : qx.theme.tangible.Decoration,
 
   decorations :
   {

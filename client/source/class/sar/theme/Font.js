@@ -9,7 +9,7 @@
 ************************************************************************ */
 
 qx.Theme.define("sar.theme.Font", {
-  extend : qx.theme.indigo.Font,
+  extend : qx.theme.tangible.Font,
 
   fonts: {
     "text-30": {

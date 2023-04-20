@@ -8,11 +8,10 @@
 
 ************************************************************************ */
 
-qx.Theme.define("sar.theme.Color",
-{
-  extend : qx.theme.indigo.Color,
+qx.Theme.define("sar.theme.Color", {
+  extend: qx.theme.tangible.ColorLight,
 
-  colors :
-  {
+  colors: {
+    "text": "#111111"
   }
 });

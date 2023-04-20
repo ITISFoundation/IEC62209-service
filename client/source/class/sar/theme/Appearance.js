@@ -10,7 +10,7 @@
 
 qx.Theme.define("sar.theme.Appearance",
 {
-  extend : qx.theme.indigo.Appearance,
+  extend : qx.theme.tangible.Appearance,
 
   appearances :
   {
