@@ -54,7 +54,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         const params = {
           data
         };
-        sar.io.Resources.fetch("analysisCreation", "load", params)
+        sar.io.Resources.fetch("analysisCreation", "create", params)
           .then(data => console.log(data))
           .catch(err => console.error(err))
           .finally(() => loadButton.setEnabled(true));
