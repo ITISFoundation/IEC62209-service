@@ -3,4 +3,3 @@ services:
   iec62209-web:
     build:
       dockerfile: Dockerfile
-      target: production
