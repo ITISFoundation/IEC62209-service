@@ -15,6 +15,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
   extend: sar.steps.StepBase,
 
   members: {
+    __exportButton: null,
     __dataTable: null,
     __distributionImage: null,
 
@@ -72,19 +73,27 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
           }
         };
         sar.io.Resources.fetch("trainingSetGeneration", "create", params)
-          .then(() => this.__fetchResults())
+          .then(() => this.__trainingDataGenerated())
           .catch(err => {
-            this.__fetchResults();
+            this.__trainingDataGenerated();
             console.error(err);
           })
           .finally(() => createButton.setEnabled(true));
       });
       optionsLayout.add(createButton);
 
-      const exportButton = new qx.ui.form.Button("Export Training data").set({
+      const exportButton = this.__exportButton = new qx.ui.form.Button("Export Training data").set({
         enabled: false
       });
-      exportButton.addListener("execute", () => console.log("Export Training data"));
+      exportButton.addListener("execute", () => {
+        sar.io.Resources.fetch("trainingSetGeneration", "xport", params)
+          .then(() => this.__trainingDataGenerated())
+          .catch(err => {
+            this.__trainingDataGenerated();
+            console.error(err);
+          })
+          .finally(() => createButton.setEnabled(true));
+      });
       optionsLayout.add(exportButton);
 
       return optionsLayout;
@@ -158,6 +167,12 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       resultsTabView.add(distributionView);
 
       return resultsLayout;
+    },
+
+    __trainingDataGenerated: function() {
+      this.__exportButton.setEnabled(true);
+
+      this.__fetchResults();
     },
 
     __fetchResults: function() {
