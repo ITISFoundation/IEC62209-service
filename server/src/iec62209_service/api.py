@@ -43,7 +43,7 @@ class TrainingTestGeneration(BaseModel):
     sampleSize: int
 
 
-class AnalysisCreation(BaseModel):
+class ModelCreation(BaseModel):
     systemName: str
     phantomType: str
     hardwareVersion: str
@@ -68,25 +68,32 @@ async def get_index(settings: ApplicationSettings = Depends(get_app_settings)):
     return html_content
 
 
-@router.get("/demo/{name}", response_model=Demo)
-async def demo(body: Demo, name: str, enabled: MyEnum = MyEnum.BAR):
-    return Demo(x=body.x, y=body.y + 3, z=body.x + 33)
-
-
 @router.post("/training-set-generation:create", status_code=status.HTTP_204_NO_CONTENT)
 async def create_training_set(body: TrainingTestGeneration):
     print(body)
 
 
-@router.get("/training-set-generation:xport", response_class=FileResponse)
+@router.post("/training-set-generation:xport", response_class=FileResponse)
 async def xport_training_set():
     some_file_path = "../my_model.json"
     return some_file_path
 
 
-@router.post("/analysis-creation/model:load")
-async def upload_model_analysis_creation(file: UploadFile):
-    return {"filename": file.filename}
+@router.get("/training-set-generation/data")
+async def get_training_data():
+    next
+
+
+@router.get("/training-set-generation/distribution", response_class=FileResponse)
+async def get_training_distribution():
+    some_file_path = "../my_model.json"
+    return some_file_path
+
+
+
+@router.get("/demo/{name}", response_model=Demo)
+async def demo(body: Demo, name: str, enabled: MyEnum = MyEnum.BAR):
+    return Demo(x=body.x, y=body.y + 3, z=body.x + 33)
 
 
 @router.post("/uploadfile/")
