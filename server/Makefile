@@ -17,17 +17,10 @@ install-dev: ## install development
 	pip install --editable .
 
 
-.PHONY: install-prod
-install-prod: ## install development
-	pip --no-cache-dir install -r requirements.txt
-	pip --no-cache-dir install .
-
-
 .PHONY: run-dev
 run-dev: ## runs app on a uvicorn server with watch+reload to aid development
 	export CLIENT_OUTPUT_DIR="$(CLIENT_DIR)/compiled/source" && \
 	uvicorn iec62209_service.main:the_app \
-		--host 0.0.0.0 \
 		--reload \
 		--reload-dir ./src \
 		--log-level debug

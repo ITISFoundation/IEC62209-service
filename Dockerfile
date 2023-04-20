@@ -59,15 +59,16 @@ RUN cd server \
 
 
 # # --------------------------Production stage -------------------
-# FROM base as production
+FROM base as production
 
-# ENV PYTHONOPTIMIZE=TRUE
-# ENV CLIENT_INDEX_PATH=/home/scu/client/index.html
+USER scu
 
-# WORKDIR /home/scu
+ENV PYTHONOPTIMIZE=TRUE
+ENV CLIENT_OUTPUT_DIR=/home/scu/client
 
-# COPY --chown=scu:scu --from=build ${VIRTUAL_ENV} ${VIRTUAL_ENV}
-# COPY --chown=scu:scu --from=build /build/client/source-output client
+WORKDIR /home/scu
 
+COPY --chown=scu:scu --from=build ${VIRTUAL_ENV} ${VIRTUAL_ENV}
+COPY --chown=scu:scu --from=build /build/client/source-output ${CLIENT_OUTPUT_DIR}
 
-# CMD ["uvicorn", "iec62209_service.main:the_app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "warning"]
+CMD [ "uvicorn", "iec62209_service.main:the_app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "info"]
