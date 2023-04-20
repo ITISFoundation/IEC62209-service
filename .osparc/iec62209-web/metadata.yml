@@ -37,7 +37,7 @@ outputs:
     label: output_test_data
     description: Test data
     type: data:*/*
-output_4:
-    label: output_critical_tests_data
-    description: Critical tests data
-    type: data:*/*
+  output_4:
+      label: output_critical_tests_data
+      description: Critical tests data
+      type: data:*/*
