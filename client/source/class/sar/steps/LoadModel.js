@@ -14,15 +14,6 @@
 qx.Class.define("sar.steps.LoadModel", {
   extend: sar.steps.StepBase,
 
-  properties: {
-    model: {
-      check: "Object",
-      init: null,
-      nullable: true,
-      apply: "__applyModel"
-    }
-  },
-
   events: {
     "modelSet": "qx.event.type.Data"
   },
@@ -72,7 +63,7 @@ qx.Class.define("sar.steps.LoadModel", {
       }
     },
 
-    __applyModel: function(model) {
+    _applyModel: function(model) {
       if (model) {
         this.__loadModelButton.setLabel("Reset Model");
       } else {

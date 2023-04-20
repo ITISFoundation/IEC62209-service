@@ -30,6 +30,15 @@ qx.Class.define("sar.steps.StepBase", {
     this.__builLayout();
   },
 
+  properties: {
+    model: {
+      check: "Object",
+      init: null,
+      nullable: true,
+      apply: "_applyModel"
+    }
+  },
+
   members: {
     _optionsLayout: null,
 
@@ -68,6 +77,10 @@ qx.Class.define("sar.steps.StepBase", {
 
     _getDescriptionText: function() {
       throw new Error("Abstract method called!");
+    },
+
+    _applyModel: function() {
+      return;
     }
   }
 });
