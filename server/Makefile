@@ -25,7 +25,7 @@ install-prod: ## install development
 
 .PHONY: run-dev
 run-dev: ## runs app on a uvicorn server with watch+reload to aid development
-	export CLIENT_INDEX_PATH="$(CLIENT_DIR)/compiled/source/index.html" && \
+	export CLIENT_OUTPUT_DIR="$(CLIENT_DIR)/compiled/source" && \
 	uvicorn iec62209_service.main:the_app \
 		--host 0.0.0.0 \
 		--reload \

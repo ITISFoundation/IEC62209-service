@@ -1,5 +1,4 @@
 from enum import Enum
-from pathlib import Path
 
 from fastapi import APIRouter, Depends, Request, status, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse
@@ -64,7 +63,7 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def get_index(settings: ApplicationSettings = Depends(get_app_settings)):
-    html_content = Path(settings.CLIENT_INDEX_PATH).read_text()
+    html_content = (settings.CLIENT_OUTPUT_DIR / "index.html").read_text()
     return html_content
 
 
