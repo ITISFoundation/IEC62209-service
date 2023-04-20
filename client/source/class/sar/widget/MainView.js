@@ -19,17 +19,16 @@ qx.Class.define("sar.widget.MainView", {
 
     this._setLayout(new qx.ui.layout.VBox(20));
 
-    this.__stepButtons = [];
     this.__steps = [];
-
-    this.builLayout();
+    this.__builLayout();
+    this.__attachHandlers();
+    this.__initModel();
   },
 
   members: {
-    __stepButtons: null,
-    __stepsStack: null,
+    __steps: null,
 
-    builLayout: function() {
+    __builLayout: function() {
       const introLayout = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
       const introTitle = new qx.ui.basic.Label().set({
         value: "IEC 62209-3 Validation Procedure",
@@ -102,6 +101,8 @@ qx.Class.define("sar.widget.MainView", {
         col += sectionInfo.colSpan
       });
 
+      const stepButtons = [];
+      const steps = [];
       const stepsStack = new qx.ui.container.Stack();
       [{
         icon: "sar/icons/step0_icon.png",
@@ -133,15 +134,17 @@ qx.Class.define("sar.widget.MainView", {
         step: new sar.steps.Verify(),
       }].forEach((section, idx) => {
         const stepButton = new sar.widget.StepButton(section.label, section.icon);
-        this.__stepButtons.push(stepButton);
+        section.step.stepButton = stepButton;
+        stepButtons.push(stepButton);
         stepButton.addListener("tap", () => {
           // show step
           stepsStack.setSelection([section.step]);
           // mark step as active and the rest inactive
-          this.__stepButtons.forEach((stepButton, buttonIdx) => {
+          stepButtons.forEach((stepButton, buttonIdx) => {
             stepButton.setIsActive(buttonIdx === idx);
           })
         });
+        this.__steps.push(section.step);
         stepsStack.add(section.step);
         stepsLayout.add(stepButton, {
           row: 1,
@@ -152,7 +155,38 @@ qx.Class.define("sar.widget.MainView", {
       this._add(stepsStack);
 
       // start with the first step by default
-      this.__stepButtons[0].setIsActive(true);
+      stepButtons[0].setIsActive(true);
+    },
+
+    __getLoadModelStep: function() {
+      return this.__steps.find(step => step instanceof sar.steps.LoadModel);
+    },
+
+    __attachHandlers: function() {
+      const loadModelStep = this.__getLoadModelStep();
+      if (loadModelStep) {
+        loadModelStep.addListener("modelSet", e => {
+          const model = e.getData();
+          this.__steps.forEach(step => {
+            if (
+              step instanceof sar.steps.TestSetGeneration ||
+              step instanceof sar.steps.ConfirmModel ||
+              step instanceof sar.steps.ExploreSpace ||
+              step instanceof sar.steps.Verify
+            ) {
+              step.setModel(model);
+              step.stepButton.setEnabled(Boolean(model));
+            }
+          });
+        });
+      }
+    },
+
+    __initModel: function() {
+      const loadModelStep = this.__getLoadModelStep();
+      if (loadModelStep) {
+        loadModelStep.setModel(null);
+      }
     }
   }
 });
