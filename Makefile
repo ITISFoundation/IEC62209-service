@@ -1,5 +1,7 @@
-.PHONY: help
+APP_NAME := iec62209-service
 
+
+.PHONY: help
 help: ## help on rule's targets
 	@awk --posix 'BEGIN {FS = ":.*?## "} /^[[:alpha:][:space:]_-]+:.*?## / {printf "%-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
@@ -26,7 +28,7 @@ devenv: .venv ## create a python virtual environment with dev tools (e.g. linter
 .PHONY: build
 build:
 	docker build \
-		--tag local/iec62209-service:latest \
+		--tag local/${APP_NAME}:latest \
 		--progress plain \
 		$(CURDIR)
 
