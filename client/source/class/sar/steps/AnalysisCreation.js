@@ -49,6 +49,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       const loadButton = new qx.ui.form.Button("Load Training Data");
       loadButton.addListener("execute", () => {
         console.log("Select Training Data file");
+        this.__trainingDataLoaded();
       });
       stepLayout.add(loadButton, {
         row: 0,
