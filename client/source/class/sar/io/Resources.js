@@ -113,7 +113,7 @@ qx.Class.define("sar.io.Resources", {
             value: "application/json"
           }];
           headers.forEach(item => request.setRequestHeader(item.key, item.value));
-          request.setRequestHeader("Content-Type", "application/json");
+          request.setRequestHeader("Content-Type", "application/json;text/csv;");
         });
 
         // OM: not sure about this one
@@ -124,9 +124,13 @@ qx.Class.define("sar.io.Resources", {
 
         res.addListenerOnce(endpoint + "Success", e => {
           const response = e.getRequest().getResponse();
-          const data = response.data;
+          if ("resolveWResponse" in options && options.resolveWResponse) {
+            resolve(response);
+          } else {
+            const data = response.data;
+            resolve(data);
+          }
           res.dispose();
-          "resolveWResponse" in options && options.resolveWResponse ? resolve(response) : resolve(data);
         }, this);
 
         res.addListenerOnce(endpoint + "Error", e => {
