@@ -197,3 +197,6 @@ cython_debug/
 *ignore*
 !.dockerignore
 !.gitignore
+
+
+docker-compose.yml
