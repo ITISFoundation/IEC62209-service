@@ -1,6 +1,6 @@
 from enum import Enum
 
-from fastapi import APIRouter, Depends, Request, status, UploadFile
+from fastapi import APIRouter, Depends, Request, UploadFile, status
 from fastapi.responses import FileResponse, HTMLResponse
 from iec62209.work import Work
 from pydantic import BaseModel, conint
@@ -33,7 +33,6 @@ class MyEnum(str, Enum):
     BAR = "BAR"
 
 
-
 class TrainingTestGeneration(BaseModel):
     fRangeMin: int
     fRangeMax: int
@@ -54,6 +53,7 @@ class SarFiltering(str, Enum):
     SAR10G = "SAR10G"
     SARBOTH = "SARBOTH"
 
+
 #
 # API Handlers
 #
@@ -63,6 +63,7 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def get_index(settings: ApplicationSettings = Depends(get_app_settings)):
+    """main index page"""
     html_content = (settings.CLIENT_OUTPUT_DIR / "index.html").read_text()
     return html_content
 
@@ -87,7 +88,6 @@ async def get_training_data():
 async def get_training_distribution():
     some_file_path = "../my_model.json"
     return some_file_path
-
 
 
 @router.get("/demo/{name}", response_model=Demo)
