@@ -76,6 +76,7 @@ async def get_index(settings: ApplicationSettings = Depends(get_app_settings)):
 
 # Training set generation
 
+
 # for data storage
 class TrainingSetGeneration:
     sample: dict = {"headings": [], "rows": []}
