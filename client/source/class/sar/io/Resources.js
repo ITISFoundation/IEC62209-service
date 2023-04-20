@@ -53,9 +53,9 @@ qx.Class.define("sar.io.Resources", {
        */
       "trainingSetGeneration": {
         endpoints: {
-          create: {
+          generate: {
             method: "POST",
-            url: "/training-set-generation:create"
+            url: "/training-set-generation:generate"
           },
           xport: {
             method: "POST",

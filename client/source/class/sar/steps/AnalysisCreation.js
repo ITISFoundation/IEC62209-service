@@ -15,6 +15,12 @@ qx.Class.define("sar.steps.AnalysisCreation", {
   extend: sar.steps.StepBase,
 
   members: {
+    __createButton: null,
+    __exportButton: null,
+    __variogramImage: null,
+    __deviationsImage: null,
+    __marginalsImage: null,
+
     // overriden
     _getDescriptionText: function() {
       return "\
@@ -42,19 +48,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
 
       const loadButton = new qx.ui.form.Button("Load Training Data");
       loadButton.addListener("execute", () => {
-        loadButton.setEnabled(false);
-        const form = formRenderer._form;
-        const data = {};
-        for (const [key, item] of Object.entries(form.getItems())) {
-          data[key] = item.getValue()
-        }
-        const params = {
-          data
-        };
-        sar.io.Resources.fetch("analysisCreation", "create", params)
-          .then(data => console.log(data))
-          .catch(err => console.error(err))
-          .finally(() => loadButton.setEnabled(true));
+        console.log("Select Training Data file");
       });
       stepLayout.add(loadButton, {
         row: 0,
@@ -82,8 +76,9 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         column: 1
       });
 
-      const createButton = new qx.ui.form.Button("Create & Analyze").set({
-        allowGrowY: false
+      const createButton = this.__createButton = new qx.ui.form.Button("Create & Analyze").set({
+        allowGrowY: false,
+        enabled: false
       });
       createButton.addListener("execute", () => {
         createButton.setEnabled(false);
@@ -94,7 +89,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
           data
         };
         sar.io.Resources.fetch("analysisCreation", "create", params)
-          .then(trainingData => this.__populateResults(trainingData))
+          .then(trainingData => this.__trainingDataCreated(trainingData))
           .catch(err => console.error(err))
           .finally(() => createButton.setEnabled(true));
       });
@@ -133,7 +128,9 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         colSpan: 2
       });
 
-      const exportButton = new qx.ui.form.Button("Export Model");
+      const exportButton = this.__exportButton = new qx.ui.form.Button("Export Model").set({
+        enabled: false
+      });
       stepLayout.add(exportButton, {
         row: 4,
         column: 0,
@@ -169,16 +166,25 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       });
       resultsLayout.add(resultsTabView);
 
-      const variogramView = this.__createVariogramView()
+      const variogramView = this.__variogramImage = this.__createVariogramView()
       resultsTabView.add(variogramView);
 
-      const deviationsView = this.__createDeviationsView()
+      const deviationsView = this.__deviationsImage = this.__createDeviationsView()
       resultsTabView.add(deviationsView);
 
-      const marginalsView = this.__createMarginalsView()
+      const marginalsView = this.__marginalsImage = this.__createMarginalsView()
       resultsTabView.add(marginalsView);
 
       return resultsLayout;
-    }
+    },
+
+    __trainingDataLoaded: function() {
+      this.__createButton.setEnabled(true);
+    },
+
+    __trainingDataCreated: function() {
+      this.__exportButton.setEnabled(true);
+      this.__fetchResults();
+    },
   }
 });

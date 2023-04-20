@@ -72,7 +72,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
             resolveWResponse: true
           }
         };
-        sar.io.Resources.fetch("trainingSetGeneration", "create", params)
+        sar.io.Resources.fetch("trainingSetGeneration", "generate", params)
           .then(() => this.__trainingDataGenerated())
           .catch(err => {
             this.__trainingDataGenerated();
@@ -87,11 +87,8 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       });
       exportButton.addListener("execute", () => {
         sar.io.Resources.fetch("trainingSetGeneration", "xport", params)
-          .then(() => this.__trainingDataGenerated())
-          .catch(err => {
-            this.__trainingDataGenerated();
-            console.error(err);
-          })
+          .then(data => this.__trainingDataExported(data))
+          .catch(err => console.error(err))
           .finally(() => createButton.setEnabled(true));
       });
       optionsLayout.add(exportButton);
@@ -171,7 +168,6 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
 
     __trainingDataGenerated: function() {
       this.__exportButton.setEnabled(true);
-
       this.__fetchResults();
     },
 
@@ -196,6 +192,10 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       }
       const csvJson = sar.steps.Utils.csvToJson(csvText);
       console.log("resultCSV", csvJson);
+    },
+
+    __trainingDataExported: function(data) {
+      console.log("__trainingDataExported", data);
     }
   }
 });
