@@ -1,7 +1,7 @@
 from enum import Enum
 from pathlib import Path
 
-from fastapi import APIRouter, Depends, Request, UploadFile
+from fastapi import APIRouter, Depends, Request, status, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse
 from iec62209.work import Work
 from pydantic import BaseModel, conint
@@ -73,7 +73,6 @@ async def demo(body: Demo, name: str, enabled: MyEnum = MyEnum.BAR):
     return Demo(x=body.x, y=body.y + 3, z=body.x + 33)
 
 
-from fastapi import status
 @router.post("/training-set-generation:create", status_code=status.HTTP_204_NO_CONTENT)
 async def create_training_set(body: TrainingTestGeneration):
     print(body)
