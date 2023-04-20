@@ -1,10 +1,7 @@
+include ./scripts/common.Makefile
+
+
 APP_NAME := iec62209-service
-
-
-.PHONY: help
-help: ## help on rule's targets
-	@awk --posix 'BEGIN {FS = ":.*?## "} /^[[:alpha:][:space:]_-]+:.*?## / {printf "%-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
-
 
 .venv:
 	@python3 --version
@@ -16,6 +13,12 @@ help: ## help on rule's targets
 		setuptools
 	@$@/bin/pip3 list --verbose
 
+info: ## info on tools
+	 which python
+	 python --version
+	 which pip
+	 pip --version
+
 
 .PHONY: devenv
 devenv: .venv ## create a python virtual environment with dev tools (e.g. linters, etc)
@@ -23,7 +26,6 @@ devenv: .venv ## create a python virtual environment with dev tools (e.g. linter
 	# Installing pre-commit hooks in current .git repo
 	@$</bin/pre-commit install
 	@echo "To activate the venv, execute 'source .venv/bin/activate'"
-
 
 
 .PHONY: build
@@ -44,15 +46,6 @@ run: ## runs container and serves in http://127.0.0.1:8000/
 
 
 
-.PHONY: clean clean-images clean-venv clean-all clean-more
-
-_git_clean_args := -dx --force --exclude=.vscode --exclude=TODO.md --exclude=.venv --exclude=.python-version --exclude="*keep*"
-
-.check-clean:
-	@git clean -n $(_git_clean_args)
-	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@echo -n "$(shell whoami), are you REALLY sure? [y/N] " && read ans && [ $${ans:-N} = y ]
-
 clean-venv: devenv ## Purges .venv into original configuration
 	# Cleaning your venv
 	.venv/bin/pip-sync --quiet $(CURDIR)/requirements/devenv.txt
@@ -60,7 +53,3 @@ clean-venv: devenv ## Purges .venv into original configuration
 
 clean-hooks: ## Uninstalls git pre-commit hooks
 	@-pre-commit uninstall 2> /dev/null || rm .git/hooks/pre-commit
-
-clean: .check-clean ## cleans all unversioned files in project and temp files create by this makefile
-	# Cleaning unversioned
-	@git clean $(_git_clean_args)
