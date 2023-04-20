@@ -2,7 +2,7 @@ from enum import Enum
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, Request, UploadFile
-from fastapi.responses import HTMLResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from iec62209.work import Work
 from pydantic import BaseModel, conint
 
@@ -34,6 +34,27 @@ class MyEnum(str, Enum):
     BAR = "BAR"
 
 
+
+class TrainingTestGeneration(BaseModel):
+    fRangeMin: int
+    fRangeMax: int
+    measAreaX: int
+    measAreaY: int
+    sampleSize: int
+
+
+class AnalysisCreation(BaseModel):
+    systemName: str
+    phantomType: str
+    hardwareVersion: str
+    softwareVersion: str
+
+
+class SarFiltering(str, Enum):
+    SAR1G = "SAR1G"
+    SAR10G = "SAR10G"
+    SARBOTH = "SARBOTH"
+
 #
 # API Handlers
 #
@@ -50,6 +71,23 @@ async def get_index(settings: ApplicationSettings = Depends(get_app_settings)):
 @router.get("/demo/{name}", response_model=Demo)
 async def demo(body: Demo, name: str, enabled: MyEnum = MyEnum.BAR):
     return Demo(x=body.x, y=body.y + 3, z=body.x + 33)
+
+
+from fastapi import status
+@router.post("/training-set-generation:create", status_code=status.HTTP_204_NO_CONTENT)
+async def create_training_set(body: TrainingTestGeneration):
+    print(body)
+
+
+@router.get("/training-set-generation:xport", response_class=FileResponse)
+async def xport_training_set():
+    some_file_path = "../my_model.json"
+    return some_file_path
+
+
+@router.post("/analysis-creation/model:load")
+async def upload_model_analysis_creation(file: UploadFile):
+    return {"filename": file.filename}
 
 
 @router.post("/uploadfile/")
