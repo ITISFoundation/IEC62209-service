@@ -63,11 +63,17 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
           data[key] = item.getValue()
         }
         const params = {
-          data
+          data,
+          options: {
+            resolveWResponse: true
+          }
         };
         sar.io.Resources.fetch("trainingSetGeneration", "create", params)
           .then(trainingData => this.__populateResults(trainingData))
-          .catch(err => console.error(err))
+          .catch(err => {
+            this.__populateResults();
+            console.error(err);
+          })
           .finally(() => createButton.setEnabled(true));
       });
       optionsLayout.add(createButton);
@@ -151,8 +157,15 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       return resultsLayout;
     },
 
-    __populateResults: function(trainingData) {
-      console.log("trainingData", trainingData);
+    __populateResults: function(response) {
+      let csvText = null
+      if (response === undefined) {
+        csvText = "Name,Surname,Address,State,Pc\rJohn,Doe,120 jefferson st.,Riverside, NJ, 08075\rJack,McGinnis,220 hobo Av.,Phila,PA,09119\rJohn Da Man,Repici,120 Jefferson St.,Riverside,NJ,08075\rStephen,Tyler,7452 Terrace At the Plaza road,SomeTown,SD,91234\rBlankman,,SomeTown, SD, 00298\rJoan the bone, Anne,Jet,9th,at Terrace plc,Desert City,CO,00123"
+      } else {
+        // csvText = await response.text();
+      }
+      const csvJson = sar.steps.Utils.csvToJson(csvText);
+      console.log("resultCSV", csvJson);
     }
   }
 });
