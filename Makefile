@@ -32,6 +32,41 @@ build:
 		--progress plain \
 		$(CURDIR)
 
+.PHONY: shell
+shell:
+	docker run \
+		--interactive \
+		--tty \
+		--user scu \
+		--publish 8000:8000 \
+		local/${APP_NAME}:latest \
+		bash
+
+.PHONY: run
+run:
+	docker run \
+		--interactive \
+		--tty \
+		--publish 8000:8000 \
+		local/${APP_NAME}:latest
+
+
+
+REPODIR:=$(CURDIR)
+
+.PHONY: run-devel
+run-devel:
+	docker run \
+		--tty \
+		--interactive \
+		--workdir="/home/$(USER)" \
+		--volume="/etc/group:/etc/group:ro" \
+		--volume="/etc/passwd:/etc/passwd:ro" \
+		--volume=$(REPODIR):/home/$(USER) \
+		--user=$(shell id -u):$(shell id -g) \
+		--publish 8000:8000 \
+		local/${APP_NAME}:latest
+
 
 
 .PHONY: clean clean-images clean-venv clean-all clean-more
