@@ -11,7 +11,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("sar.steps.Step5", {
+qx.Class.define("sar.steps.Verify", {
   extend: sar.steps.StepBase,
 
   members: {

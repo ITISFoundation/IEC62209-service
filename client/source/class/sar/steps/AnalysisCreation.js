@@ -11,25 +11,26 @@
 
 ************************************************************************ */
 
-qx.Class.define("sar.steps.Step3", {
+qx.Class.define("sar.steps.AnalysisCreation", {
   extend: sar.steps.StepBase,
 
   members: {
     // overriden
     _getDescriptionText: function() {
       return "\
-        This step confirms the model with the following tests:\
-        <br>- all tests must pass the acceptance criteria (within the mpe)\
-        <br>- the Shapiro-Wilk hypothesis p-value, which must be at least 0.05 for the normality to pass,\
-        <br>- the QQ location and scale which need to be in the range of [-1, 1] and [0.5, 1.5] respectively for the test to pass.\
+        Builds a model and outputs the empirical (blue) and theoretical (red) semi-variogram after rescaling to an isotropic space.\
+        <br>The system analyses geostatistical properties along each direction in the data space, computes an invertible mapping that converts the space to an isotropic one.\
+        <br>The tests evaluate whether:\
+        <br>- the acceptance criteria are met for each measurement,\
+        <br>- the normalized mean squared error (nrsme) is within 0.25 to ensure that the variogram model fits the empirical variances\
       "
     },
 
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 
-      const loadModelSection = sar.steps.Utils.loadModelSection(null, false);
-      optionsLayout.add(loadModelSection);
+      const formRenderer1 = sar.steps.Utils.modelViewer(null, true);
+      optionsLayout.add(formRenderer1);
 
       const stepGrid = new qx.ui.layout.Grid(20, 20);
       stepGrid.setColumnFlex(0, 1);
@@ -42,17 +43,15 @@ qx.Class.define("sar.steps.Step3", {
       });
       optionsLayout.add(stepLayout);
 
-      let row = 0;
-      const loadTestButton = new qx.ui.form.Button("Load Test Data");
-      stepLayout.add(loadTestButton, {
-        row,
+      const loadButton = new qx.ui.form.Button("Load Training Data");
+      stepLayout.add(loadButton, {
+        row: 0,
         column: 0
       });
-      row++;
 
       const sarSelectBox = sar.steps.Utils.sarSelectBox(null, false);
       stepLayout.add(sarSelectBox, {
-        row,
+        row: 1,
         column: 0
       });
 
@@ -67,16 +66,15 @@ qx.Class.define("sar.steps.Step3", {
         sarSelected.setValue(listItem.getLabel())
       }, this);
       stepLayout.add(sarSelected, {
-        row,
+        row: 1,
         column: 1
       });
-      row++;
 
-      const createButton = new qx.ui.form.Button("Confirm").set({
+      const createButton = new qx.ui.form.Button("Create & Analyze").set({
         allowGrowY: false
       });
       stepLayout.add(createButton, {
-        row,
+        row: 2,
         column: 0
       });
 
@@ -92,56 +90,42 @@ qx.Class.define("sar.steps.Step3", {
         column: 0
       });
       const normalityTitle = new qx.ui.basic.Label().set({
-        value: "Normality: 0.293 > 0.05:"
+        value: "Normalized rms error 10.% < 25%:"
       });
       resultsLayout.add(normalityTitle, {
         row: 1,
         column: 0
       });
-      const qqLocationTitle = new qx.ui.basic.Label().set({
-        value: "QQ location: -0.049 ∈ [-1, 1]:"
-      });
-      resultsLayout.add(qqLocationTitle, {
-        row: 2,
-        column: 0
-      });
-      const qqScaleTitle = new qx.ui.basic.Label().set({
-        value: "QQ scale: 0.944 ∈ [0.5, 1.5]:"
-      });
-      resultsLayout.add(qqScaleTitle, {
-        row: 3,
-        column: 0
-      });
       stepLayout.add(resultsLayout, {
-        row,
+        row: 2,
         column: 1
       });
-      row++;
+
+      const exportButton = new qx.ui.form.Button("Export Model");
+      stepLayout.add(exportButton, {
+        row: 3,
+        column: 0,
+        colSpan: 2
+      });
 
       return optionsLayout;
     },
 
-    __createQQView: function() {
-      const marginalsImage = sar.steps.Utils.createImageViewer("sar/plots/step3_qq.png")
-      const tabPage = sar.steps.Utils.createTabPage("QQ plot", marginalsImage);
+    __createVariogramView: function() {
+      const variogramImage = sar.steps.Utils.createImageViewer("sar/plots/step1_variogram.png")
+      const tabPage = sar.steps.Utils.createTabPage("Variogram", variogramImage);
       return tabPage;
     },
 
     __createDeviationsView: function() {
-      const deviationsImage = sar.steps.Utils.createImageViewer("sar/plots/step3_deviations.png")
+      const deviationsImage = sar.steps.Utils.createImageViewer("sar/plots/step1_deviations.png")
       const tabPage = sar.steps.Utils.createTabPage("Deviations", deviationsImage);
       return tabPage;
     },
 
-    __createResidualsView: function() {
-      const marginalsImage = sar.steps.Utils.createImageViewer("sar/plots/step3_residuals.png")
-      const tabPage = sar.steps.Utils.createTabPage("Residuals", marginalsImage);
-      return tabPage;
-    },
-
-    __createSemivariogramView: function() {
-      const semivariogramImage = sar.steps.Utils.createImageViewer("sar/plots/step3_semivariogram.png")
-      const tabPage = sar.steps.Utils.createTabPage("Semivariogram", semivariogramImage);
+    __createMarginalsView: function() {
+      const marginalsImage = sar.steps.Utils.createImageViewer("sar/plots/step1_marginals.png")
+      const tabPage = sar.steps.Utils.createTabPage("Marginals", marginalsImage);
       return tabPage;
     },
 
@@ -153,17 +137,14 @@ qx.Class.define("sar.steps.Step3", {
       });
       resultsLayout.add(resultsTabView);
 
-      const qqView = this.__createQQView()
-      resultsTabView.add(qqView);
+      const variogramView = this.__createVariogramView()
+      resultsTabView.add(variogramView);
 
       const deviationsView = this.__createDeviationsView()
       resultsTabView.add(deviationsView);
 
-      const residualsView = this.__createResidualsView()
-      resultsTabView.add(residualsView);
-
-      const variogramView = this.__createSemivariogramView()
-      resultsTabView.add(variogramView);
+      const marginalsView = this.__createMarginalsView()
+      resultsTabView.add(marginalsView);
 
       return resultsLayout;
     }

@@ -95,27 +95,27 @@ qx.Class.define("sar.widget.MainView", {
       [{
         icon: "sar/icons/step0_icon.png",
         label: "Training Set Generation",
-        step: new sar.steps.Step0(),
+        step: new sar.steps.TrainingSetGeneration(),
       }, {
         icon: "sar/icons/step1_icon.png",
         label: "Analysis & Creation",
-        step: new sar.steps.Step1(),
+        step: new sar.steps.AnalysisCreation(),
       }, {
         icon: "sar/icons/step2_icon.png",
         label: "Test Set Generation",
-        step: new sar.steps.Step2(),
+        step: new sar.steps.TestSetGeneration(),
       }, {
         icon: "sar/icons/step3_icon.png",
         label: "Confirm Model",
-        step: new sar.steps.Step3(),
+        step: new sar.steps.ConfirmModel(),
       }, {
         icon: "sar/icons/step4_icon.png",
         label: "Explore Space",
-        step: new sar.steps.Step4(),
+        step: new sar.steps.ExploreSpace(),
       }, {
         icon: "sar/icons/step5_icon.png",
         label: "Verify",
-        step: new sar.steps.Step5(),
+        step: new sar.steps.Verify(),
       }].forEach((section, idx) => {
         const stepButton = new sar.widget.StepButton(section.label, section.icon);
         this.__stepButtons.push(stepButton);
