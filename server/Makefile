@@ -5,9 +5,10 @@ help: ## help on rule's targets
 	@awk --posix 'BEGIN {FS = ":.*?## "} /^[[:alpha:][:space:]_-]+:.*?## / {printf "%-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 .PHONY: info
-info: ## package info
+
+info: ## info in main packages
 	 @pip show iec62209
-	 @echo "---------"
+	 @echo
 	 @pip show iec62209-service
 
 
@@ -24,4 +25,3 @@ run-dev: ## runs app on a uvicorn server with watch+reload to aid development
 		--reload \
 		--reload-dir ./src \
 		--log-level debug
-	echo "http://127.0.0.1:8000/docs"

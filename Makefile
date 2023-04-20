@@ -25,8 +25,9 @@ devenv: .venv ## create a python virtual environment with dev tools (e.g. linter
 	@echo "To activate the venv, execute 'source .venv/bin/activate'"
 
 
+
 .PHONY: build
-build:
+build: ## build image
 	docker build \
 		--tag local/${APP_NAME}:latest \
 		--progress plain \
