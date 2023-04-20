@@ -90,8 +90,11 @@ qx.Class.define("sar.steps.AnalysisCreation", {
           data
         };
         sar.io.Resources.fetch("analysisCreation", "create", params)
-          .then(trainingData => this.__trainingDataCreated(trainingData))
-          .catch(err => console.error(err))
+          .then(() => this.__trainingDataCreated())
+          .catch(err => {
+            this.__trainingDataCreated();
+            console.error(err);
+          })
           .finally(() => createButton.setEnabled(true));
       });
       stepLayout.add(createButton, {
