@@ -15,6 +15,9 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
   extend: sar.steps.StepBase,
 
   members: {
+    __dataTable: null,
+    __distributionImage: null,
+
     // overriden
     _getDescriptionText: function() {
       return "\
@@ -69,9 +72,9 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
           }
         };
         sar.io.Resources.fetch("trainingSetGeneration", "create", params)
-          .then(trainingData => this.__populateResults(trainingData))
+          .then(() => this.__fetchResults())
           .catch(err => {
-            this.__populateResults();
+            this.__fetchResults();
             console.error(err);
           })
           .finally(() => createButton.setEnabled(true));
@@ -125,7 +128,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
     },
 
     __createDataView: function() {
-      const dataTable = this.__createDataTable();
+      const dataTable = this.__dataTable = this.__createDataTable();
       const layout = new qx.ui.layout.VBox();
       const tabPage = new qx.ui.tabview.Page("Data").set({
         layout
@@ -135,7 +138,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
     },
 
     __createDistributionView: function() {
-      const distributionImage = sar.steps.Utils.createImageViewer("sar/plots/step0_distribution.png")
+      const distributionImage = this.__distributionImage = sar.steps.Utils.createImageViewer("sar/plots/step0_distribution.png")
       const tabPage = sar.steps.Utils.createTabPage("Distribution", distributionImage);
       return tabPage;
     },
@@ -148,13 +151,25 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       });
       resultsLayout.add(resultsTabView);
 
-      const dataView = this.__createDataView()
+      const dataView = this.__createDataView();
       resultsTabView.add(dataView);
 
-      const distributionView = this.__createDistributionView()
+      const distributionView = this.__createDistributionView();
       resultsTabView.add(distributionView);
 
       return resultsLayout;
+    },
+
+    __fetchResults: function() {
+      console.log("fetching results");
+
+      sar.io.Resources.fetch("trainingSetGeneration", "getData")
+        .then(data => console.log(data))
+        .catch(err => console.error(err));
+
+      sar.io.Resources.fetch("trainingSetGeneration", "getDistribution")
+        .then(data => console.log(data))
+        .catch(err => console.error(err));
     },
 
     __populateResults: function(response) {

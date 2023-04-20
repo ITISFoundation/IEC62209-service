@@ -58,8 +58,16 @@ qx.Class.define("sar.io.Resources", {
             url: "/training-set-generation:create"
           },
           xport: {
-            method: "GET",
+            method: "POST",
             url: "/training-set-generation:xport"
+          },
+          getData: {
+            method: "GET",
+            url: "/training-set-generation/data"
+          },
+          getDistribution: {
+            method: "GET",
+            url: "/training-set-generation/distribution"
           },
         }
       },
