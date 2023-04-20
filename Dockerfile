@@ -11,8 +11,8 @@ ENV SC_USER_ID=8004 \
     SC_USER_NAME=scu \
     LANG=C.UTF-8 \
     PYTHONDONTWRITEBYTECODE=1 \
-    VIRTUAL_ENV=/home/scu/.venv \
-    PATH="${VIRTUAL_ENV}/bin:$PATH"
+    VIRTUAL_ENV=/home/scu/.venv
+
 
 RUN adduser \
     --uid ${SC_USER_ID} \
@@ -22,6 +22,7 @@ RUN adduser \
     --home /home/${SC_USER_NAME} \
     ${SC_USER_NAME}
 
+ENV PATH="${VIRTUAL_ENV}/bin:$PATH"
 
 EXPOSE 8000
 
@@ -36,8 +37,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && node --version \
     && python --version
 
+USER scu
 
 RUN python -m venv "${VIRTUAL_ENV}"
+
 RUN which pip \
     && pip --no-cache-dir install --upgrade \
         pip~=23.0 \
@@ -55,16 +58,16 @@ RUN cd server \
     && pip --no-cache-dir install .
 
 
-# --------------------------Production stage -------------------
-FROM base as production
+# # --------------------------Production stage -------------------
+# FROM base as production
 
-ENV PYTHONOPTIMIZE=TRUE
-ENV CLIENT_INDEX_PATH=/home/scu/client/index.html
+# ENV PYTHONOPTIMIZE=TRUE
+# ENV CLIENT_INDEX_PATH=/home/scu/client/index.html
 
-WORKDIR /home/scu
+# WORKDIR /home/scu
 
-COPY --chown=scu:scu --from=build ${VIRTUAL_ENV} ${VIRTUAL_ENV}
-COPY --chown=scu:scu --from=build /build/client/source-output client
+# COPY --chown=scu:scu --from=build ${VIRTUAL_ENV} ${VIRTUAL_ENV}
+# COPY --chown=scu:scu --from=build /build/client/source-output client
 
 
-CMD ["uvicorn", "iec62209_service.main:the_app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "warning"]
+# CMD ["uvicorn", "iec62209_service.main:the_app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "warning"]
