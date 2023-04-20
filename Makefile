@@ -44,9 +44,9 @@ run: ## runs container and serves in http://127.0.0.1:8000/
 		local/${APP_NAME}:latest
 
 
-.PHONY: docker-compose.yml
-docker-compose.yml:
-	.osparc/bin/ooil.bash compose
+.PHONY: compose
+compose: ## creates compose specs .osparc/docker-compose.yml
+	.osparc/bin/ooil.bash compose -f .osparc/docker-compose.yml
 
 
 clean-venv: devenv ## Purges .venv into original configuration

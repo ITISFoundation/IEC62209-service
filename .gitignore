@@ -199,4 +199,4 @@ cython_debug/
 !.gitignore
 
 
-docker-compose.yml
+.osparc/docker-compose.yml
