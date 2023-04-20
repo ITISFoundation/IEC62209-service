@@ -30,7 +30,7 @@
  *       studyData
  *     }
  *   }
- *   osparc.data.Resources.post("trainingTestGeneration", "getOne", params)
+ *   osparc.data.Resources.post("trainingSetGeneration", "getOne", params)
  *     .then(study => {
  *       // study contains the new updated study
  *       // This code will execute if the call succeeds
@@ -51,15 +51,15 @@ qx.Class.define("sar.io.Resources", {
       /*
        * TRAINING SET GENERATION
        */
-      "trainingTestGeneration": {
+      "trainingSetGeneration": {
         endpoints: {
           create: {
             method: "POST",
-            url: "/training-test-generation:create"
+            url: "/training-set-generation:create"
           },
           xport: {
             method: "GET",
-            url: "/training-test-generation:xport"
+            url: "/training-set-generation:xport"
           },
         }
       },
@@ -116,7 +116,9 @@ qx.Class.define("sar.io.Resources", {
           request.setRequestHeader("Content-Type", "application/json");
         });
 
-        if (!res.includesRoute(endpoint)) {
+        // OM: not sure about this one
+        const endPointExists = Object.keys(res.__routes__P_238_2).includes(endpoint);
+        if (!endPointExists) {
           reject(Error(`Error while fetching ${resource}: the endpoint is not defined`));
         }
 

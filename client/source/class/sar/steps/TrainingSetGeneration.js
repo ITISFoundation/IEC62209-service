@@ -56,7 +56,13 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       optionsLayout.add(formRenderer);
 
       const createButton = new qx.ui.form.Button("Create Training data");
-      createButton.addListener("execute", () => console.log("Create Training data"));
+      createButton.addListener("execute", () => {
+        createButton.setEnabled(false);
+        sar.io.Resources.fetch("trainingSetGeneration", "create")
+          .then(trainingData => this.__populateResults(trainingData))
+          .catch(err => console.error(err))
+          .finally(() => createButton.setEnabled(true));
+      });
       optionsLayout.add(createButton);
 
       const exportButton = new qx.ui.form.Button("Export Training data").set({
@@ -136,6 +142,10 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       resultsTabView.add(distributionView);
 
       return resultsLayout;
+    },
+
+    __populateResults: function(trainingData) {
+      console.log("trainingData", trainingData);
     }
   }
 });
