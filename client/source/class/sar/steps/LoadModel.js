@@ -15,10 +15,11 @@ qx.Class.define("sar.steps.LoadModel", {
   extend: sar.steps.StepBase,
 
   properties: {
-    loadedModel: {
+    model: {
       check: "Object",
       init: null,
-      apply: "__setModel"
+      nullable: true,
+      apply: "__applyModel"
     }
   },
 
@@ -41,12 +42,12 @@ qx.Class.define("sar.steps.LoadModel", {
       const loadModelButton = this.__loadModelButton = new qx.ui.form.Button("Load Model").set({
         allowGrowX: false
       });
+      loadModelButton.addListener("execute", () => this.__loadModelButtonPressed());
       optionsLayout.add(loadModelButton);
 
       const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(null);
       optionsLayout.add(modelViewer);
 
-      optionsLayout.addListener("execute", () => this.__loadModelButtonPressed());
 
       return optionsLayout;
     },
@@ -56,16 +57,31 @@ qx.Class.define("sar.steps.LoadModel", {
     },
 
     __loadModelButtonPressed: function() {
-
+      if (this.getModel()) {
+        this.setModel(null);
+      } else {
+        const newModel = {
+          "systemName": "cSAR3D",
+          "phantomType": "Flat HSL",
+          "hardwareVersion": "SD C00 F01 AC",
+          "softwareVersion": "V5.2.0",
+          "acceptanceCriteria": "Pass",
+          "normalizedRMSError": "Pass",
+        }
+        this.setModel(newModel);
+      }
     },
 
-    __setModel: function(model) {
+    __applyModel: function(model) {
       if (model) {
         this.__loadModelButton.setLabel("Reset Model");
       } else {
         this.__loadModelButton.setLabel("Load Model")
       }
-      this.firedataEvent("modelSet", model);
+      this._optionsLayout.remove(this.__modelViewer);
+      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(model);
+      this._optionsLayout.add(modelViewer);
+      this.fireDataEvent("modelSet", model);
     }
   }
 });

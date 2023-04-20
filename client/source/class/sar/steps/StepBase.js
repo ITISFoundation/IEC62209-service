@@ -31,6 +31,8 @@ qx.Class.define("sar.steps.StepBase", {
   },
 
   members: {
+    _optionsLayout: null,
+
     __builLayout: function() {
       const text = this._getDescriptionText();
       const descriptionLabel = new qx.ui.basic.Label().set({
@@ -46,7 +48,7 @@ qx.Class.define("sar.steps.StepBase", {
         });
       }
 
-      const options = this._createOptions();
+      const options = this._optionsLayout = this._createOptions();
       if (options) {
         this._add(options, {
           row: 1,
