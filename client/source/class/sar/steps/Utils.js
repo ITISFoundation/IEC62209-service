@@ -178,15 +178,15 @@ qx.Class.define("sar.steps.Utils", {
 
         // Split the string using pipe delimiter |
         // and store the values in a properties array
-        let properties = s.split("|")
+        // let properties = s.split("|")
+        let properties = s.split(",")
 
         // For each header, if the value contains
         // multiple comma separated data, then we
         // store it in the form of array otherwise
         // directly the value is stored
         for (let j in headers) {
-            // if (properties[j].includes(", ")) {
-            if (properties[j].includes(",")) {
+            if (properties[j].includes(", ")) {
                 obj[headers[j]] = properties[j]
                     .split(", ").map(item => item.trim())
             }
@@ -197,6 +197,7 @@ qx.Class.define("sar.steps.Utils", {
         // result array
         result.push(obj)
       }
+      return result;
     }
   }
 });
