@@ -63,11 +63,11 @@ qx.Class.define("sar.io.Resources", {
           },
           getData: {
             method: "GET",
-            url: "/training-set-generation/data"
+            url: "/training-set-generation:data"
           },
           getDistribution: {
             method: "GET",
-            url: "/training-set-generation/distribution"
+            url: "/training-set-generation:distribution"
           },
         }
       },
