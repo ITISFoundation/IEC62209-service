@@ -126,9 +126,16 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         column: 1
       });
 
+      const modelEditor = sar.steps.Utils.modelEditor();
+      stepLayout.add(modelEditor, {
+        row: 3,
+        column: 0,
+        colSpan: 2
+      });
+
       const exportButton = new qx.ui.form.Button("Export Model");
       stepLayout.add(exportButton, {
-        row: 3,
+        row: 4,
         column: 0,
         colSpan: 2
       });
