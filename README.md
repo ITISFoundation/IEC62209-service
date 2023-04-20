@@ -10,7 +10,7 @@ $ make help
 $ make .venv
 $ cd server
 $ make install-dev
-$ make start-dev
+$ make run-dev
 ```
 
 ---
