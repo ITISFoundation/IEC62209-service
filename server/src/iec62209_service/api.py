@@ -81,7 +81,7 @@ async def xport_training_set():
 
 @router.get("/training-set-generation/data")
 async def get_training_data():
-    next
+    return
 
 
 @router.get("/training-set-generation/distribution", response_class=FileResponse)
