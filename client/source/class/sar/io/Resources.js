@@ -67,8 +67,8 @@ qx.Class.define("sar.io.Resources", {
        * Analysis & Creation
        */
       "analysisCreation": {
-        load: {
-          create: {
+        endpoints: {
+          load: {
             method: "POST",
             url: "/analysis-creation/model:load"
           },

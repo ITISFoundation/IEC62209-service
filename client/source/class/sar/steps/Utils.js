@@ -30,36 +30,36 @@ qx.Class.define("sar.steps.Utils", {
     },
 
     modelViewer: function(data, enabled = true) {
-      const form1 = new qx.ui.form.Form();
+      const form = new qx.ui.form.Form();
 
-      form1.addGroupHeader("Model information")
+      form.addGroupHeader("Model information")
 
       const systemName = new qx.ui.form.TextField().set({
         value: "cSAR3D",
         enabled
       });
-      form1.add(systemName, "System name");
+      form.add(systemName, "System name", null, "systemName");
 
       const phantomType = new qx.ui.form.TextField().set({
         value: "Flat HSL",
         enabled
       });
-      form1.add(phantomType, "Phantom type");
+      form.add(phantomType, "Phantom type", null, "phantomType");
 
       const hardwareVersion = new qx.ui.form.TextField().set({
         value: "SD C00 F01 AC",
         enabled
       });
-      form1.add(hardwareVersion, "Hardware version");
+      form.add(hardwareVersion, "Hardware version", null, "hardwareVersion");
 
       const softwareVersion = new qx.ui.form.TextField().set({
         value: "V5.2.0",
         enabled
       });
-      form1.add(softwareVersion, "Software version");
+      form.add(softwareVersion, "Software version", null, "softwareVersion");
 
-      const formRenderer1 = new qx.ui.form.renderer.Single(form1);
-      return formRenderer1;
+      const formRenderer = new qx.ui.form.renderer.Single(form);
+      return formRenderer;
     },
 
     sarSelectBox: function() {

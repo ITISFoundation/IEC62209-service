@@ -29,8 +29,8 @@ qx.Class.define("sar.steps.AnalysisCreation", {
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 
-      const formRenderer1 = sar.steps.Utils.modelViewer(null, true);
-      optionsLayout.add(formRenderer1);
+      const formRenderer = sar.steps.Utils.modelViewer(null, true);
+      optionsLayout.add(formRenderer);
 
       const stepGrid = new qx.ui.layout.Grid(20, 20);
       stepGrid.setColumnFlex(0, 1);
@@ -44,6 +44,21 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       optionsLayout.add(stepLayout);
 
       const loadButton = new qx.ui.form.Button("Load Training Data");
+      loadButton.addListener("execute", () => {
+        loadButton.setEnabled(false);
+        const form = formRenderer._form;
+        const data = {};
+        for (const [key, item] of Object.entries(form.getItems())) {
+          data[key] = item.getValue()
+        }
+        const params = {
+          data
+        };
+        sar.io.Resources.fetch("analysisCreation", "load", params)
+          .then(data => console.log(data))
+          .catch(err => console.error(err))
+          .finally(() => loadButton.setEnabled(true));
+      });
       stepLayout.add(loadButton, {
         row: 0,
         column: 0
@@ -72,6 +87,19 @@ qx.Class.define("sar.steps.AnalysisCreation", {
 
       const createButton = new qx.ui.form.Button("Create & Analyze").set({
         allowGrowY: false
+      });
+      createButton.addListener("execute", () => {
+        createButton.setEnabled(false);
+        const data = {
+          "sarOption": sarSelectBox.getSelection()[0].id
+        };
+        const params = {
+          data
+        };
+        sar.io.Resources.fetch("analysisCreation", "create", params)
+          .then(trainingData => this.__populateResults(trainingData))
+          .catch(err => console.error(err))
+          .finally(() => createButton.setEnabled(true));
       });
       stepLayout.add(createButton, {
         row: 2,
