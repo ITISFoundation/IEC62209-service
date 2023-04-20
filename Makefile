@@ -32,7 +32,6 @@ devenv: .venv ## create a python virtual environment with dev tools (e.g. linter
 build: ## build image
 	docker build \
 		--tag local/${APP_NAME}:latest \
-		--progress plain \
 		$(CURDIR)
 
 
