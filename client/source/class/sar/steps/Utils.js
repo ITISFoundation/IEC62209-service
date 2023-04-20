@@ -15,51 +15,73 @@ qx.Class.define("sar.steps.Utils", {
   type: "static",
 
   statics: {
-    loadModelSection: function() {
-      const loadModelLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(5));
-
-      const loadModelButton = new qx.ui.form.Button("Load Model").set({
-        allowGrowX: false
-      });
-      loadModelLayout.add(loadModelButton);
-
-      const modelViewer = sar.steps.Utils.modelViewer(null, false);
-      loadModelLayout.add(modelViewer);
-
-      return loadModelLayout;
-    },
-
-    modelViewer: function(data, enabled = true) {
+    modelEditor: function() {
       const form = new qx.ui.form.Form();
 
       form.addGroupHeader("Model information")
 
       const systemName = new qx.ui.form.TextField().set({
-        value: "cSAR3D",
-        enabled
+        value: "cSAR3D"
       });
       form.add(systemName, "System name", null, "systemName");
 
       const phantomType = new qx.ui.form.TextField().set({
-        value: "Flat HSL",
-        enabled
+        value: "Flat HSL"
       });
       form.add(phantomType, "Phantom type", null, "phantomType");
 
       const hardwareVersion = new qx.ui.form.TextField().set({
-        value: "SD C00 F01 AC",
-        enabled
+        value: "SD C00 F01 AC"
       });
       form.add(hardwareVersion, "Hardware version", null, "hardwareVersion");
 
       const softwareVersion = new qx.ui.form.TextField().set({
-        value: "V5.2.0",
-        enabled
+        value: "V5.2.0"
       });
       form.add(softwareVersion, "Software version", null, "softwareVersion");
 
       const formRenderer = new qx.ui.form.renderer.Single(form);
       return formRenderer;
+    },
+
+    modelViewer: function(data) {
+      const modelViewerGrid = new qx.ui.layout.Grid(10, 10);
+      const modelViewerLayout = new qx.ui.container.Composite(modelViewerGrid).set({
+        allowGrowX: false
+      });
+      [{
+        id: "systemName",
+        label: "System name"
+      }, {
+        id: "phantomType",
+        label: "Phantom type"
+      }, {
+        id: "hardwareVersion",
+        label: "Hardware version"
+      }, {
+        id: "softwareVersion",
+        label: "Software version"
+      }, {
+        id: "acceptanceCriteria",
+        label: "Acceptance criteria"
+      }, {
+        id: "normalizedRMSError",
+        label: "Norm. RME Error 10.2% < 25%"
+      }].forEach((entry, idx) => {
+        const label = new qx.ui.basic.Label(entry.label + ":");
+        modelViewerLayout.add(label, {
+          row: idx,
+          column: 0
+        });
+        if (data && entry.id in data && data[entry.id]) {
+          const label = new qx.ui.basic.Label(data[entry.id]);
+          modelViewerLayout.add(label, {
+            row: idx,
+            column: 1
+          });
+        }
+      });
+      return modelViewerLayout;
     },
 
     sarSelectBox: function() {
@@ -84,22 +106,24 @@ qx.Class.define("sar.steps.Utils", {
       return selectBox;
     },
 
-    addMeasAreaToForm: function(form) {
-      form.addGroupHeader("Meas. area (mm)");
+    addMeasurementAreaToForm: function(form) {
+      form.addGroupHeader("Measurement area (mm)");
       const xMin = new qx.ui.form.Spinner().set({
-        minimum: 120,
-        maximum: 120,
-        value: 120,
-        enabled: false
+        minimum: 80,
+        maximum: 1000,
+        value: 120
       });
       form.add(xMin, "x", null, "measAreaX");
       const yMin = new qx.ui.form.Spinner().set({
-        minimum: 240,
-        maximum: 240,
-        value: 240,
-        enabled: false
+        minimum: 160,
+        maximum: 1000,
+        value: 240
       });
       form.add(yMin, "y", null, "measAreaY");
+      return [
+        xMin,
+        yMin
+      ]
     },
 
     createTabPage: function(title, widget) {

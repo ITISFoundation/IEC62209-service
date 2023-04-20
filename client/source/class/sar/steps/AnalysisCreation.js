@@ -115,7 +115,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         column: 0
       });
       const normalityTitle = new qx.ui.basic.Label().set({
-        value: "Normalized rms error 10.% < 25%:"
+        value: "Normalized rms error 10.2% < 25%:"
       });
       resultsLayout.add(normalityTitle, {
         row: 1,

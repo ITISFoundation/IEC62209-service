@@ -43,7 +43,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
         enabled: false
       });
       form.add(fRangeMax, "Max", null, "fRangeMax");
-      sar.steps.Utils.addMeasAreaToForm(form);
+      sar.steps.Utils.addMeasurementAreaToForm(form);
 
       const sampleSize = new qx.ui.form.Spinner().set({
         minimum: 400,
