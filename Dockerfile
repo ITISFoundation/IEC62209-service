@@ -2,10 +2,6 @@ FROM python:3.10-slim-buster as base
 
 LABEL maintainer=pcrespov
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        nodejs \
-    && rm -rf /var/lib/apt/lists/* \
-    && node --version
 
 ENV SC_USER_ID=8004 \
     SC_USER_NAME=scu \
@@ -29,9 +25,15 @@ EXPOSE 8000
 # -------------------------- Build stage -------------------
 FROM base as build
 
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         git\
+        curl \
+        gnupg \
+    && curl -sL https://deb.nodesource.com/setup_16.x | bash - \
+    && apt-get install -y \
+        nodejs \
     && rm -rf /var/lib/apt/lists/* \
     && git --version \
     && node --version \
@@ -51,14 +53,18 @@ RUN which pip \
 WORKDIR /build
 
 COPY --chown=scu:scu client client
-COPY --chown=scu:scu server server
+RUN cd client \
+    && npm install \
+    npx qx compile --debug --clean
 
+
+COPY --chown=scu:scu server server
 RUN cd server \
     && pip --no-cache-dir install -r requirements.txt \
     && pip --no-cache-dir install .
 
 
-# # --------------------------Production stage -------------------
+# --------------------------Production stage -------------------
 FROM base as production
 
 USER scu
@@ -69,6 +75,6 @@ ENV CLIENT_OUTPUT_DIR=/home/scu/client
 WORKDIR /home/scu
 
 COPY --chown=scu:scu --from=build ${VIRTUAL_ENV} ${VIRTUAL_ENV}
-COPY --chown=scu:scu --from=build /build/client/source-output ${CLIENT_OUTPUT_DIR}
+COPY --chown=scu:scu --from=build /build/client/compiled/source ${CLIENT_OUTPUT_DIR}
 
 CMD [ "uvicorn", "iec62209_service.main:the_app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "info"]
