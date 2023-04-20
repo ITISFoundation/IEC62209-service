@@ -15,7 +15,7 @@ help: ## help on rule's targets
 	@$@/bin/pip3 list --verbose
 
 
-
+.PHONY: devenv
 devenv: .venv ## create a python virtual environment with dev tools (e.g. linters, etc)
 	$</bin/pip3 --quiet install -r requirements-dev.txt
 	# Installing pre-commit hooks in current .git repo
@@ -23,7 +23,14 @@ devenv: .venv ## create a python virtual environment with dev tools (e.g. linter
 	@echo "To activate the venv, execute 'source .venv/bin/activate'"
 
 
-## CLEAN -------------------------------
+.PHONY: build
+build:
+	docker build \
+		--tag local/iec62209-service:latest \
+		--progress plain \
+		$(CURDIR)
+
+
 
 .PHONY: clean clean-images clean-venv clean-all clean-more
 
