@@ -1,7 +1,7 @@
 from os.path import dirname, realpath
 from pathlib import Path
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, status
 from fastapi.responses import (
     FileResponse,
     HTMLResponse,
@@ -37,6 +37,27 @@ class TrainingSetConfig(BaseModel):
     measAreaX: int
     measAreaY: int
     sampleSize: int
+
+
+class TrainingTestGeneration(BaseModel):
+    fRangeMin: int
+    fRangeMax: int
+    measAreaX: int
+    measAreaY: int
+    sampleSize: int
+
+
+class ModelCreation(BaseModel):
+    systemName: str
+    phantomType: str
+    hardwareVersion: str
+    softwareVersion: str
+
+
+class SarFiltering(str, Enum):
+    SAR1G = "SAR1G"
+    SAR10G = "SAR10G"
+    SARBOTH = "SARBOTH"
 
 
 #
@@ -102,19 +123,19 @@ async def generate_training_set(
                 response = JSONResponse(
                     {"message": f"Malformed parameters for {operation} operation"}
                 )
-                response.status_code = 400  # bad request
+                response.status_code = status.HTTP_400_BAD_REQUEST
                 return response
         elif operation == "xport":
             return JSONResponse(TrainingSetGeneration.sample)
         else:
             response = JSONResponse({"message": f"Unrecognized operation: {operation}"})
-            response.status_code = 400  # bad request
+            response.status_code = status.HTTP_400_BAD_REQUEST
             return response
     except Exception as e:
         response = JSONResponse({"message": f"The IEC62209 raised an exception: {e}"})
-        response.status_code = 500  # internal server error
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return response
 
     response = JSONResponse({"message": "Unsupported API call"})
-    response.status_code = 418
+    response.status_code = status.HTTP_418_IM_A_TEAPOT
     return response
