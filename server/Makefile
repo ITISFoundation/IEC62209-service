@@ -16,6 +16,11 @@ install-dev: ## install development
 	pip install -r requirements.txt
 	pip install --editable .
 
+.PHONY: install-prod
+install-prod: ## install development
+	pip --no-cache-dir install -r requirements.txt
+	pip --no-cache-dir install .
+
 
 .PHONY: start-dev
 
