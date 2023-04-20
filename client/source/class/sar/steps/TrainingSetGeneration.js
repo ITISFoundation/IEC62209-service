@@ -35,14 +35,14 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
         value: 300,
         enabled: false
       });
-      form.add(fRangeMin, "Min");
+      form.add(fRangeMin, "Min", null, "fRangeMin");
       const fRangeMax = new qx.ui.form.Spinner().set({
         minimum: 6000,
         maximum: 6000,
         value: 6000,
         enabled: false
       });
-      form.add(fRangeMax, "Max");
+      form.add(fRangeMax, "Max", null, "fRangeMax");
       sar.steps.Utils.addMeasAreaToForm(form);
 
       const sampleSize = new qx.ui.form.Spinner().set({
@@ -50,7 +50,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
         maximum: 400,
         value: 400
       });
-      form.add(sampleSize, "Sample size");
+      form.add(sampleSize, "Sample size", null, "sampleSize");
 
       const formRenderer = new qx.ui.form.renderer.Single(form);
       optionsLayout.add(formRenderer);
@@ -58,7 +58,14 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       const createButton = new qx.ui.form.Button("Create Training data");
       createButton.addListener("execute", () => {
         createButton.setEnabled(false);
-        sar.io.Resources.fetch("trainingSetGeneration", "create")
+        const data = {};
+        for (const [key, item] of Object.entries(form.getItems())) {
+          data[key] = item.getValue()
+        }
+        const params = {
+          data
+        };
+        sar.io.Resources.fetch("trainingSetGeneration", "create", params)
           .then(trainingData => this.__populateResults(trainingData))
           .catch(err => console.error(err))
           .finally(() => createButton.setEnabled(true));
