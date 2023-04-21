@@ -76,6 +76,16 @@ class ModelCreation(BaseModel):
     softwareVersion: str
 
 
+class ModelLoaded(BaseModel):
+    systemName: str
+    phantomType: str
+    hardwareVersion: str
+    softwareVersion: str
+    filename: str
+    acceptanceCriteria: str
+    normalizedRMSError: str
+
+
 class SarFiltering(str, Enum):
     SAR1G = "SAR1G"
     SAR10G = "SAR10G"
@@ -162,8 +172,8 @@ async def generate_training_set(
     return response
 
 
-@router.post("/load-model", response_class=JSONResponse)
-async def post_model(file: UploadFile = File(...)) -> JSONResponse:
+@router.post("/load-model", response_class=ModelLoaded)
+async def post_model(file: UploadFile = File(...)) -> ModelLoaded:
     try:
         contents = file.file.read()
         with open(file.filename, 'wb') as f:
@@ -173,4 +183,12 @@ async def post_model(file: UploadFile = File(...)) -> JSONResponse:
     finally:
         file.file.close()
 
-    return JSONResponse({"message": f"Model successfully uploaded {file.filename}"})
+    return ModelLoaded(
+        systemName = "cSAR3D",
+        phantomType = "Flat HSL",
+        hardwareVersion = "SD C00 F01 AC",
+        softwareVersion = "V5.2.0",
+        filename = file.filename,
+        acceptanceCriteria = "Pass",
+        normalizedRMSError = "2",
+    )

@@ -38,7 +38,7 @@ qx.Class.define("sar.steps.LoadModel", {
       });
       this.getContentElement().add(this.__input);
 
-      const loadModelButton = this.__loadModelButton = new qx.ui.form.Button("Load Model").set({
+      const loadModelButton = this.__loadModelButton = new qx.ui.form.Button("Load Model...").set({
         allowGrowX: false
       });
       optionsLayout.add(loadModelButton);
@@ -47,7 +47,7 @@ qx.Class.define("sar.steps.LoadModel", {
       optionsLayout.add(modelViewer);
 
       input.addListener("change", () => {
-        const file = input.getDomElement().files[0];
+        const file = input.getDomElement().files.item(0);
         this.__submitFile(file);
       }, this);
       loadModelButton.addListener("execute", () => this.__loadModelButtonPressed(), this);
@@ -64,7 +64,7 @@ qx.Class.define("sar.steps.LoadModel", {
       console.log("submitFile", fileName);
       
       const body = new FormData();
-      body.append("fileName", file);
+      body.append("fileName", fileName);
 
       const req = new XMLHttpRequest();
       req.upload.addEventListener("progress", ep => {
@@ -90,6 +90,7 @@ qx.Class.define("sar.steps.LoadModel", {
       req.send(body);
 
       const newModel = {
+        "filename": "fileName",
         "systemName": "cSAR3D",
         "phantomType": "Flat HSL",
         "hardwareVersion": "SD C00 F01 AC",
