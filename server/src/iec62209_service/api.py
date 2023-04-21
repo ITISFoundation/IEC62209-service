@@ -68,7 +68,7 @@ async def get_index(settings: ApplicationSettings = Depends(get_app_settings)):
 
 # for data storage
 class TrainingSetGeneration:
-    # headings = ['no.', 'antenna', 'frequency', 'power', 'modulation', 'par', 'bandwidth', 'distance', 'angle', 'x', 'y']
+    # headings = ['no.', 'antenna', 'frequency', 'power', 'modulation', 'par', 'bandwidth', 'distance', 'angle', 'x', 'y', 'sar_1g', 'sar_10g', 'u_1g', 'u_10g']
     headings = []
     rows = []
 
@@ -80,10 +80,12 @@ async def get_training_set_distribution() -> FileResponse:
     return response
 
 
-@router.get("/training-set-generation:data", response_class=PlainTextResponse)
-async def get_training_set_data() -> PlainTextResponse:
-    response = PlainTextResponse(str(TrainingSetGeneration.sample))
-    return response
+@router.get("/training-set-generation:data", response_class=JSONResponse)
+async def get_training_set_data() -> JSONResponse:
+    return {
+        "headings": TrainingSetGeneration.headings,
+        "rows": TrainingSetGeneration.rows,
+    }
 
 
 @router.get("/training-set-generation:xport", response_class=PlainTextResponse)
