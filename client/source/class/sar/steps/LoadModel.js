@@ -60,8 +60,8 @@ qx.Class.define("sar.steps.LoadModel", {
       const fileName = file.name;
       console.log("submitFile", fileName);
       
-      const body = new FormData();
-      body.append("fileName", fileName);
+      const formData = new FormData();
+      formData.append("file", file);
 
       const req = new XMLHttpRequest();
       req.upload.addEventListener("progress", ep => {
@@ -84,7 +84,7 @@ qx.Class.define("sar.steps.LoadModel", {
       req.addEventListener("error", e => console.error(e));
       req.addEventListener("abort", e => console.error(e));
       req.open("POST", "/load-model", true);
-      req.send(body);
+      req.send(formData);
 
       const newModel = {
         "filename": "fileName",
