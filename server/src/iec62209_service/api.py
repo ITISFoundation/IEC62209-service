@@ -150,8 +150,8 @@ async def generate_training_set(
     return JSONResponse(message, status_code=end_status)
 
 
-@router.post("/load-model", response_class=ModelLoaded)
-async def post_model(file: UploadFile = File(...)) -> ModelLoaded:
+@router.post("/load-model", response_model=ModelLoaded)
+async def post_model(file: UploadFile = File(...)):
     try:
         contents = file.file.read()
         with open(file.filename, 'wb') as f:
