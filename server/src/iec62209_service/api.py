@@ -162,11 +162,11 @@ async def post_model(file: UploadFile = File(...)) -> ModelLoaded:
         file.file.close()
 
     return ModelLoaded(
+        filename = file.filename,
         systemName = "cSAR3D",
         phantomType = "Flat HSL",
         hardwareVersion = "SD C00 F01 AC",
         softwareVersion = "V5.2.0",
-        filename = file.filename,
         acceptanceCriteria = "Pass",
         normalizedRMSError = "2",
     )
