@@ -1,7 +1,7 @@
 from os.path import dirname, realpath
 from pathlib import Path
 
-from fastapi import APIRouter, Depends, Request, status
+from fastapi import APIRouter, Depends, File, Request, status, UploadFile
 from fastapi.responses import (
     FileResponse,
     HTMLResponse,
@@ -160,3 +160,17 @@ async def generate_training_set(
     response = JSONResponse({"message": "Unsupported API call"})
     response.status_code = status.HTTP_418_IM_A_TEAPOT
     return response
+
+
+@router.post("/load-model", response_class=JSONResponse)
+async def post_model(file: UploadFile = File(...)) -> JSONResponse:
+    try:
+        contents = file.file.read()
+        with open(file.filename, 'wb') as f:
+            f.write(contents)
+    except Exception:
+        return JSONResponse({"message": "There was an error uploading the model"})
+    finally:
+        file.file.close()
+
+    return JSONResponse({"message": f"Model successfully uploaded {file.filename}"})
