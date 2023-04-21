@@ -37,14 +37,6 @@ class TrainingSetConfig(BaseModel):
     sampleSize: int
 
 
-class TrainingTestGeneration(BaseModel):
-    fRangeMin: int
-    fRangeMax: int
-    measAreaX: int
-    measAreaY: int
-    sampleSize: int
-
-
 class ModelCreation(BaseModel):
     systemName: str
     phantomType: str
@@ -76,7 +68,9 @@ async def get_index(settings: ApplicationSettings = Depends(get_app_settings)):
 
 # for data storage
 class TrainingSetGeneration:
-    sample: dict = {"headings": [], "rows": []}
+    # headings = ['no.', 'antenna', 'frequency', 'power', 'modulation', 'par', 'bandwidth', 'distance', 'angle', 'x', 'y']
+    headings = []
+    rows = []
 
 
 @router.get("/training-set-generation:distribution", response_class=FileResponse)
@@ -92,49 +86,53 @@ async def get_training_set_data() -> PlainTextResponse:
     return response
 
 
-@router.post("/training-set-generation:{operation}", response_class=JSONResponse)
-async def generate_training_set(
-    operation: str, config: TrainingSetConfig | None = None
-) -> JSONResponse:
-    try:
-        if operation == "generate":
-            if config:
-                TrainingSetGeneration.sample = {"headings": [], "rows": []}
-                w = Work()
-                w.generate_sample(config.sampleSize, show=False, save_to=None)
-                headings = w.data["sample"].data.columns.tolist()
-                values = w.data["sample"].data.values.tolist()
-                if not isinstance(headings, list) or not isinstance(values, list):
-                    raise Exception("Invalid sample generated")
-                need_to_add_ids = False
-                if "no." not in headings:
-                    headings = ["no."] + headings
-                    need_to_add_ids = True
-                TrainingSetGeneration.sample["headings"] = headings
-                idx: int = 1
-                for row in values:
-                    if need_to_add_ids:
-                        row = [idx] + row
-                        idx += 1
-                    TrainingSetGeneration.sample["rows"].append(row)
-                return JSONResponse("")
-            else:
-                response = JSONResponse(
-                    {"message": f"Malformed parameters for {operation} operation"}
-                )
-                response.status_code = status.HTTP_400_BAD_REQUEST
-                return response
-        elif operation == "xport":
-            return JSONResponse(TrainingSetGeneration.sample)
-        else:
-            response = JSONResponse({"message": f"Unrecognized operation: {operation}"})
-            response.status_code = status.HTTP_400_BAD_REQUEST
-            return response
-    except Exception as e:
-        response = JSONResponse({"message": f"The IEC62209 raised an exception: {e}"})
-        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return response
+@router.get("/training-set-generation:xport", response_class=PlainTextResponse)
+async def export_training_set() -> PlainTextResponse:
+    need_extra_colums = False
+    headings = TrainingSetGeneration.headings
+    if "sar_1g" not in headings:
+        need_extra_colums = True
+        headings += ["sar_1g", "sar_10g", "u_1g", "u_10g"]
+    text = str(TrainingSetGeneration.headings).strip("[]")
+    for row in TrainingSetGeneration.rows:
+        if need_extra_colums:
+            row += [0, 0, 0, 0]
+        text += "\n" + str(row).strip("[]")
+    return PlainTextResponse(text)
 
-    response = JSONResponse({"message": "Unsupported API call"})
-    response.status_code = status.HTTP_418_IM_A_TEAPOT
-    return response
+
+@router.post("/training-set-generation:generate", response_class=JSONResponse)
+async def generate_training_set(
+    config: TrainingSetConfig | None = None,
+) -> JSONResponse:
+    message = ""
+    end_status = status.HTTP_200_OK
+    try:
+        TrainingSetGeneration.headings = []
+        TrainingSetGeneration.rows = []
+        if config:
+            w = Work()
+            w.generate_sample(config.sampleSize, show=False, save_to=None)
+            headings = w.data["sample"].data.columns.tolist()
+            values = w.data["sample"].data.values.tolist()
+            if not isinstance(headings, list) or not isinstance(values, list):
+                raise Exception("Invalid sample generated")
+            need_to_add_ids = False
+            if "no." not in headings:
+                headings = ["no."] + headings
+                need_to_add_ids = True
+            TrainingSetGeneration.headings = headings
+            idx: int = 1
+            for row in values:
+                if need_to_add_ids:
+                    row = [idx] + row
+                    idx += 1
+                TrainingSetGeneration.rows.append(row)
+        else:
+            message = f"Malformed parameters"
+            end_status = status.HTTP_400_BAD_REQUEST
+    except Exception as e:
+        message = f"The IEC62209 package raised an exception: {e}"
+        end_status = status.HTTP_500_INTERNAL_SERVER_ERROR
+
+    return JSONResponse(message, status_code=end_status)
