@@ -15,6 +15,40 @@ qx.Class.define("sar.steps.Utils", {
   type: "static",
 
   statics: {
+    trainingDataTable: function() {
+      const tableModel = new qx.ui.table.model.Simple();
+      tableModel.setColumns([
+        "no.",
+        "antenna",
+        "freq. (MHz)",
+        "Pin (dBm)",
+        "mod.",
+        "PAPR (db)",
+        "BW (MHz)",
+        "d (mm)",
+        "O (*)",
+        "x (mm)",
+        "y (mm)",
+        "SAR 1g (W/Kg)",
+        "SAR 10g (W/Kg)",
+        "U 1g (dB)",
+        "U 10g (dB)",
+      ]);
+      const custom = {
+        tableColumnModel: function(obj) {
+          return new qx.ui.table.columnmodel.Resize(obj);
+        }
+      };
+      const table = new qx.ui.table.Table(tableModel, custom).set({
+        selectable: true,
+        statusBarVisible: false,
+        showCellFocusIndicator: false,
+        forceLineHeight: false
+      });
+      table.setColumnWidth(0, 10);
+      return table;
+    },
+
     modelEditor: function() {
       const form = new qx.ui.form.Form();
 
