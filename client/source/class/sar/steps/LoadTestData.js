@@ -53,7 +53,32 @@ qx.Class.define("sar.steps.LoadTestData", {
     },
 
     _createResults: function() {
-      return null;
+      const resultsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+
+      const resultsTabView = new qx.ui.tabview.TabView().set({
+        contentPadding: 10
+      });
+      resultsLayout.add(resultsTabView);
+
+      const dataView = this.__createDataView();
+      resultsTabView.add(dataView);
+
+      return resultsLayout;
+    },
+
+    _applyModel: function(model) {
+      if (model) {
+        this.__fileInput.exclude();
+        this.__resetBtn.show();
+      } else {
+        this.__fileInput.show();
+        this.__resetBtn.exclude();
+      }
+
+      this._optionsLayout.remove(this.__modelViewer);
+      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(model);
+      this._optionsLayout.add(modelViewer);
+      this.fireDataEvent("dataSet", model);
     },
 
     __submitFile: function(file) {
@@ -98,19 +123,14 @@ qx.Class.define("sar.steps.LoadTestData", {
       this.setModel(newModel);
     },
 
-    _applyModel: function(model) {
-      if (model) {
-        this.__fileInput.exclude();
-        this.__resetBtn.show();
-      } else {
-        this.__fileInput.show();
-        this.__resetBtn.exclude();
-      }
-
-      this._optionsLayout.remove(this.__modelViewer);
-      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(model);
-      this._optionsLayout.add(modelViewer);
-      this.fireDataEvent("dataSet", model);
+    __createDataView: function() {
+      const dataTable = this.__dataTable = sar.steps.Utils.trainingDataTable();
+      const layout = new qx.ui.layout.VBox();
+      const tabPage = new qx.ui.tabview.Page("Data").set({
+        layout
+      });
+      tabPage.add(dataTable);
+      return tabPage;
     }
   }
 });
