@@ -11,7 +11,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("sar.steps.LoadModel", {
+qx.Class.define("sar.steps.LoadTrainingData", {
   extend: sar.steps.StepBase,
 
   events: {
@@ -21,17 +21,17 @@ qx.Class.define("sar.steps.LoadModel", {
   members: {
     __input: null,
     __loadModelButton: null,
-    __modelViewer: null,
+    __dataViewer: null,
 
     // overriden
     _getDescriptionText: function() {
-      return "Load the model that will be used in the coming 4 steps"
+      return "Load the training data";
     },
 
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 
-      const fileInput = this.__fileInput = new sar.widget.FileInput("Load Model...", ["json"]);
+      const fileInput = this.__fileInput = new sar.widget.FileInput("Load Training data...", ["csv"]);
       fileInput.addListener("selectionChanged", () => {
         const file = fileInput.getFile();
         if (file) {
@@ -46,8 +46,8 @@ qx.Class.define("sar.steps.LoadModel", {
       resetBtn.addListener("execute", () => this.setModel(null));
       optionsLayout.add(resetBtn);
 
-      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(null);
-      optionsLayout.add(modelViewer);
+      const dataViewer = this.__dataViewer = sar.steps.Utils.modelViewer(null);
+      optionsLayout.add(dataViewer);
 
       return optionsLayout;
     },
@@ -107,8 +107,8 @@ qx.Class.define("sar.steps.LoadModel", {
         this.__resetBtn.exclude();
       }
 
-      this._optionsLayout.remove(this.__modelViewer);
-      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(model);
+      this._optionsLayout.remove(this.__dataViewer);
+      const modelViewer = this.__dataViewer = sar.steps.Utils.modelViewer(model);
       this._optionsLayout.add(modelViewer);
       this.fireDataEvent("dataSet", model);
     }

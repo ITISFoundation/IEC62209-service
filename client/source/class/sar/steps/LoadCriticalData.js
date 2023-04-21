@@ -11,7 +11,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("sar.steps.LoadModel", {
+qx.Class.define("sar.steps.LoadCriticalData", {
   extend: sar.steps.StepBase,
 
   events: {
