@@ -169,9 +169,7 @@ async def generate_training_set(
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return response
 
-    response = JSONResponse({"message": "Unsupported API call"})
-    response.status_code = status.HTTP_418_IM_A_TEAPOT
-    return response
+    return JSONResponse(message, status_code=end_status)
 
 
 @router.post("/load-model", response_class=ModelLoaded)
