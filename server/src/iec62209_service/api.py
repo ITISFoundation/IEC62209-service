@@ -50,22 +50,6 @@ class SarFiltering(str, Enum):
     SARBOTH = "SARBOTH"
 
 
-
-class TrainingTestGeneration(BaseModel):
-    fRangeMin: int
-    fRangeMax: int
-    measAreaX: int
-    measAreaY: int
-    sampleSize: int
-
-
-class ModelCreation(BaseModel):
-    systemName: str
-    phantomType: str
-    hardwareVersion: str
-    softwareVersion: str
-
-
 class ModelLoaded(BaseModel):
     systemName: str
     phantomType: str
@@ -75,11 +59,6 @@ class ModelLoaded(BaseModel):
     acceptanceCriteria: str
     normalizedRMSError: str
 
-
-class SarFiltering(str, Enum):
-    SAR1G = "SAR1G"
-    SAR10G = "SAR10G"
-    SARBOTH = "SARBOTH"
 
 #
 # API Handlers
