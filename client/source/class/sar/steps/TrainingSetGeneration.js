@@ -86,7 +86,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
         enabled: false
       });
       exportButton.addListener("execute", () => {
-        sar.io.Resources.fetch("trainingSetGeneration", "xport", params)
+        sar.io.Resources.fetch("trainingSetGeneration", "xport")
           .then(data => this.__trainingDataExported(data))
           .catch(err => console.error(err))
           .finally(() => createButton.setEnabled(true));
