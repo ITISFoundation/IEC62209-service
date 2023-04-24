@@ -2,7 +2,7 @@ name: iec62209-web
 key: simcore/services/comp/iec62209-web
 type: computational
 integration-version: 1.0.0
-version: 1.0.0
+version: 1.0.1
 description: >
   SAR validation web service following [publication-IEC62209](https://github.com/ITISFoundation/publication-IEC62209)
 contact: bujard@itis.swiss
@@ -26,18 +26,18 @@ authors:
 inputs: []
 outputs:
   output_1:
-    label: output_training_data
-    description: Training data
-    type: string
+    label: Training Data
+    description: Training Data
+    type: data:*/*
   output_2:
-    label: output_model
+    label: Model
     description: Model
-    type: string
+    type: data:*/*
   output_3:
-    label: output_test_data
-    description: Test data
+    label: Test Data
+    description: Test Data
     type: data:*/*
   output_4:
-      label: output_critical_tests_data
-      description: Critical tests data
-      type: data:*/*
+    label: Critical Test Data
+    description: Critical Test Data
+    type: data:*/*
