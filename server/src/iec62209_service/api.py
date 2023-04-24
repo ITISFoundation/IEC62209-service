@@ -1,5 +1,6 @@
 from enum import Enum
 from os.path import dirname, realpath
+import csv
 
 from fastapi import APIRouter, Depends, File, Request, status, UploadFile
 from fastapi.responses import (
@@ -148,6 +149,34 @@ async def generate_training_set(
         end_status = status.HTTP_500_INTERNAL_SERVER_ERROR
 
     return JSONResponse(message, status_code=end_status)
+
+
+@router.post("/load-training-data", response_class=JSONResponse)
+async def post_training_data(file: UploadFile = File(...)) -> JSONResponse:
+    try:
+        contents = file.file.read()
+        with open(file.filename, 'wb') as f:
+            f.write(contents)
+    except Exception:
+        return JSONResponse({"message": "There was an error uploading the training data"})
+    finally:
+        file.file.close()
+
+    try:
+        TrainingSetGeneration.rows = []
+        with open(file.filename) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            TrainingSetGeneration.headings = next(csv_reader)
+            for row in csv_reader:
+                TrainingSetGeneration.rows.append(row)
+    except Exception:
+        return JSONResponse({"message": "There was an error reading the training data"})
+    finally:
+        file.file.close()
+    return {
+        "headings": TrainingSetGeneration.headings,
+        "rows": TrainingSetGeneration.rows,
+    }
 
 
 @router.post("/load-model", response_model=ModelLoaded)
