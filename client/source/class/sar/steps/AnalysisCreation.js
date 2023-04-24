@@ -47,6 +47,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       optionsLayout.add(stepLayout);
 
       let row = 0;
+      /*
       const loadButton = new qx.ui.form.Button("Load Training Data");
       loadButton.addListener("execute", () => {
         console.log("Select Training Data file");
@@ -57,6 +58,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         column: 0
       });
       row++;
+      */
 
       /*
       const sarSelectBox = sar.steps.Utils.sarSelectBox(null, false);
@@ -83,11 +85,11 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       */
 
       const createButton = this.__createButton = new qx.ui.form.Button("Create & Analyze").set({
-        allowGrowY: false,
-        enabled: false
+        allowGrowY: false
       });
       createButton.addListener("execute", () => {
         createButton.setEnabled(false);
+        /*
         const data = {
           "sarOption": sarSelectBox.getSelection()[0].id
         };
@@ -95,6 +97,8 @@ qx.Class.define("sar.steps.AnalysisCreation", {
           data
         };
         sar.io.Resources.fetch("analysisCreation", "create", params)
+        */
+        sar.io.Resources.fetch("analysisCreation", "create")
           .then(() => this.__trainingDataCreated())
           .catch(err => {
             this.__trainingDataCreated();
@@ -141,6 +145,12 @@ qx.Class.define("sar.steps.AnalysisCreation", {
 
       const exportButton = this.__exportButton = new qx.ui.form.Button("Export Model").set({
         enabled: false
+      });
+      exportButton.addListener("execute", () => {
+        sar.io.Resources.fetch("analysisCreation", "xport")
+          .then(data => this.__modelExported(data))
+          .catch(err => console.error(err))
+          .finally(() => createButton.setEnabled(true));
       });
       stepLayout.add(exportButton, {
         row,
@@ -198,5 +208,23 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       this.__exportButton.setEnabled(true);
       this.__fetchResults();
     },
+
+    __fetchResults: function() {
+      console.log("fetch images");
+      /*
+      sar.io.Resources.fetch("trainingSetGeneration", "getData")
+        .then(data => this.__popoluateTable(data))
+        .catch(err => console.error(err));
+
+      sar.io.Resources.fetch("trainingSetGeneration", "getDistribution")
+        .then(data => this.__populateDistributionImage(data))
+        .catch(err => console.error(err));
+    },
+      */
+    },
+
+    __modelExported: function(data) {
+      sar.steps.Utils.downloadJson(data, "Model.json");
+    }
   }
 });
