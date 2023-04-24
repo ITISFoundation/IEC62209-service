@@ -20,6 +20,18 @@ build: ## builds image
 	docker compose build
 
 
+IMAGES=$(shell yq eval '.services.*.image' docker-compose.yml)
+export REGISTRY ?= registry:5000
+
+.PHONY: push
+push: ## retags and pushes to ${REGISTRY}
+	for image in ${IMAGES}; do \
+		docker tag $$image ${REGISTRY}/$$image; \
+		docker push ${REGISTRY}/$$image; \
+	done
+	@curl ${REGISTRY}/v2/_catalog | jq
+
+
 .PHONY: help
 help: ## help on rule's targets
 	@awk --posix 'BEGIN {FS = ":.*?## "} /^[[:alpha:][:space:]_-]+:.*?## / {printf "%-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
