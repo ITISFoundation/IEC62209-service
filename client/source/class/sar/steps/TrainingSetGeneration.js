@@ -132,18 +132,6 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
     },
 
     __fetchResults: function() {
-      console.log("fetching results");
-      /*
-      const data = {
-        "headings": ["no.", "antenna", "freq. (MHz)", "Pin (dBm)", "mod.", "PAPR (db)", "BW (MHz)", "d (mm)", "O (*)", "x (mm)", "y (mm)", "SAR 1g (W/Kg)", "SAR 10g (W/Kg)", "U 1g (dB)", "U 10g (dB)"],
-        "rows": [
-          [1,"asfd",3,4,5,6,7,8,9,10,11,,,,],
-          [2,"yxcv",4,5,6,7,8,9,10,11,12,,,,],
-          [3,"qwre",5,6,7,8,9,10,11,12,13,,,,]
-        ]};
-      this.__popoluateTable(data);
-      */
-
       sar.io.Resources.fetch("trainingSetGeneration", "getData")
         .then(data => this.__popoluateTable(data))
         .catch(err => console.error(err));
@@ -155,14 +143,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
     },
 
     __popoluateTable: function(data) {
-      const table = this.__dataTable;
-      const tableModel = table.getTableModel();
-      if ("headings" in data) {
-        // tableModel.setColumns(data["headings"])
-      }
-      if ("rows" in data) {
-        tableModel.setData(data["rows"])
-      }
+      sar.steps.Utils.populateTrainingDataTable(this.__dataTable, data);
     },
 
     __popoluateDistributionImage: function(data) {

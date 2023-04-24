@@ -49,6 +49,16 @@ qx.Class.define("sar.steps.Utils", {
       return table;
     },
 
+    populateTrainingDataTable: function(table, data) {
+      const tableModel = table.getTableModel();
+      if ("headings" in data) {
+        // tableModel.setColumns(data["headings"]);
+      }
+      if ("rows" in data) {
+        tableModel.setData(data["rows"]);
+      }
+    },
+
     modelEditor: function() {
       const form = new qx.ui.form.Form();
 
