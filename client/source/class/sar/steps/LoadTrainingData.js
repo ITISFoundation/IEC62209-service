@@ -30,7 +30,7 @@ qx.Class.define("sar.steps.LoadTrainingData", {
   members: {
     __input: null,
     __loadModelButton: null,
-    __dataViewer: null,
+    __dataTable: null,
 
     // overriden
     _getDescriptionText: function() {
@@ -54,9 +54,6 @@ qx.Class.define("sar.steps.LoadTrainingData", {
       });
       resetBtn.addListener("execute", () => this.setTrainingData(null));
       optionsLayout.add(resetBtn);
-
-      const dataViewer = this.__dataViewer = sar.steps.Utils.modelViewer(null);
-      optionsLayout.add(dataViewer);
 
       return optionsLayout;
     },
@@ -86,11 +83,8 @@ qx.Class.define("sar.steps.LoadTrainingData", {
     },
 
     __submitFile: function(file) {
-      const successCallback = resp => {
-        console.log(resp);
-        // __applyTrainingData(resp);
-      };
-      sar.steps.Utils.postFile(file, "/load-training-data", successCallback);
+      const successCallback = resp => this.setTrainingData(resp);
+      sar.steps.Utils.postFile(file, "/load-training-data", successCallback, null, this);
     },
 
     __applyTrainingData: function(trainingData) {
@@ -102,7 +96,9 @@ qx.Class.define("sar.steps.LoadTrainingData", {
         this.__resetBtn.exclude();
       }
 
-      // this.__popoluateTable(trainingData);
+      if (trainingData) {
+        this.__popoluateTable(trainingData);
+      }
       this.fireDataEvent("trainingDataSet", trainingData);
     },
 
