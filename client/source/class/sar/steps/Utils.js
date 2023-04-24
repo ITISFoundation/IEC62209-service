@@ -221,13 +221,15 @@ qx.Class.define("sar.steps.Utils", {
     },
 
     createImageViewer: function(source) {
-      const distributionImage = new qx.ui.basic.Image().set({
+      const image = new qx.ui.basic.Image().set({
         maxWidth: 600,
-        source,
         scale: true,
         alignX: "center"
       });
-      return distributionImage;
+      if (source) {
+        image.setSource(source);
+      }
+      return image;
     },
 
     csvToJson: function(csvString) {
