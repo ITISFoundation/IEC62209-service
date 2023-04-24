@@ -22,7 +22,7 @@ qx.Class.define("sar.widget.MainView", {
     this.__steps = [];
     this.__builLayout();
     this.__attachHandlers();
-    this.__initModel();
+    this.__initStates();
   },
 
   members: {
@@ -174,6 +174,10 @@ qx.Class.define("sar.widget.MainView", {
       stepButtons[0].setIsActive(true);
     },
 
+    __getLoadTrainingDataStep: function() {
+      return this.__steps.find(step => step instanceof sar.steps.LoadTrainingData);
+    },
+
     __getLoadModelStep: function() {
       return this.__steps.find(step => step instanceof sar.steps.LoadModel);
     },
@@ -198,7 +202,12 @@ qx.Class.define("sar.widget.MainView", {
       }
     },
 
-    __initModel: function() {
+    __initStates: function() {
+      const trainingDataStep = this.__getLoadTrainingDataStep();
+      if (trainingDataStep) {
+        trainingDataStep.setTrainingData(null);
+      }
+
       const loadModelStep = this.__getLoadModelStep();
       if (loadModelStep) {
         loadModelStep.setModel(null);
