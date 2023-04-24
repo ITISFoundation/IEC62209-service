@@ -136,17 +136,16 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
         .then(data => this.__popoluateTable(data))
         .catch(err => console.error(err));
 
-      sar.io.Resources.fetch("trainingSetGeneration", "getDistribution")
-        .then(data => this.__populateDistributionImage(data))
-        .catch(err => console.error(err));
+      this.__populateDistributionImage();
     },
 
     __popoluateTable: function(data) {
       sar.steps.Utils.populateTrainingDataTable(this.__dataTable, data);
     },
 
-    __populateDistributionImage: function(data) {
-      console.log(data);
+    __populateDistributionImage: function() {
+      const endpoints = sar.io.Resources.resources["trainingSetGeneration"].endpoints;
+      this.__distributionImage.setSource(endpoints["getDistribution"].url);
     },
 
     __trainingDataExported: function(data) {
