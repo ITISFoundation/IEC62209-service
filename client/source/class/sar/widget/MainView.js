@@ -183,6 +183,17 @@ qx.Class.define("sar.widget.MainView", {
     },
 
     __attachHandlers: function() {
+      const trainingDataStep = this.__getLoadTrainingDataStep();
+      if (trainingDataStep) {
+        trainingDataStep.addListener("trainingDataSet", e => {
+          const trainingData = e.getData();
+          this.__steps.forEach(step => {
+            if (step instanceof sar.steps.AnalysisCreation) {
+              step.stepButton.setEnabled(Boolean(trainingData));
+            }
+          });
+        });
+      }
       const loadModelStep = this.__getLoadModelStep();
       if (loadModelStep) {
         loadModelStep.addListener("dataSet", e => {
