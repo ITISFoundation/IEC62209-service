@@ -1,14 +1,24 @@
 import os
 from pathlib import Path
 
-from pydantic import BaseSettings, validator
+from pydantic import BaseSettings, Field, validator
 
 
 class OsparcServiceSettings(BaseSettings):
 
-    INPUT_FOLDER: Path | None = None
-    OUTPUT_FOLDER: Path | None = None
+    INPUT_FOLDER: Path | None = Field(
+        None,
+        env=["INPUT_FOLDER", "DY_SIDECAR_PATH_INPUTS"],
+    )
+    OUTPUT_FOLDER: Path | None = Field(
+        None,
+        env=["OUTPUT_FOLDER", "DY_SIDECAR_PATH_OUTPUTS"],
+    )
     LOG_FOLDER: Path | None = None
+    STATE_FOLDERS: list[Path] = Field(
+        default_factory=list,
+        envs=["STATE_FOLDERS", "DY_SIDECAR_STATE_PATHS"],
+    )
 
     @validator("INPUT_FOLDER", "OUTPUT_FOLDER")
     @classmethod
