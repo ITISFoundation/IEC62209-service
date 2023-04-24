@@ -65,12 +65,10 @@ qx.Class.define("sar.widget.MainView", {
       this._add(introLayout);
 
       const stepsGrid = new qx.ui.layout.Grid(20, 10);
-      stepsGrid.setColumnAlign(0, "center", "middle");
-      stepsGrid.setColumnAlign(1, "center", "middle");
-      stepsGrid.setColumnAlign(2, "center", "middle");
-      stepsGrid.setColumnAlign(3, "center", "middle");
-      stepsGrid.setColumnAlign(4, "center", "middle");
-      stepsGrid.setColumnAlign(5, "center", "middle");
+      const nSteps = 10;
+      for (let i=0; i<nSteps; i++) {
+        stepsGrid.setColumnAlign(i, "center", "middle");
+      }
       const stepsLayout = new qx.ui.container.Composite(stepsGrid).set({
         allowGrowX: false
       });
@@ -78,16 +76,16 @@ qx.Class.define("sar.widget.MainView", {
       let col = 0;
       [{
         label: "Model Creation",
-        colSpan: 2
+        colSpan: 3
       }, {
         label: "",
         colSpan: 1
       }, {
         label: "Model Confirmation",
-        colSpan: 2
+        colSpan: 3
       }, {
         label: "Critical Data Space Search",
-        colSpan: 2
+        colSpan: 3
       }].forEach(sectionInfo => {
         const sectionLabel = new qx.ui.basic.Label().set({
           value: sectionInfo.label,
