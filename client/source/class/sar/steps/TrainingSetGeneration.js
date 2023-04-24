@@ -135,11 +135,10 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       sar.io.Resources.fetch("trainingSetGeneration", "getData")
         .then(data => this.__popoluateTable(data))
         .catch(err => console.error(err));
-      /*
+
       sar.io.Resources.fetch("trainingSetGeneration", "getDistribution")
         .then(data => this.__popoluateDistributionImage(data))
         .catch(err => console.error(err));
-      */
     },
 
     __popoluateTable: function(data) {
