@@ -15,7 +15,7 @@ qx.Class.define("sar.steps.LoadModel", {
   extend: sar.steps.StepBase,
 
   events: {
-    "dataSet": "qx.event.type.Data"
+    "modelSet": "qx.event.type.Data"
   },
 
   members: {
@@ -109,7 +109,7 @@ qx.Class.define("sar.steps.LoadModel", {
       this._optionsLayout.remove(this.__modelViewer);
       const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(model);
       this._optionsLayout.add(modelViewer);
-      this.fireDataEvent("dataSet", model);
+      this.fireDataEvent("modelSet", model);
     }
   }
 });

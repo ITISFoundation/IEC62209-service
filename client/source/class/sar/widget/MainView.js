@@ -27,6 +27,16 @@ qx.Class.define("sar.widget.MainView", {
 
   members: {
     __steps: null,
+    __trainingSetGeneration: null,
+    __loadTrainingData: null,
+    __analysisCreation: null,
+    __loadModel: null,
+    __testSetGeneration: null,
+    __loadTestData: null,
+    __confirmModel: null,
+    __exploreSpace: null,
+    __loadCriticalData: null,
+    __verify: null,
 
     __builLayout: function() {
       const introLayout = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
@@ -99,48 +109,59 @@ qx.Class.define("sar.widget.MainView", {
         col += sectionInfo.colSpan
       });
 
+      this.__trainingSetGeneration = new sar.steps.TrainingSetGeneration();
+      this.__loadTrainingData = new sar.steps.LoadTrainingData();
+      this.__analysisCreation = new sar.steps.AnalysisCreation();
+      this.__loadModel = new sar.steps.LoadModel();
+      this.__testSetGeneration = new sar.steps.TestSetGeneration();
+      this.__loadTestData = new sar.steps.LoadTestData();
+      this.__confirmModel = new sar.steps.ConfirmModel();
+      this.__exploreSpace = new sar.steps.ExploreSpace();
+      this.__loadCriticalData = new sar.steps.LoadCriticalData();
+      this.__verify = new sar.steps.Verify();
+
       const stepButtons = [];
       const stepsStack = new qx.ui.container.Stack();
       [{
         icon: "sar/icons/step0_icon.png",
         label: "Training Set Generation",
-        step: new sar.steps.TrainingSetGeneration(),
+        step: this.__trainingSetGeneration,
       }, {
         icon: "sar/icons/step_import_icon.svg",
         label: "Load Training Data",
-        step: new sar.steps.LoadTrainingData()
+        step: this.__loadTrainingData
       }, {
         icon: "sar/icons/step1_icon.png",
         label: "Analysis & Creation",
-        step: new sar.steps.AnalysisCreation(),
+        step: this.__analysisCreation,
       }, {
         icon: "sar/icons/step_import_icon.svg",
         label: "Load Model",
-        step: new sar.steps.LoadModel()
+        step: this.__loadModel
       }, {
         icon: "sar/icons/step2_icon.png",
         label: "Test Set Generation",
-        step: new sar.steps.TestSetGeneration(),
+        step: this.__testSetGeneration,
       }, {
         icon: "sar/icons/step_import_icon.svg",
         label: "Load Test Data",
-        step: new sar.steps.LoadTestData()
+        step: this.__loadTestData
       }, {
         icon: "sar/icons/step3_icon.png",
         label: "Confirm Model",
-        step: new sar.steps.ConfirmModel(),
+        step: this.__confirmModel,
       }, {
         icon: "sar/icons/step4_icon.png",
         label: "Search Space",
-        step: new sar.steps.ExploreSpace(),
+        step: this.__exploreSpace,
       }, {
         icon: "sar/icons/step_import_icon.svg",
         label: "Load Critical Data",
-        step: new sar.steps.LoadTestData()
+        step: this.__loadCriticalData
       }, {
         icon: "sar/icons/step5_icon.png",
         label: "Verify",
-        step: new sar.steps.Verify(),
+        step: this.__verify,
       }].forEach((section, idx) => {
         const stepButton = new sar.widget.StepButton(section.label, section.icon);
         if (section.label.includes("Load")) {
@@ -174,55 +195,51 @@ qx.Class.define("sar.widget.MainView", {
       stepButtons[0].setIsActive(true);
     },
 
-    __getLoadTrainingDataStep: function() {
-      return this.__steps.find(step => step instanceof sar.steps.LoadTrainingData);
-    },
-
-    __getLoadModelStep: function() {
-      return this.__steps.find(step => step instanceof sar.steps.LoadModel);
-    },
-
     __attachHandlers: function() {
-      const trainingDataStep = this.__getLoadTrainingDataStep();
+      const trainingDataStep = this.__loadTrainingData;
       if (trainingDataStep) {
         trainingDataStep.addListener("trainingDataSet", e => {
           const trainingData = e.getData();
-          this.__steps.forEach(step => {
-            if (step instanceof sar.steps.AnalysisCreation) {
-              step.stepButton.setEnabled(Boolean(trainingData));
-            }
-          });
+          this.__trainingDataSet(trainingData);
         });
       }
-      const loadModelStep = this.__getLoadModelStep();
+
+      const loadModelStep = this.__loadModel;
       if (loadModelStep) {
-        loadModelStep.addListener("dataSet", e => {
+        loadModelStep.addListener("modelSet", e => {
           const model = e.getData();
-          this.__steps.forEach(step => {
-            if (
-              step instanceof sar.steps.TestSetGeneration ||
-              step instanceof sar.steps.ConfirmModel ||
-              step instanceof sar.steps.ExploreSpace ||
-              step instanceof sar.steps.Verify
-            ) {
-              step.setModel(model);
-              step.stepButton.setEnabled(Boolean(model));
-            }
-          });
+          this.__modelSet(model);
         });
       }
     },
 
     __initStates: function() {
-      const trainingDataStep = this.__getLoadTrainingDataStep();
-      if (trainingDataStep) {
-        trainingDataStep.setTrainingData(null);
-      }
+      this.__loadTrainingData.setTrainingData(null);
+      this.__loadModel.setModel(null);
+    },
 
-      const loadModelStep = this.__getLoadModelStep();
-      if (loadModelStep) {
-        loadModelStep.setModel(null);
-      }
+    __trainingDataSet: function(trainingData) {
+      this.__analysisCreation.stepButton.setEnabled(Boolean(trainingData));
+    },
+
+    __modelSet: function() {
+      [
+        this.__testSetGeneration,
+        this.__confirmModel,
+        this.__exploreSpace,
+        this.__verify,
+      ].forEach(step => {
+        step.setModel(model);
+      });
+
+      [
+        this.__testSetGeneration,
+        this.__loadTestData,
+        this.__exploreSpace,
+        this.__loadTestData,
+      ].forEach(step => {
+        step.stepButton.setEnabled(Boolean(model));
+      });
     }
   }
 });
