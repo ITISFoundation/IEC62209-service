@@ -84,6 +84,18 @@ qx.Class.define("sar.io.Resources", {
             method: "GET",
             url: "/analysis-creation:xport"
           },
+          getVariogram: {
+            method: "GET",
+            url: "/analysis-creation:variogram"
+          },
+          getDeviations: {
+            method: "GET",
+            url: "/analysis-creation:deviations"
+          },
+          getMarginals: {
+            method: "GET",
+            url: "/analysis-creation:marginals"
+          },
         }
       }
     }

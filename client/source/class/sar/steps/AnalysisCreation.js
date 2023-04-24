@@ -157,17 +157,30 @@ qx.Class.define("sar.steps.AnalysisCreation", {
     },
 
     __fetchResults: function() {
-      console.log("fetch images");
+      sar.io.Resources.fetch("analysisCreation", "getVariogram")
+        .then(data => this.__populateVariogramImage(data))
+        .catch(err => console.error(err));
       /*
-      sar.io.Resources.fetch("trainingSetGeneration", "getData")
-        .then(data => this.__popoluateTable(data))
+      sar.io.Resources.fetch("analysisCreation", "getDeviations")
+        .then(data => this.__populateDeviationsImage(data))
         .catch(err => console.error(err));
 
-      sar.io.Resources.fetch("trainingSetGeneration", "getDistribution")
-        .then(data => this.__populateDistributionImage(data))
+      sar.io.Resources.fetch("analysisCreation", "getMarginals")
+        .then(data => this.__populateMarginalsImage(data))
         .catch(err => console.error(err));
-    },
       */
+    },
+
+    __populateVariogramImage: function(data) {
+      console.log(data);
+    },
+
+    __populateDeviationsImage: function(data) {
+      console.log(data);
+    },
+
+    __populateMarginalsImage: function(data) {
+      console.log(data);
     },
 
     __modelExported: function(data) {
