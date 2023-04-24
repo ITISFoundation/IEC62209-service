@@ -1,5 +1,5 @@
 name: iec62209-web
-key: simcore/services/comp/iec62209-web
+key: simcore/services/dynamic/iec62209-web
 type: dynamic
 integration-version: 1.0.0
 version: 1.0.0
