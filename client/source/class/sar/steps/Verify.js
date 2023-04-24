@@ -41,6 +41,7 @@ qx.Class.define("sar.steps.Verify", {
       optionsLayout.add(stepLayout);
 
       let row = 0;
+      /*
       const loadCriticalTestButton = new qx.ui.form.Button("Load Critical tests data");
       stepLayout.add(loadCriticalTestButton, {
         row,
@@ -48,7 +49,6 @@ qx.Class.define("sar.steps.Verify", {
       });
       row++;
 
-      /*
       const sarSelectBox = sar.steps.Utils.sarSelectBox(null, false);
       stepLayout.add(sarSelectBox, {
         row,
@@ -72,10 +72,10 @@ qx.Class.define("sar.steps.Verify", {
       row++;
       */
 
-      const confirmButton = new qx.ui.form.Button("Confirm").set({
+      const verifyButton = new qx.ui.form.Button("Verify").set({
         allowGrowY: false
       });
-      stepLayout.add(confirmButton, {
+      stepLayout.add(verifyButton, {
         row,
         column: 0
       });
