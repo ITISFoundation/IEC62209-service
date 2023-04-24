@@ -120,11 +120,13 @@ qx.Class.define("sar.io.Resources", {
           request.setRequestHeader("Content-Type", "application/json;text/csv;");
         });
 
-        // OM: not sure about this one
+        // OM: get routes properly
+        /*
         const endPointExists = Object.keys(res.__routes__P_172_2).includes(endpoint);
         if (!endPointExists) {
           reject(Error(`Error while fetching ${resource}: the endpoint is not defined`));
         }
+        */
 
         res.addListenerOnce(endpoint + "Success", e => {
           const response = e.getRequest().getResponse();
