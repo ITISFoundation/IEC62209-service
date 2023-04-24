@@ -31,11 +31,11 @@ outputs:
   output_1:
     label: output_training_data
     description: Training data
-    type: string
+    type: data:*/*
   output_2:
     label: output_model
     description: Model
-    type: string
+    type: data:*/*
   output_3:
     label: output_test_data
     description: Test data
