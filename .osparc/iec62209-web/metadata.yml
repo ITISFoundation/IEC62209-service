@@ -4,9 +4,9 @@ type: dynamic
 integration-version: 1.0.0
 version: 1.0.1
 description: >
-  SAR validation web service following [publication-IEC62209](https://github.com/ITISFoundation/publication-IEC62209)
+  SAR System Validation web service following [publication-IEC62209](https://github.com/ITISFoundation/publication-IEC62209)
 contact: bujard@itis.swiss
-thumbnail: https://via.placeholder.com/170x120.png
+thumbnail: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/International_Electrotechnical_Commission_Logo.svg/240px-International_Electrotechnical_Commission_Logo.svg.png
 authors:
   - name: Cedric Bujard
     email: bujard@itis.swiss
