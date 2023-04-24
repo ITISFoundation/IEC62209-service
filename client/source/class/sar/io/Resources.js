@@ -129,7 +129,7 @@ qx.Class.define("sar.io.Resources", {
             value: "application/json"
           }];
           headers.forEach(item => request.setRequestHeader(item.key, item.value));
-          request.setRequestHeader("Content-Type", "application/json;text/csv;");
+          request.setRequestHeader("Content-Type", "application/json;text/csv;image/png");
         });
 
         // OM: get routes properly
