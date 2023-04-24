@@ -14,8 +14,17 @@
 qx.Class.define("sar.steps.LoadTrainingData", {
   extend: sar.steps.StepBase,
 
+  properties: {
+    trainingData: {
+      check: "Object",
+      init: null,
+      nullable: true,
+      apply: "__applyTrainingData"
+    }
+  },
+
   events: {
-    "dataSet": "qx.event.type.Data"
+    "trainingDataSet": "qx.event.type.Data"
   },
 
   members: {
@@ -25,7 +34,7 @@ qx.Class.define("sar.steps.LoadTrainingData", {
 
     // overriden
     _getDescriptionText: function() {
-      return "Load the training data";
+      return "Load Training data";
     },
 
     _createOptions: function() {
@@ -40,10 +49,10 @@ qx.Class.define("sar.steps.LoadTrainingData", {
       });
       optionsLayout.add(fileInput);
 
-      const resetBtn = this.__resetBtn = new qx.ui.form.Button("Reset Model").set({
+      const resetBtn = this.__resetBtn = new qx.ui.form.Button("Reset Training data").set({
         allowGrowX: false
       });
-      resetBtn.addListener("execute", () => this.setModel(null));
+      resetBtn.addListener("execute", () => this.setTrainingData(null));
       optionsLayout.add(resetBtn);
 
       const dataViewer = this.__dataViewer = sar.steps.Utils.modelViewer(null);
@@ -79,12 +88,13 @@ qx.Class.define("sar.steps.LoadTrainingData", {
     __submitFile: function(file) {
       const successCallback = resp => {
         console.log(resp);
+        // __applyTrainingData(resp);
       };
       sar.steps.Utils.postFile(file, "/load-training-data", successCallback);
     },
 
-    _applyModel: function(model) {
-      if (model) {
+    __applyTrainingData: function(trainingData) {
+      if (trainingData) {
         this.__fileInput.exclude();
         this.__resetBtn.show();
       } else {
@@ -92,10 +102,12 @@ qx.Class.define("sar.steps.LoadTrainingData", {
         this.__resetBtn.exclude();
       }
 
-      this._optionsLayout.remove(this.__dataViewer);
-      const modelViewer = this.__dataViewer = sar.steps.Utils.modelViewer(model);
-      this._optionsLayout.add(modelViewer);
-      this.fireDataEvent("dataSet", model);
-    }
+      // this.__popoluateTable(trainingData);
+      this.fireDataEvent("trainingDataSet", trainingData);
+    },
+
+    __popoluateTable: function(data) {
+      sar.steps.Utils.populateTrainingDataTable(this.__dataTable, data);
+    },
   }
 });
