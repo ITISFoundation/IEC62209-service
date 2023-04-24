@@ -34,7 +34,7 @@ qx.Class.define("sar.steps.LoadTestData", {
 
     // overriden
     _getDescriptionText: function() {
-      return "Load the Test data"
+      return "Load Test data"
     },
 
     _createOptions: function() {

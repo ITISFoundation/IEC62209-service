@@ -25,7 +25,7 @@ qx.Class.define("sar.steps.LoadCriticalData", {
 
     // overriden
     _getDescriptionText: function() {
-      return "Load the model that will be used in the coming 4 steps"
+      return "Load Critical Data"
     },
 
     _createOptions: function() {
