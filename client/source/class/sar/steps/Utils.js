@@ -59,6 +59,45 @@ qx.Class.define("sar.steps.Utils", {
       }
     },
 
+    postFile: function(file, path, successCbk, failureCbk) {
+      const fileName = file.name;
+      console.log("submitFile", fileName);
+      
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const req = new XMLHttpRequest();
+      req.upload.addEventListener("progress", ep => {
+        // updateProgress
+        if (ep.lengthComputable) {
+          const percentComplete = ep.loaded / ep.total * 100;
+          console.log("percentComplete", percentComplete);
+        } else {
+          console.log("Unable to compute progress information since the total size is unknown");
+        }
+      }, false);
+      req.addEventListener("load", e => {
+        const response = e.getRequest().getResponse();
+        console.log("response", response);
+        // transferComplete
+        if (req.status == 200) {
+          console.log("transferComplete");
+          if (successCbk) {
+            successCbk.call();
+          }
+        } else if (req.status == 400) {
+          console.error("transferFailed");
+          if (failureCbk) {
+            failureCbk.call();
+          }
+        }
+      });
+      req.addEventListener("error", e => console.error(e));
+      req.addEventListener("abort", e => console.error(e));
+      req.open("POST", path, true);
+      req.send(formData);
+    },
+
     modelEditor: function() {
       const form = new qx.ui.form.Form();
 
