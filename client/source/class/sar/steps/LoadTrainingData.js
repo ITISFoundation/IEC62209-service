@@ -53,49 +53,34 @@ qx.Class.define("sar.steps.LoadTrainingData", {
     },
 
     _createResults: function() {
-      return null;
+      const resultsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+
+      const resultsTabView = new qx.ui.tabview.TabView().set({
+        contentPadding: 10
+      });
+      resultsLayout.add(resultsTabView);
+
+      const dataView = this.__createDataView();
+      resultsTabView.add(dataView);
+
+      return resultsLayout;
+    },
+
+    __createDataView: function() {
+      const dataTable = this.__dataTable = sar.steps.Utils.trainingDataTable();
+      const layout = new qx.ui.layout.VBox();
+      const tabPage = new qx.ui.tabview.Page("Data").set({
+        layout
+      });
+      tabPage.add(dataTable);
+      return tabPage;
     },
 
     __submitFile: function(file) {
-      const fileName = file.name;
-      console.log("submitFile", fileName);
-      
-      const body = new FormData();
-      body.append("fileName", fileName);
-
-      const req = new XMLHttpRequest();
-      req.upload.addEventListener("progress", ep => {
-        // updateProgress
-        if (ep.lengthComputable) {
-          const percentComplete = ep.loaded / ep.total * 100;
-          console.log("percentComplete", percentComplete);
-        } else {
-          console.log("Unable to compute progress information since the total size is unknown");
-        }
-      }, false);
-      req.addEventListener("load", e => {
-        // transferComplete
-        if (req.status == 200) {
-          console.log("transferComplete");
-        } else if (req.status == 400) {
-          console.error("transferFailed");
-        }
-      });
-      req.addEventListener("error", e => console.error(e));
-      req.addEventListener("abort", e => console.error(e));
-      req.open("POST", "/load-model", true);
-      req.send(body);
-
-      const newModel = {
-        "filename": "fileName",
-        "systemName": "cSAR3D",
-        "phantomType": "Flat HSL",
-        "hardwareVersion": "SD C00 F01 AC",
-        "softwareVersion": "V5.2.0",
-        "acceptanceCriteria": "Pass",
-        "normalizedRMSError": "Pass",
-      }
-      this.setModel(newModel);
+      const successCallback = resp => {
+        console.log(resp);
+      };
+      sar.steps.Utils.postFile(file, "/load-training-data", successCallback);
     },
 
     _applyModel: function(model) {
