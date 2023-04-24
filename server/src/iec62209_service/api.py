@@ -235,6 +235,17 @@ class ModelInterface:
 async def analysis_creation_load_training_data(
     file: UploadFile = File(...),
 ) -> JSONResponse:
+    try:
+        contents = file.file.read()
+        with open(file.filename, "wb") as f:
+            f.write(contents)
+    except Exception:
+        return JSONResponse(
+            {"message": "There was an error uploading the training data"}
+        )
+    finally:
+        file.file.close()
+
     response = {}
     end_status = status.HTTP_200_OK
     try:
