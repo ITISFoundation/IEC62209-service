@@ -58,7 +58,6 @@ qx.Class.define("sar.steps.LoadModel", {
 
     __submitFile: function(file) {
       const fileName = file.name;
-      console.log("submitFile", fileName);
       
       const formData = new FormData();
       formData.append("file", file);
