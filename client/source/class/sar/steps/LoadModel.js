@@ -82,7 +82,7 @@ qx.Class.define("sar.steps.LoadModel", {
       });
       req.addEventListener("error", e => console.error(e));
       req.addEventListener("abort", e => console.error(e));
-      req.open("POST", "/load-model:load", true);
+      req.open("POST", "/load-model/load", true);
       req.send(formData);
 
       const newModel = {
