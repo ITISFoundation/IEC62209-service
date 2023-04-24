@@ -30,7 +30,7 @@ qx.Class.define("sar.steps.LoadTestData", {
   members: {
     __input: null,
     __loadTestDataButton: null,
-    __modelViewer: null,
+    __dataTable: null,
 
     // overriden
     _getDescriptionText: function() {
@@ -55,9 +55,6 @@ qx.Class.define("sar.steps.LoadTestData", {
       resetBtn.addListener("execute", () => this.setTestData(null));
       optionsLayout.add(resetBtn);
 
-      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(null);
-      optionsLayout.add(modelViewer);
-
       return optionsLayout;
     },
 
@@ -75,8 +72,23 @@ qx.Class.define("sar.steps.LoadTestData", {
       return resultsLayout;
     },
 
-    _applyModel: function(model) {
-      if (model) {
+    __createDataView: function() {
+      const dataTable = this.__dataTable = sar.steps.Utils.testDataTable();
+      const layout = new qx.ui.layout.VBox();
+      const tabPage = new qx.ui.tabview.Page("Data").set({
+        layout
+      });
+      tabPage.add(dataTable);
+      return tabPage;
+    },
+
+    __submitFile: function(file) {
+      const successCallback = resp => this.setTestData(resp);
+      sar.steps.Utils.postFile(file, "/test-data/load", successCallback, null, this);
+    },
+
+    __applyTestData: function(testData) {
+      if (testData) {
         this.__fileInput.exclude();
         this.__resetBtn.show();
       } else {
@@ -84,51 +96,14 @@ qx.Class.define("sar.steps.LoadTestData", {
         this.__resetBtn.exclude();
       }
 
-      this._optionsLayout.remove(this.__modelViewer);
-      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(model);
-      this._optionsLayout.add(modelViewer);
-      this.fireDataEvent("testDataSet", model);
+      if (testData) {
+        this.__popoluateTable(testData);
+      }
+      this.fireDataEvent("testDataSet", testData);
     },
 
-    __submitFile: function(file) {
-      const fileName = file.name;
-      console.log("submitFile", fileName);
-      
-      const body = new FormData();
-      body.append("fileName", fileName);
-
-      const req = new XMLHttpRequest();
-      req.upload.addEventListener("progress", ep => {
-        // updateProgress
-        if (ep.lengthComputable) {
-          const percentComplete = ep.loaded / ep.total * 100;
-          console.log("percentComplete", percentComplete);
-        } else {
-          console.log("Unable to compute progress information since the total size is unknown");
-        }
-      }, false);
-      req.addEventListener("load", e => {
-        // transferComplete
-        if (req.status == 200) {
-          console.log("transferComplete");
-        } else if (req.status == 400) {
-          console.error("transferFailed");
-        }
-      });
-      req.addEventListener("error", e => console.error(e));
-      req.addEventListener("abort", e => console.error(e));
-      req.open("POST", "/load-model", true);
-      req.send(body);
+    __popoluateTable: function(data) {
+      sar.steps.Utils.populateTestDataTable(this.__dataTable, data);
     },
-
-    __createDataView: function() {
-      const dataTable = this.__dataTable = sar.steps.Utils.trainingDataTable();
-      const layout = new qx.ui.layout.VBox();
-      const tabPage = new qx.ui.tabview.Page("Data").set({
-        layout
-      });
-      tabPage.add(dataTable);
-      return tabPage;
-    }
   }
 });
