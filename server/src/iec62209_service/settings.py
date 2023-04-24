@@ -14,7 +14,6 @@ class OsparcServiceSettings(BaseSettings):
         None,
         env=["OUTPUT_FOLDER", "DY_SIDECAR_PATH_OUTPUTS"],
     )
-    LOG_FOLDER: Path | None = None
     STATE_FOLDERS: list[Path] = Field(
         default_factory=list,
         envs=["STATE_FOLDERS", "DY_SIDECAR_STATE_PATHS"],
@@ -28,18 +27,6 @@ class OsparcServiceSettings(BaseSettings):
                 f"Folder {v} does not exists."
                 "Expected predefined and created by sidecar"
             )
-        return v
-
-    @validator("INPUT_FOLDER")
-    @classmethod
-    def check_input_dir(cls, v):
-        if v is not None:
-            f = v / "inputs.json"
-            if not f.exists():
-                raise ValueError(
-                    f"File {f} does not exists."
-                    "Expected predefined and created by sidecar"
-                )
         return v
 
     @validator("OUTPUT_FOLDER")
