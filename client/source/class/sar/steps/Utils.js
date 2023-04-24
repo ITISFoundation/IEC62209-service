@@ -29,9 +29,9 @@ qx.Class.define("sar.steps.Utils", {
         "O (*)",
         "x (mm)",
         "y (mm)",
-        "SAR 1g (W/Kg)",
+        // "SAR 1g (W/Kg)",
         "SAR 10g (W/Kg)",
-        "U 1g (dB)",
+        // "U 1g (dB)",
         "U 10g (dB)",
       ]);
       const custom = {
