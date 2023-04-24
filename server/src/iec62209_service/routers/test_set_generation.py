@@ -21,7 +21,7 @@ class TrainingSetConfig(SampleConfig):
 
 @router.get("/distribution", response_class=FileResponse)
 async def get_training_set_distribution() -> FileResponse:
-    response = FileResponse(dirname(realpath(__file__)) + "/../../testdata/mwl.png")
+    response = FileResponse(dirname(realpath(__file__)) + "/../../../testdata/mwl.png")
     response.media_type = "image/png"
     return response
 
