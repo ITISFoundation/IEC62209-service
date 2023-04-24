@@ -254,7 +254,7 @@ qx.Class.define("sar.widget.MainView", {
         this.__testSetGeneration,
         this.__loadTestData,
         this.__exploreSpace,
-        this.__loadTestData,
+        this.__loadCriticalData,
       ].forEach(step => {
         step.stepButton.setEnabled(Boolean(model));
       });
