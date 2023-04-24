@@ -132,14 +132,6 @@ qx.Class.define("sar.io.Resources", {
 
         res.addListenerOnce(endpoint + "Success", e => {
           const response = e.getRequest().getResponse();
-          /*
-          if ("resolveWResponse" in options && options.resolveWResponse) {
-            resolve(response);
-          } else {
-            const data = response.data;
-            resolve(data);
-          }
-          */
           resolve(response);
           res.dispose();
         }, this);
