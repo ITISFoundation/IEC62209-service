@@ -55,19 +55,19 @@ qx.Class.define("sar.io.Resources", {
         endpoints: {
           generate: {
             method: "POST",
-            url: "/training-set-generation:generate"
+            url: "/training-set-generation/generate"
           },
           xport: {
             method: "GET",
-            url: "/training-set-generation:xport"
+            url: "/training-set-generation/xport"
           },
           getData: {
             method: "GET",
-            url: "/training-set-generation:data"
+            url: "/training-set-generation/data"
           },
           getDistribution: {
             method: "GET",
-            url: "/training-set-generation:distribution"
+            url: "/training-set-generation/distribution"
           },
         }
       },
@@ -78,11 +78,11 @@ qx.Class.define("sar.io.Resources", {
         endpoints: {
           create: {
             method: "POST",
-            url: "/analysis-creation:create"
+            url: "/analysis-creation/create"
           },
           xport: {
             method: "GET",
-            url: "/analysis-creation:xport"
+            url: "/analysis-creation/xport"
           },
           getVariogram: {
             method: "GET",
