@@ -83,54 +83,6 @@ qx.Class.define("sar.steps.TestSetGeneration", {
       peakSelectBox.setEnabled(false);
       form.add(peakSelectBox, "Select 2-PEAK set");
 
-      form.addGroupHeader("BW range (MHz)");
-      const bwRangeMin = new qx.ui.form.Spinner().set({
-        minimum: 0,
-        maximum: 0,
-        value: 0,
-        enabled: false
-      });
-      form.add(bwRangeMin, "Min");
-      const bwRangeMax = new qx.ui.form.Spinner().set({
-        minimum: 100,
-        maximum: 100,
-        value: 100,
-        enabled: false
-      });
-      form.add(bwRangeMax, "Max");
-
-      form.addGroupHeader("PAPR range (dB)");
-      const paprRangeMin = new qx.ui.form.Spinner().set({
-        minimum: 0,
-        maximum: 0,
-        value: 0,
-        enabled: false
-      });
-      form.add(paprRangeMin, "Min");
-      const paprRangeMax = new qx.ui.form.Spinner().set({
-        minimum: 12,
-        maximum: 12,
-        value: 12,
-        enabled: false
-      });
-      form.add(paprRangeMax, "Max");
-
-      form.addGroupHeader("Frequency range (MHz)");
-      const fRangeMin = new qx.ui.form.Spinner().set({
-        minimum: 300,
-        maximum: 300,
-        value: 300,
-        enabled: false
-      });
-      form.add(fRangeMin, "Min");
-      const fRangeMax = new qx.ui.form.Spinner().set({
-        minimum: 6000,
-        maximum: 6000,
-        value: 6000,
-        enabled: false
-      });
-      form.add(fRangeMax, "Max");
-
       sar.steps.Utils.addMeasurementAreaToForm(form);
 
       const sampleSize = new qx.ui.form.Spinner().set({

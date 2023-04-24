@@ -47,57 +47,11 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       optionsLayout.add(stepLayout);
 
       let row = 0;
-      /*
-      const loadButton = new qx.ui.form.Button("Load Training Data");
-      loadButton.addListener("execute", () => {
-        console.log("Select Training Data file");
-        this.__trainingDataLoaded();
-      });
-      stepLayout.add(loadButton, {
-        row,
-        column: 0
-      });
-      row++;
-      */
-
-      /*
-      const sarSelectBox = sar.steps.Utils.sarSelectBox(null, false);
-      stepLayout.add(sarSelectBox, {
-        row,
-        column: 0
-      });
-
-      const sarSelected = new qx.ui.basic.Label().set({
-        alignY: "middle",
-        rich: true,
-        wrap: true,
-        selectable: true
-      });
-      sarSelectBox.addListener("changeSelection", e => {
-        const listItem = e.getData()[0];
-        sarSelected.setValue(listItem.getLabel())
-      }, this);
-      stepLayout.add(sarSelected, {
-        row,
-        column: 1
-      });
-      row++;
-      */
-
       const createButton = this.__createButton = new qx.ui.form.Button("Create & Analyze").set({
         allowGrowY: false
       });
       createButton.addListener("execute", () => {
         createButton.setEnabled(false);
-        /*
-        const data = {
-          "sarOption": sarSelectBox.getSelection()[0].id
-        };
-        const params = {
-          data
-        };
-        sar.io.Resources.fetch("analysisCreation", "create", params)
-        */
         sar.io.Resources.fetch("analysisCreation", "create")
           .then(() => this.__trainingDataCreated())
           .catch(err => {
@@ -198,10 +152,6 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       resultsTabView.add(marginalsView);
 
       return resultsLayout;
-    },
-
-    __trainingDataLoaded: function() {
-      this.__createButton.setEnabled(true);
     },
 
     __trainingDataCreated: function() {

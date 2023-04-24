@@ -188,28 +188,6 @@ qx.Class.define("sar.steps.Utils", {
       return modelViewerLayout;
     },
 
-    sarSelectBox: function() {
-      const selectBox = new qx.ui.form.SelectBox();
-      [{
-        id: "sar1g",
-        text: "SAR 1g",
-      }, {
-        id: "sar10g",
-        text: "SAR 10g",
-      }, {
-        id: "both",
-        text: "SAR 1g & 10g",
-      }].forEach((sarEntry, idx) => {
-        const listItem = new qx.ui.form.ListItem(sarEntry.text);
-        listItem.id = sarEntry.id;
-        selectBox.add(listItem);
-        if (idx === 2) {
-          selectBox.setSelection([listItem]);
-        }
-      });
-      return selectBox;
-    },
-
     addMeasurementAreaToForm: function(form) {
       form.addGroupHeader("Measurement area (mm)");
       const xMin = new qx.ui.form.Spinner().set({
