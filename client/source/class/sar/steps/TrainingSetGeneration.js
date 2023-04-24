@@ -151,7 +151,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
     },
 
     __trainingDataExported: function(data) {
-      console.log("__trainingDataExported", data);
+      sar.steps.Utils.downloadCSV(data, "TrainingData.csv");
     }
   }
 });

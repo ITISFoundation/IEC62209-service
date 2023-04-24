@@ -59,6 +59,28 @@ qx.Class.define("sar.steps.Utils", {
       }
     },
 
+    downloadCSV: function (data, fileName) {
+      const blob = new Blob([data], {
+        type: "text/csv"
+      });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("href", url);
+      a.setAttribute("download", fileName);
+      a.click();
+    },
+
+    downloadJson: function (data, fileName) {
+      const blob = new Blob([data], {
+        type: "text/json"
+      });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("href", url);
+      a.setAttribute("download", fileName);
+      a.click();
+    },
+
     postFile: function(file, path, successCbk, failureCbk) {
       const fileName = file.name;
       console.log("submitFile", fileName);
