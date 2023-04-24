@@ -211,6 +211,22 @@ qx.Class.define("sar.widget.MainView", {
           this.__modelSet(model);
         });
       }
+
+      const loadTestData = this.__loadTestData;
+      if (loadTestData) {
+        loadTestData.addListener("testDataSet", e => {
+          const testData = e.getData();
+          this.__testDataSet(testData);
+        });
+      }
+
+      const loadCriticalData = this.__loadCriticalData;
+      if (loadCriticalData) {
+        loadCriticalData.addListener("criticalDataSet", e => {
+          const criticalData = e.getData();
+          this.__criticalDataSet(criticalData);
+        });
+      }
     },
 
     __initStates: function() {
@@ -222,7 +238,7 @@ qx.Class.define("sar.widget.MainView", {
       this.__analysisCreation.stepButton.setEnabled(Boolean(trainingData));
     },
 
-    __modelSet: function() {
+    __modelSet: function(model) {
       [
         this.__testSetGeneration,
         this.__confirmModel,
@@ -240,6 +256,14 @@ qx.Class.define("sar.widget.MainView", {
       ].forEach(step => {
         step.stepButton.setEnabled(Boolean(model));
       });
+    },
+
+    __testDataSet: function(testData) {
+      this.__confirmModel.stepButton.setEnabled(Boolean(testData));
+    },
+
+    __criticalDataSet: function(criticalData) {
+      this.__verify.stepButton.setEnabled(Boolean(criticalData));
     }
   }
 });

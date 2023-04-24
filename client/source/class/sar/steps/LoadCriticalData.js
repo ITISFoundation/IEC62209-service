@@ -15,7 +15,7 @@ qx.Class.define("sar.steps.LoadCriticalData", {
   extend: sar.steps.StepBase,
 
   events: {
-    "dataSet": "qx.event.type.Data"
+    "criticalDataSet": "qx.event.type.Data"
   },
 
   members: {
@@ -110,7 +110,7 @@ qx.Class.define("sar.steps.LoadCriticalData", {
       this._optionsLayout.remove(this.__modelViewer);
       const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(model);
       this._optionsLayout.add(modelViewer);
-      this.fireDataEvent("dataSet", model);
+      this.fireDataEvent("criticalDataSet", model);
     }
   }
 });
