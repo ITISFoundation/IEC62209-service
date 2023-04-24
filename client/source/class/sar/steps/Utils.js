@@ -81,7 +81,7 @@ qx.Class.define("sar.steps.Utils", {
       a.click();
     },
 
-    postFile: function(file, path, successCbk, failureCbk) {
+    postFile: function(file, path, successCbk, failureCbk, context) {
       const fileName = file.name;
       console.log("submitFile", fileName);
       
@@ -99,13 +99,12 @@ qx.Class.define("sar.steps.Utils", {
         }
       }, false);
       req.addEventListener("load", e => {
-        const response = e.getRequest().getResponse();
-        console.log("response", response);
         // transferComplete
         if (req.status == 200) {
           console.log("transferComplete");
           if (successCbk) {
-            successCbk.call();
+            const resp = JSON.parse(req.responseText);
+            successCbk.call(context, resp);
           }
         } else if (req.status == 400) {
           console.error("transferFailed");
