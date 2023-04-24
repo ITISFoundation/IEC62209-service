@@ -179,7 +179,7 @@ qx.Class.define("sar.widget.MainView", {
           // mark step as active and the rest inactive
           stepButtons.forEach((stepButton, buttonIdx) => {
             stepButton.setIsActive(buttonIdx === idx);
-          })
+          });
         });
         this.__steps.push(section.step);
         stepsStack.add(section.step);
