@@ -57,6 +57,48 @@ qx.Class.define("sar.steps.Utils", {
       }
     },
 
+    testDataTable: function() {
+      const tableModel = new qx.ui.table.model.Simple();
+      tableModel.setColumns([
+        "no.",
+        "antenna",
+        "freq. (MHz)",
+        "Pin (dBm)",
+        "mod.",
+        "PAPR (db)",
+        "BW (MHz)",
+        "d (mm)",
+        "θ (°)",
+        "x (mm)",
+        "y (mm)",
+        "SAR 10g (W/Kg)",
+        "U 10g (dB)",
+      ]);
+      const custom = {
+        tableColumnModel: function(obj) {
+          return new qx.ui.table.columnmodel.Resize(obj);
+        }
+      };
+      const table = new qx.ui.table.Table(tableModel, custom).set({
+        selectable: true,
+        statusBarVisible: false,
+        showCellFocusIndicator: false,
+        forceLineHeight: false
+      });
+      table.setColumnWidth(0, 10);
+      return table;
+    },
+
+    populateTestDataTable: function(table, data) {
+      const tableModel = table.getTableModel();
+      if ("headings" in data) {
+        // tableModel.setColumns(data["headings"]);
+      }
+      if ("rows" in data) {
+        tableModel.setData(data["rows"]);
+      }
+    },
+
     downloadCSV: function (data, fileName) {
       const blob = new Blob([data], {
         type: "text/csv"
