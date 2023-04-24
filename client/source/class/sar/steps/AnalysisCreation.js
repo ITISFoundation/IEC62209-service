@@ -18,8 +18,6 @@ qx.Class.define("sar.steps.AnalysisCreation", {
     __createButton: null,
     __exportButton: null,
     __variogramImage: null,
-    __deviationsImage: null,
-    __marginalsImage: null,
 
     // overriden
     _getDescriptionText: function() {
@@ -119,18 +117,6 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       return tabPage;
     },
 
-    __createDeviationsView: function() {
-      const deviationsImage = sar.steps.Utils.createImageViewer("sar/plots/step1_deviations.png")
-      const tabPage = sar.steps.Utils.createTabPage("Deviations", deviationsImage);
-      return tabPage;
-    },
-
-    __createMarginalsView: function() {
-      const marginalsImage = sar.steps.Utils.createImageViewer("sar/plots/step1_marginals.png")
-      const tabPage = sar.steps.Utils.createTabPage("Marginals", marginalsImage);
-      return tabPage;
-    },
-
     _createResults: function() {
       const resultsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 
@@ -141,12 +127,6 @@ qx.Class.define("sar.steps.AnalysisCreation", {
 
       const variogramView = this.__variogramImage = this.__createVariogramView()
       resultsTabView.add(variogramView);
-
-      const deviationsView = this.__deviationsImage = this.__createDeviationsView()
-      resultsTabView.add(deviationsView);
-
-      const marginalsView = this.__marginalsImage = this.__createMarginalsView()
-      resultsTabView.add(marginalsView);
 
       return resultsLayout;
     },
@@ -160,26 +140,9 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       sar.io.Resources.fetch("analysisCreation", "getVariogram")
         .then(data => this.__populateVariogramImage(data))
         .catch(err => console.error(err));
-      /*
-      sar.io.Resources.fetch("analysisCreation", "getDeviations")
-        .then(data => this.__populateDeviationsImage(data))
-        .catch(err => console.error(err));
-
-      sar.io.Resources.fetch("analysisCreation", "getMarginals")
-        .then(data => this.__populateMarginalsImage(data))
-        .catch(err => console.error(err));
-      */
     },
 
     __populateVariogramImage: function(data) {
-      console.log(data);
-    },
-
-    __populateDeviationsImage: function(data) {
-      console.log(data);
-    },
-
-    __populateMarginalsImage: function(data) {
       console.log(data);
     },
 
