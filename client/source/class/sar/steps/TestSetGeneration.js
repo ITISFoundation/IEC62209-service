@@ -119,12 +119,10 @@ qx.Class.define("sar.steps.TestSetGeneration", {
         "PAPR (db)",
         "BW (MHz)",
         "d (mm)",
-        "O (*)",
+        "θ (°)",
         "x (mm)",
         "y (mm)",
-        "SAR 1g (W/Kg)",
         "SAR 10g (W/Kg)",
-        "U 1g (dB)",
         "U 10g (dB)",
       ]);
       const custom = {

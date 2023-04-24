@@ -51,8 +51,8 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
 
       const sampleSize = new qx.ui.form.Spinner().set({
         minimum: 40,
-        maximum: 100,
-        value: 50
+        maximum: 1000,
+        value: 400
       });
       form.add(sampleSize, "Sample size", null, "sampleSize");
 

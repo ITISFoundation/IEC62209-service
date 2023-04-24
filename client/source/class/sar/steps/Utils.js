@@ -26,12 +26,10 @@ qx.Class.define("sar.steps.Utils", {
         "PAPR (db)",
         "BW (MHz)",
         "d (mm)",
-        "O (*)",
+        "θ (°)",
         "x (mm)",
         "y (mm)",
-        // "SAR 1g (W/Kg)",
         "SAR 10g (W/Kg)",
-        // "U 1g (dB)",
         "U 10g (dB)",
       ]);
       const custom = {
@@ -170,7 +168,7 @@ qx.Class.define("sar.steps.Utils", {
         label: "Acceptance criteria"
       }, {
         id: "normalizedRMSError",
-        label: "Norm. RME Error 10.2% < 25%"
+        label: "Norm. RMS Error 10.2% < 25%"
       }].forEach((entry, idx) => {
         const label = new qx.ui.basic.Label(entry.label + ":");
         modelViewerLayout.add(label, {

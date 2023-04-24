@@ -131,7 +131,7 @@ qx.Class.define("sar.widget.MainView", {
         step: new sar.steps.ConfirmModel(),
       }, {
         icon: "sar/icons/step4_icon.png",
-        label: "Explore Space",
+        label: "Search Space",
         step: new sar.steps.ExploreSpace(),
       }, {
         icon: "sar/icons/step_import_icon.svg",
