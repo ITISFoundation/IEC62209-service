@@ -209,14 +209,14 @@ qx.Class.define("sar.steps.Utils", {
         id: "normalizedRMSError",
         label: "Norm. RMS Error 10.2% < 25%"
       }].forEach((entry, idx) => {
-        const label = new qx.ui.basic.Label(entry.label + ":");
-        modelViewerLayout.add(label, {
+        const titleLabel = new qx.ui.basic.Label(entry.label + ":");
+        modelViewerLayout.add(titleLabel, {
           row: idx,
           column: 0
         });
         if (data && entry.id in data && data[entry.id]) {
-          const label = new qx.ui.basic.Label(data[entry.id]);
-          modelViewerLayout.add(label, {
+          const valueLabel = new qx.ui.basic.Label(data[entry.id]);
+          modelViewerLayout.add(valueLabel, {
             row: idx,
             column: 1
           });
