@@ -23,8 +23,6 @@ build: compose ## builds image
 	docker compose build
 
 
-
-
 .PHONY: push
 push: ## retags and pushes to ${REGISTRY}
 	for image in ${IMAGES}; do \
