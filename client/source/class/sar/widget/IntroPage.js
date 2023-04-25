@@ -42,7 +42,7 @@ qx.Class.define("sar.widget.IntroPage", {
       switch (id) {
         case "title":
           control = this.self().introLabel().set({
-            value: "Welcome to the IEC 62209-3 Validation Procedure",
+            value: "SAR System Validation Procedure (IEC 62209-3)",
             font: "text-30"
           });
           this._add(control);
