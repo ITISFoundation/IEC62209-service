@@ -59,9 +59,9 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       const formRenderer = new qx.ui.form.renderer.Single(form);
       optionsLayout.add(formRenderer);
 
-      const createButton = new qx.ui.form.Button("Create Training data");
+      const createButton = new sar.widget.FetchButton("Create Training data");
       createButton.addListener("execute", () => {
-        createButton.setEnabled(false);
+        createButton.setFetching(true);
         const data = {};
         for (const [key, item] of Object.entries(form.getItems())) {
           data[key] = item.getValue()
@@ -75,17 +75,19 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
         sar.io.Resources.fetch("trainingSetGeneration", "generate", params)
           .then(() => this.__trainingDataGenerated())
           .catch(err => console.error(err))
-          .finally(() => createButton.setEnabled(true));
+          .finally(() => createButton.setFetching(false));
       });
       optionsLayout.add(createButton);
 
-      const exportButton = this.__exportButton = new qx.ui.form.Button("Export Training data").set({
+      const exportButton = this.__exportButton = new sar.widget.FetchButton("Export Training data").set({
         enabled: false
       });
       exportButton.addListener("execute", () => {
+        exportButton.setFetching(true);
         sar.io.Resources.fetch("trainingSetGeneration", "xport")
           .then(data => this.__trainingDataExported(data))
-          .catch(err => console.error(err));
+          .catch(err => console.error(err))
+          .finally(exportButton.setFetching(false));
       });
       optionsLayout.add(exportButton);
 
