@@ -230,13 +230,13 @@ qx.Class.define("sar.steps.Utils", {
       const xMin = new qx.ui.form.Spinner().set({
         minimum: 80,
         maximum: 1000,
-        value: 120
+        value: 100
       });
       form.add(xMin, "x", null, "measAreaX");
       const yMin = new qx.ui.form.Spinner().set({
         minimum: 160,
         maximum: 1000,
-        value: 240
+        value: 200
       });
       form.add(yMin, "y", null, "measAreaY");
       return [
