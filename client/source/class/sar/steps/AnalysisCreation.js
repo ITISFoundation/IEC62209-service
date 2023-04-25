@@ -120,14 +120,15 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       });
       row++;
 
-      const exportButton = this.__exportButton = new qx.ui.form.Button("Export Model").set({
+      const exportButton = this.__exportButton = new sar.widget.FetchButton("Export Model").set({
         enabled: false
       });
       exportButton.addListener("execute", () => {
+        exportButton.setFetching(true);
         sar.io.Resources.fetch("analysisCreation", "xport")
           .then(data => this.__modelExported(data))
           .catch(err => console.error(err))
-          .finally(() => createButton.setEnabled(true));
+          .finally(() => exportButton.setFetching(false));
       });
       stepLayout.add(exportButton, {
         row,
@@ -165,13 +166,12 @@ qx.Class.define("sar.steps.AnalysisCreation", {
     },
 
     __fetchResults: function() {
-      sar.io.Resources.fetch("analysisCreation", "getVariogram")
-        .then(data => this.__populateVariogramImage(data))
-        .catch(err => console.error(err));
+      this.__populateVariogramImage();
     },
 
-    __populateVariogramImage: function(data) {
-      console.log(data);
+    __populateVariogramImage: function() {
+      const endpoints = sar.io.Resources.resources["analysisCreation"].endpoints;
+      this.__variogramImage.setSource(endpoints["getVariogram"].url);
     },
 
     __modelExported: function(data) {
