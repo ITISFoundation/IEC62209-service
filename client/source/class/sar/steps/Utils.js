@@ -99,28 +99,28 @@ qx.Class.define("sar.steps.Utils", {
       }
     },
 
-    downloadCSV: function (data, fileName) {
+    downloadCSV: function (data, filename) {
       const blob = new Blob([data], {
         type: "text/csv"
       });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.setAttribute("href", url);
-      a.setAttribute("download", fileName);
+      a.setAttribute("download", filename);
       a.click();
     },
 
-    downloadJson: function (data, fileName) {
+    downloadJson: function (data, filename) {
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
       const a = document.createElement("a");
       a.setAttribute("href", dataStr);
-      a.setAttribute("download", fileName);
+      a.setAttribute("download", filename);
       a.click();
     },
 
     postFile: function(file, path, successCbk, failureCbk, context) {
-      const fileName = file.name;
-      console.log("submitFile", fileName);
+      const filename = file.name;
+      console.log("submitFile", filename);
       
       const formData = new FormData();
       formData.append("file", file);
@@ -159,7 +159,12 @@ qx.Class.define("sar.steps.Utils", {
     modelEditor: function() {
       const form = new qx.ui.form.Form();
 
-      form.addGroupHeader("Model information")
+      form.addGroupHeader("Model information");
+
+      const filename = new qx.ui.form.TextField().set({
+        value: "Model.json"
+      });
+      form.add(filename, "Filename", null, "filename");
 
       const systemName = new qx.ui.form.TextField().set({
         value: "cSAR3D"
