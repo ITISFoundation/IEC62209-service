@@ -125,7 +125,16 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       });
       exportButton.addListener("execute", () => {
         exportButton.setFetching(true);
-        sar.io.Resources.fetch("analysisCreation", "xport")
+        const data = {};
+        for (const [key, item] of Object.entries(modelEditor._form.getItems())) {
+          data[key] = item.getValue()
+        }
+        data["acceptanceCriteria"] = acceptanceValue.getValue();
+        data["normalizedRMSError"] = rmsErrorValue.getValue();
+        const params = {
+          data
+        };
+        sar.io.Resources.fetch("analysisCreation", "xport", params)
           .then(data => this.__modelExported(data))
           .catch(err => console.error(err))
           .finally(() => exportButton.setFetching(false));

@@ -81,7 +81,7 @@ qx.Class.define("sar.io.Resources", {
             url: "/analysis-creation/create"
           },
           xport: {
-            method: "GET",
+            method: "POST",
             url: "/analysis-creation/xport"
           },
           getVariogram: {
