@@ -207,7 +207,7 @@ qx.Class.define("sar.steps.Utils", {
         label: "Acceptance criteria"
       }, {
         id: "normalizedRMSError",
-        label: "Norm. RMS Error 10.2% < 25%"
+        label: "Norm. RMS Error 10.2%<25%"
       }].forEach((entry, idx) => {
         const titleLabel = new qx.ui.basic.Label(entry.label + ":");
         modelViewerLayout.add(titleLabel, {
