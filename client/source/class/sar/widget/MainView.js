@@ -230,7 +230,7 @@ qx.Class.define("sar.widget.MainView", {
     },
 
     __initStates: function() {
-      this.__loadTrainingData.setTrainingData(null);
+      this.__loadTrainingData.setStepData(null);
       this.__loadTestData.setTestData(null);
       this.__loadCriticalData.setCriticalData(null);
       this.__loadModel.setModel(null);
