@@ -34,8 +34,7 @@ qx.Class.define("sar.widget.FetchButton", {
         icon.set({
           width: 14,
           height: 14,
-          scale: true,
-          textColor: "white"
+          scale: true
         })
         icon.getContentElement().addClass("rotate");
       } else {

@@ -141,7 +141,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
     },
 
     __createVariogramView: function() {
-      const variogramImage = sar.steps.Utils.createImageViewer("sar/plots/step1_variogram.png")
+      const variogramImage = sar.steps.Utils.createImageViewer();
       const tabPage = sar.steps.Utils.createTabPage("Variogram", variogramImage);
       return tabPage;
     },
