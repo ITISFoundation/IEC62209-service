@@ -3,11 +3,14 @@
 SHELL := /bin/bash
 
 REPO_DIR := $(abspath $(CURDIR)/..)
-
+IMAGES=$(shell yq eval '.services.*.image' docker-compose.yml)
+export REGISTRY ?= registry:5000
 
 .PHONY: info
-info:
-	printenv | sort
+info: ## environs
+	@echo 'REPO_DIR =${REPO_DIR}'
+	@echo 'IMAGES   =${IMAGES}'
+	@echo 'REGISTRY =${REGISTRY}'
 
 .PHONY: compose
 compose: ## creates docker-compose.yml
@@ -16,18 +19,17 @@ compose: ## creates docker-compose.yml
 
 
 .PHONY: build
-build: ## builds image
+build: compose ## builds image
 	docker compose build
 
 
-IMAGES=$(shell yq eval '.services.*.image' docker-compose.yml)
-export REGISTRY ?= registry:5000
+
 
 .PHONY: push
 push: ## retags and pushes to ${REGISTRY}
 	for image in ${IMAGES}; do \
-		docker tag $$image ${REGISTRY}/$$image; \
-		docker push ${REGISTRY}/$$image; \
+		docker tag "$$image" "${REGISTRY}/$$image"; \
+		docker push "${REGISTRY}/$$image"; \
 	done
 	@curl ${REGISTRY}/v2/_catalog | jq
 
