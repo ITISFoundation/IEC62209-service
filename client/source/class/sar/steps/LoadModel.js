@@ -91,8 +91,8 @@ qx.Class.define("sar.steps.LoadModel", {
         "phantomType": "Flat HSL",
         "hardwareVersion": "SD C00 F01 AC",
         "softwareVersion": "V5.2.0",
-        "acceptanceCriteria": "Pass",
-        "normalizedRMSError": "Pass",
+        "acceptanceCriteria": "true",
+        "normalizedRMSError": "0.120",
       }
       this.setModel(newModel);
     },
