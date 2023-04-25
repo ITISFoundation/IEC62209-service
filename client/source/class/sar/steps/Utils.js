@@ -15,23 +15,52 @@ qx.Class.define("sar.steps.Utils", {
   type: "static",
 
   statics: {
-    trainingDataTable: function() {
+    TRAINING_DATA_COLUMNS: {
+      number: {
+        label: "no."
+      },
+      antenna: {
+        label: "antenna"
+      },
+      frequency: {
+        label: "f (MHz)"
+      },
+      power: {
+        label: "Pf (dBm)"
+      },
+      modulation: {
+        label: "Mod"
+      },
+      par: {
+        label: "PAPR (dB)"
+      },
+      bandwidth: {
+        label: "BW (MHz)"
+      },
+      distance: {
+        label: "s (mm)"
+      },
+      x: {
+        label: "x (mm)"
+      },
+      y: {
+        label: "y (mm)"
+      },
+      angle: {
+        label: "θ (°)"
+      },
+      sar10g: {
+        label: "SAR 10g (W/Kg)"
+      },
+      U1g: {
+        label: "u 10g (dB)"
+      },
+    },
+
+    createTrainingDataTable: function() {
       const tableModel = new qx.ui.table.model.Simple();
-      tableModel.setColumns([
-        "no.",
-        "antenna",
-        "freq. (MHz)",
-        "Pin (dBm)",
-        "mod.",
-        "PAPR (db)",
-        "BW (MHz)",
-        "d (mm)",
-        "θ (°)",
-        "x (mm)",
-        "y (mm)",
-        "SAR 10g (W/Kg)",
-        "U 10g (dB)",
-      ]);
+      const trainingDataColNames = Object.values(this.TRAINING_DATA_COLUMNS).map(col => col.label);
+      tableModel.setColumns(trainingDataColNames);
       const custom = {
         tableColumnModel: function(obj) {
           return new qx.ui.table.columnmodel.Resize(obj);
@@ -43,7 +72,6 @@ qx.Class.define("sar.steps.Utils", {
         showCellFocusIndicator: false,
         forceLineHeight: false
       });
-      table.setColumnWidth(0, 10);
       return table;
     },
 
