@@ -77,10 +77,24 @@ qx.Class.define("sar.steps.Utils", {
 
     populateTrainingDataTable: function(table, data) {
       const tableModel = table.getTableModel();
+      // Some fields do not need to be displayed: filter them out
+      const filterOutIdxs = [];
       if ("headings" in data) {
-        // tableModel.setColumns(data["headings"]);
+        data["headings"].forEach((headerId, idx) => {
+          if (!Object.keys(this.TRAINING_DATA_COLUMNS).includes(headerId)) {
+            filterOutIdxs.push(idx);
+          }
+        })
       }
+      const filterOutIdxsR = filterOutIdxs.reverse();
       if ("rows" in data) {
+        for (let i=0; i<data["rows"].length; i++) {
+          filterOutIdxsR.forEach(filterOutIdx => {
+            if (data["rows"][i].length > filterOutIdx) {
+              data["rows"][i].splice(filterOutIdx, 1);
+            }
+          });
+        }
         tableModel.setData(data["rows"]);
       }
     },
