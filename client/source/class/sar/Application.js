@@ -12,7 +12,7 @@
  * This is the main application class of "sar"
  *
  * @asset(sar/*)
- * @asset(styling/common.css)
+ * @asset(common/common.css)
  */
 
 qx.Class.define("sar.Application", {
@@ -55,8 +55,9 @@ qx.Class.define("sar.Application", {
     },
 
     __loadOwnCss: function() {
-      const commonCssUri = qx.util.ResourceManager.getInstance().toUri("styling/common.css");
-      qx.module.Css.includeStylesheet(commonCssUri);
+      qx.bom.Stylesheet.includeFile(qx.util.ResourceManager.getInstance().toUri(
+        "common/common.css"
+      ));
     },
 
     __addIntroPage: function() {

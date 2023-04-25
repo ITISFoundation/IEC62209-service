@@ -24,22 +24,23 @@ qx.Class.define("sar.widget.FetchButton", {
   },
 
   members: {
-    __oldIconScr: null,
+    __originalIconScr: null,
 
     __applyFetching: function(isFetching, old) {
       const icon = this.getChildControl("icon");
       if (isFetching) {
-        this.__oldIconScr = this.getIcon();
+        this.__originalIconScr = this.getIcon();
+        this.setIcon("sar/circle-notch-solid.svg");
         icon.set({
-          source: "sar/circle-notch-solid.svg",
           width: 14,
           height: 14,
-          scale: true
+          scale: true,
+          textColor: "white"
         })
         icon.getContentElement().addClass("rotate");
       } else {
         if (isFetching !== old) {
-          this.setIcon(this.__oldIconScr);
+          this.setIcon(this.__originalIconScr);
         }
         if (icon) {
           icon.getContentElement().removeClass("rotate");
