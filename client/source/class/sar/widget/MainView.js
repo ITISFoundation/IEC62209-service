@@ -74,7 +74,7 @@ qx.Class.define("sar.widget.MainView", {
       introLayout.add(infoButton)
       this._add(introLayout);
 
-      const stepsGrid = new qx.ui.layout.Grid(20, 10);
+      const stepsGrid = new qx.ui.layout.Grid(15, 10);
       const nSteps = 10;
       for (let i=0; i<nSteps; i++) {
         stepsGrid.setColumnAlign(i, "center", "middle");
