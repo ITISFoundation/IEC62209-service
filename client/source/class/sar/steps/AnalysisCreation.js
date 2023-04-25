@@ -45,15 +45,8 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       optionsLayout.add(stepLayout);
 
       let row = 0;
-      const createButton = this.__createButton = new qx.ui.form.Button("Create & Analyze").set({
+      const createButton = this.__createButton = new sar.widget.FetchButton("Create & Analyze").set({
         allowGrowY: false
-      });
-      createButton.addListener("execute", () => {
-        createButton.setEnabled(false);
-        sar.io.Resources.fetch("analysisCreation", "create")
-          .then(() => this.__trainingDataCreated())
-          .catch(err => console.error(err))
-          .finally(() => createButton.setEnabled(true));
       });
       stepLayout.add(createButton, {
         row,
@@ -65,22 +58,57 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         allowGrowX: false
       });
       const acceptanceTitle = new qx.ui.basic.Label().set({
-        value: "Acceptance criteria:"
+        value: "Acceptance criteria:",
+        alignX: "right",
+        textAlign: "right",
       });
       resultsLayout.add(acceptanceTitle, {
         row: 0,
         column: 0
       });
-      const normalityTitle = new qx.ui.basic.Label().set({
-        value: "Normalized rms error 10.2% < 25%:"
+      const acceptanceValue = new qx.ui.basic.Label();
+      resultsLayout.add(acceptanceValue, {
+        row: 0,
+        column: 1
       });
-      resultsLayout.add(normalityTitle, {
+      const rmsErrorTitle = new qx.ui.basic.Label().set({
+        value: "Normalized RMS error 10.2%<25%:",
+        alignX: "right",
+        textAlign: "right",
+      });
+      resultsLayout.add(rmsErrorTitle, {
         row: 1,
         column: 0
+      });
+      const rmsErrorValue = new qx.ui.basic.Label();
+      resultsLayout.add(rmsErrorValue, {
+        row: 1,
+        column: 1
+      });
+      resultsLayout.add(acceptanceValue, {
+        row: 0,
+        column: 1
       });
       stepLayout.add(resultsLayout, {
         row,
         column: 1
+      });
+      createButton.addListener("execute", () => {
+        createButton.setFetching(true);
+        acceptanceValue.setValue("");
+        rmsErrorValue.setValue("");
+        sar.io.Resources.fetch("analysisCreation", "create")
+          .then(data => {
+            if ("Acceptance criteria" in data) {
+              acceptanceValue.setValue(data["Acceptance criteria"]);
+            }
+            if ("Normalized RMS error" in data) {
+              rmsErrorValue.setValue(data["Normalized RMS error"]);
+            }
+            this.__trainingDataAnalyzed();
+          })
+          .catch(err => console.error(err))
+          .finally(() => createButton.setFetching(false));
       });
       row++;
 
@@ -131,7 +159,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       return resultsLayout;
     },
 
-    __trainingDataCreated: function() {
+    __trainingDataAnalyzed: function() {
       this.__exportButton.setEnabled(true);
       this.__fetchResults();
     },
