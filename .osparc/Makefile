@@ -29,7 +29,8 @@ push: ## retags and pushes to ${REGISTRY}
 		docker tag "$$image" "${REGISTRY}/$$image"; \
 		docker push "${REGISTRY}/$$image"; \
 	done
-	@curl ${REGISTRY}/v2/_catalog | jq
+	# registry view
+	@curl --silent ${REGISTRY}/v2/_catalog | jq
 
 
 .PHONY: help
