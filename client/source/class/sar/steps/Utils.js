@@ -40,14 +40,14 @@ qx.Class.define("sar.steps.Utils", {
       distance: {
         label: "s (mm)"
       },
+      angle: {
+        label: "θ (°)"
+      },
       x: {
         label: "x (mm)"
       },
       y: {
         label: "y (mm)"
-      },
-      angle: {
-        label: "θ (°)"
       },
       sar10g: {
         label: "SAR 10g (W/Kg)"
