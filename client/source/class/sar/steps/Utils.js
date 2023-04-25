@@ -52,7 +52,7 @@ qx.Class.define("sar.steps.Utils", {
       sar10g: {
         label: "SAR 10g (W/Kg)"
       },
-      U1g: {
+      u10g: {
         label: "u 10g (dB)"
       },
     },
