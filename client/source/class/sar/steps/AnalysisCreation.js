@@ -17,6 +17,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
   members: {
     __createButton: null,
     __exportButton: null,
+    __reportButton: null,
     __semivariogramImage: null,
     __marginalsImage: null,
     __deviationsImage: null,
@@ -148,6 +149,14 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       });
       row++;
 
+      const reportButton = this.__reportButton = sar.steps.Utils.createGenerateReportButton("analysisCreation");
+      stepLayout.add(reportButton, {
+        row,
+        column: 0,
+        colSpan: 2
+      });
+      row++;
+
       return optionsLayout;
     },
 
@@ -218,6 +227,8 @@ qx.Class.define("sar.steps.AnalysisCreation", {
     __modelExported: function(data) {
       const filename = ("metadata" in data && "filename" in data["metadata"]) ? data["metadata"]["filename"] : "Model.json";
       sar.steps.Utils.downloadJson(data, filename);
+
+      this.__reportButton.setEnabled(false);
     }
   }
 });

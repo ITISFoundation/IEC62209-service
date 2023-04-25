@@ -96,6 +96,10 @@ qx.Class.define("sar.io.Resources", {
             method: "GET",
             url: "/analysis-creation/deviations"
           },
+          getReport: {
+            method: "GET",
+            url: "/analysis-creation/report"
+          },
         }
       }
     }

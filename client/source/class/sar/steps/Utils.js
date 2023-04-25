@@ -272,6 +272,20 @@ qx.Class.define("sar.steps.Utils", {
       return image;
     },
 
+    createGenerateReportButton: function() {
+      const button = new sar.widget.FetchButton("Generate Report").set({
+        enabled: false
+      });
+      button.addListener("execute", () => {
+        button.setFetching(true);
+        sar.io.Resources.fetch(resourceName, "getReport")
+          .then(data => console.log(data))
+          .catch(err => console.error(err))
+          .finally(() => button.setFetching(false));
+      });
+      return button;
+    },
+
     csvToJson: function(csvString) {
       // https://www.geeksforgeeks.org/how-to-convert-csv-to-json-file-having-comma-separated-values-in-node-js/
 
