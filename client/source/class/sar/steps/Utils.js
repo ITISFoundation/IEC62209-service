@@ -158,34 +158,27 @@ qx.Class.define("sar.steps.Utils", {
 
     modelEditor: function() {
       const form = new qx.ui.form.Form();
-
       form.addGroupHeader("Model information");
-
       const filename = new qx.ui.form.TextField().set({
         value: "Model.json"
       });
       form.add(filename, "Filename", null, "filename");
-
       const systemName = new qx.ui.form.TextField().set({
         value: "cSAR3D"
       });
       form.add(systemName, "System name", null, "systemName");
-
       const phantomType = new qx.ui.form.TextField().set({
         value: "Flat HSL"
       });
       form.add(phantomType, "Phantom type", null, "phantomType");
-
       const hardwareVersion = new qx.ui.form.TextField().set({
         value: "SD C00 F01 AC"
       });
       form.add(hardwareVersion, "Hardware version", null, "hardwareVersion");
-
       const softwareVersion = new qx.ui.form.TextField().set({
         value: "V5.2.0"
       });
       form.add(softwareVersion, "Software version", null, "softwareVersion");
-
       const formRenderer = new qx.ui.form.renderer.Single(form);
       return formRenderer;
     },
@@ -196,6 +189,9 @@ qx.Class.define("sar.steps.Utils", {
         allowGrowX: false
       });
       [{
+        id: "filename",
+        label: "Filename"
+      }, {
         id: "systemName",
         label: "System name"
       }, {
