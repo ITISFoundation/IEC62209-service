@@ -49,6 +49,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
 
       let row = 0;
       const createButton = this.__createButton = new sar.widget.FetchButton("Create & Analyze").set({
+        alignY: "middle",
         allowGrowY: false
       });
       stepLayout.add(createButton, {
@@ -63,13 +64,17 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       const acceptanceTitle = new qx.ui.basic.Label().set({
         value: "Acceptance criteria:",
         alignX: "right",
+        alignY: "middle",
         textAlign: "right",
       });
       resultsLayout.add(acceptanceTitle, {
         row: 0,
         column: 0
       });
-      const acceptanceValue = new qx.ui.basic.Label();
+      const acceptanceValue = new qx.ui.basic.Label().set({
+        font: "text-14",
+        alignY: "middle",
+      });
       sar.steps.Utils.decoratePassFailLabel(acceptanceValue);
       resultsLayout.add(acceptanceValue, {
         row: 0,
@@ -78,13 +83,17 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       const rmsErrorTitle = new qx.ui.basic.Label().set({
         value: "Norm. RMS error:",
         alignX: "right",
+        alignY: "middle",
         textAlign: "right",
       });
       resultsLayout.add(rmsErrorTitle, {
         row: 1,
         column: 0
       });
-      const rmsErrorValue = new qx.ui.basic.Label();
+      const rmsErrorValue = new qx.ui.basic.Label().set({
+        font: "text-14",
+        alignY: "middle",
+      });
       resultsLayout.add(rmsErrorValue, {
         row: 1,
         column: 1

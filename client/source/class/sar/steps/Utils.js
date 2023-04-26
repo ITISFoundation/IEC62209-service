@@ -307,10 +307,9 @@ qx.Class.define("sar.steps.Utils", {
 
     decoratePassFailLabel: function(label) {
       label.addListener("changeValue", e => {
-        label.setTextColor("black");
+        label.resetTextColor();
         const newValue = e.getData();
         if (newValue) {
-          label.setFont("font-18");
           if (newValue === "Pass") {
             label.setTextColor("blue");
           } else if (newValue === "Fail") {
