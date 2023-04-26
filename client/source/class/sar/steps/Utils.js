@@ -291,7 +291,7 @@ qx.Class.define("sar.steps.Utils", {
             if ("error" in resp) {
               console.error();
               const flashMessage = new sar.widget.FlashMessage(resp.error);
-              const win = new qx.ui.window.Window("Error").set({
+              const win = new qx.ui.window.Window("Error loading data").set({
                 layout: new qx.ui.layout.VBox(0),
                 contentPadding: 20,
                 resizable: false,
