@@ -60,14 +60,16 @@ qx.Class.define("sar.steps.LoadModel", {
       sar.io.Resources.fetch("loadModel", "resetData");
     },
 
-    _applyStepData: function(model) {
-      this.base(arguments, model);
+    _applyStepData: function(resp) {
+      this.base(arguments, resp ? resp["data"] : null);
 
-      this._optionsLayout.remove(this.__modelViewer);
-      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(model);
-      this._optionsLayout.add(modelViewer);
+      if (resp && "metadata" in resp) {
+        this._optionsLayout.remove(this.__modelViewer);
+        const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(resp["metadata"]);
+        this._optionsLayout.add(modelViewer);
+      }
 
-      this.fireDataEvent("modelSet", model);
+      this.fireDataEvent("modelSet", resp ? resp["modelSet"] : null);
     },
 
     // overriden
