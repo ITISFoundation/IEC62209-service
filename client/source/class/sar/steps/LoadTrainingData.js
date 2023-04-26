@@ -43,6 +43,12 @@ qx.Class.define("sar.steps.LoadTrainingData", {
     },
 
     // overriden
+    _resetPressed: function() {
+      this.base(arguments);
+      sar.io.Resources.fetch("trainingData", "resetData");
+    },
+
+    // overriden
     _applyStepData: function(trainingData) {
       this.base(arguments, trainingData);
 

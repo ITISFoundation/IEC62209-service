@@ -54,6 +54,12 @@ qx.Class.define("sar.steps.LoadModel", {
       sar.steps.Utils.postFile(file, endpoints["load"].url, successCallback, null, this);
     },
 
+    // overriden
+    _resetPressed: function() {
+      this.base(arguments);
+      sar.io.Resources.fetch("loadModel", "resetData");
+    },
+
     _applyStepData: function(model) {
       this.base(arguments, model);
 
