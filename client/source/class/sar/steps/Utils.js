@@ -305,6 +305,21 @@ qx.Class.define("sar.steps.Utils", {
       ]
     },
 
+    decoratePassFailLabel: function(label) {
+      label.addListener("changeValue", e => {
+        label.setTextColor("black");
+        const newValue = e.getData();
+        if (newValue) {
+          label.setFont("font-18");
+          if (newValue === "Pass") {
+            label.setTextColor("blue");
+          } else if (newValue === "Fail") {
+            label.setTextColor("red");
+          }
+        }
+      });
+    },
+
     createTabPage: function(title, widget) {
       const layout = new qx.ui.layout.Canvas();
       const tabPage = new qx.ui.tabview.Page(title).set({

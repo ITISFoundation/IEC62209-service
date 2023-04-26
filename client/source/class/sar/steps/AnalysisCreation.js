@@ -70,6 +70,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         column: 0
       });
       const acceptanceValue = new qx.ui.basic.Label();
+      sar.steps.Utils.decoratePassFailLabel(acceptanceValue);
       resultsLayout.add(acceptanceValue, {
         row: 0,
         column: 1
