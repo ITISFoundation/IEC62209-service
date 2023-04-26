@@ -68,7 +68,6 @@ PROJECT_NAME: Final[str] = info.project_name
 VERSION: Final[Version] = info.version
 API_VERSION: Final[str] = info.__version__
 API_VTAG: Final[str] = info.api_prefix_path_tag
-SUMMARY: Final[str] = info.get_summary()
 
 
 # NOTE: https://texteditor.com/ascii-frames/
