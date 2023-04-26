@@ -49,8 +49,9 @@ qx.Class.define("sar.steps.LoadModel", {
     },
 
     __submitFile: function(file) {
+      const endpoints = sar.io.Resources.getEndPoints("loadModel");
       const successCallback = resp => this.setStepData(resp);
-      sar.steps.Utils.postFile(file, "/model/load", successCallback, null, this);
+      sar.steps.Utils.postFile(file, endpoints["load"].url, successCallback, null, this);
     },
 
     _applyStepData: function(model) {
