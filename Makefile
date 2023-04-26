@@ -4,6 +4,16 @@ include ./scripts/common.Makefile
 APP_NAME := iec62209-service
 IMAGE_NAME ?= local/${APP_NAME}:latest
 
+PHONY: info
+info: ## info on tools and environs
+	# environs tools
+	@which python
+	@python --version
+	@which pip
+	@pip --version
+	# environs
+	@echo 'IMAGE_NAME   =${IMAGE_NAME}'
+
 
 .venv:
 	@python3 --version
@@ -15,17 +25,6 @@ IMAGE_NAME ?= local/${APP_NAME}:latest
 		setuptools
 	@$@/bin/pip3 list --verbose
 
-info: ## info on tools and environs
-	# environs tools
-	@which python
-	@python --version
-	@which pip
-	@pip --version
-	# environs
-	@echo 'IMAGE_NAME   =${IMAGE_NAME}'
-
-
-
 
 .PHONY: devenv
 devenv: .venv ## create a python virtual environment with dev tools (e.g. linters, etc)
@@ -33,6 +32,20 @@ devenv: .venv ## create a python virtual environment with dev tools (e.g. linter
 	# Installing pre-commit hooks in current .git repo
 	@$</bin/pre-commit install
 	@echo "To activate the venv, execute 'source .venv/bin/activate'"
+
+
+
+.PHONY: client
+client: ## installs and compiles client
+	$(MAKE_C) client install
+	$(MAKE_C) client compile
+
+
+.PHONY: server
+server: _check_venv_active ## installs and runs server (devel mode)
+	$(MAKE_C) server install-dev
+	$(MAKE_C) client run-dev
+
 
 
 .PHONY: build build-nc
@@ -50,6 +63,7 @@ run: ## runs container and serves in http://127.0.0.1:8000/
 		--interactive \
 		--publish 8000:8000 \
 		${IMAGE_NAME}
+
 
 
 

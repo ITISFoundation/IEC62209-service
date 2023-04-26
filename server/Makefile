@@ -1,7 +1,7 @@
 include ../scripts/common.Makefile
 
 CLIENT_DIR := $(abspath $(CURDIR)/../client)
-
+export CLIENT_OUTPUT_DIR?="$(CLIENT_DIR)/compiled/source"
 
 .PHONY: info
 info: ## info in main packages
@@ -18,7 +18,6 @@ install-dev: ## installs for development
 
 .PHONY: run-dev
 run-dev: ## runs app on a uvicorn server with watch+reload to aid development
-	export CLIENT_OUTPUT_DIR="$(CLIENT_DIR)/compiled/source" && \
 	uvicorn iec62209_service.main:the_app \
 		--reload \
 		--reload-dir ./src \
