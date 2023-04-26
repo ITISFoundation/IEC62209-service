@@ -61,7 +61,7 @@ RUN cd server \
 COPY --chown=scu:scu client client
 RUN cd client \
     && npm install \
-    npx qx compile --debug --clean
+    && npx qx compile --debug --clean
 
 
 
