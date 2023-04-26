@@ -1,3 +1,4 @@
+import email
 import subprocess
 
 from fastapi import APIRouter
@@ -12,23 +13,24 @@ class ServiceMetadata(BaseModel):
     project_name: str = PROJECT_NAME
     version: str = API_VERSION
     summary: str = info.get_summary()
-    kernel_info: str
+    kernel_meta: dict = {}
 
 
-def _get_kernel_info():
-    result = subprocess.run(
-        ["pip", "show", "iec62209"], capture_output=True, check=True
+def _pip_show(package_name: str) -> dict:
+    output = subprocess.check_output(
+        ["pip", "show", package_name], text=True, timeout=5
     )
-    return result.stdout.decode()
+    msg = email.message_from_string(output)
+    return dict(msg.items())
 
 
 try:
-    _KERNEL_INFO = _get_kernel_info()
+    _KERNEL_META = _pip_show("iec62209")
 except Exception:
-    _KERNEL_INFO = "UNKNOWN"
+    _KERNEL_META = {}
 
 
 @router.get("/meta", response_model=ServiceMetadata)
 async def get_meta():
     """service metadata"""
-    return ServiceMetadata(kernel_info=_KERNEL_INFO)
+    return ServiceMetadata(kernel_meta=_KERNEL_META)
