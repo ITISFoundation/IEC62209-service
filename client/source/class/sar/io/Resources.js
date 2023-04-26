@@ -49,7 +49,7 @@ qx.Class.define("sar.io.Resources", {
   defer: function(statics) {
     statics.resources = {
       /*
-       * TRAINING SET GENERATION
+       * Training Set Generation
        */
       "trainingSetGeneration": {
         endpoints: {
@@ -128,7 +128,75 @@ qx.Class.define("sar.io.Resources", {
       /*
        * Load Model
        */
-      "model": {
+      "loadModel": {
+        endpoints: {
+          load: {
+            method: "POST",
+            url: "/model/load"
+          },
+          resetData: {
+            method: "GET",
+            url: "/model/reset"
+          },
+        }
+      },
+      /*
+       * Test Set Generation
+       */
+      "testSetGeneration": {
+        endpoints: {
+        }
+      },
+      /*
+       * Load Test Data
+       */
+      "testData": {
+        endpoints: {
+          load: {
+            method: "POST",
+            url: "/test-data/load"
+          },
+          resetData: {
+            method: "GET",
+            url: "/test-data/reset"
+          },
+        }
+      },
+      /*
+       * Confirm Model
+       */
+      "confirmModel": {
+        endpoints: {
+        }
+      },
+      /*
+       * Search Space
+       */
+      "searchSpace": {
+        endpoints: {
+        }
+      },
+      /*
+       * Load Critical Data
+       */
+      "criticalData": {
+        endpoints: {
+          load: {
+            method: "POST",
+            url: "/critical-data/load"
+          },
+          resetData: {
+            method: "GET",
+            url: "/critical-data/reset"
+          },
+        }
+      },
+      /*
+       * Verify
+       */
+      "verify": {
+        endpoints: {
+        }
       },
     }
   },
