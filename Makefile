@@ -44,7 +44,7 @@ client: ## installs and compiles client
 .PHONY: server
 server: _check_venv_active ## installs and runs server (devel mode)
 	$(MAKE_C) server install-dev
-	$(MAKE_C) client run-dev
+	$(MAKE_C) server run-dev
 
 
 
