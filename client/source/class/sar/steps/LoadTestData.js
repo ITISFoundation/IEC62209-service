@@ -12,7 +12,6 @@
 ************************************************************************ */
 
 qx.Class.define("sar.steps.LoadTestData", {
-  extend: sar.steps.StepBase,
   extend: sar.steps.LoadData,
 
   events: {
