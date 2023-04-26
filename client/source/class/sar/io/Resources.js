@@ -145,6 +145,28 @@ qx.Class.define("sar.io.Resources", {
        */
       "testSetGeneration": {
         endpoints: {
+          endpoints: {
+            generate: {
+              method: "POST",
+              url: "/test-set-generation/generate"
+            },
+            xport: {
+              method: "GET",
+              url: "/test-set-generation/xport"
+            },
+            getData: {
+              method: "GET",
+              url: "/test-set-generation/data"
+            },
+            getDistribution: {
+              method: "GET",
+              url: "/test-set-generation/distribution"
+            },
+            resetData: {
+              method: "GET",
+              url: "/test-set-generation/reset"
+            },
+          }
         }
       },
       /*
