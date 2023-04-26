@@ -121,12 +121,7 @@ qx.Class.define("sar.steps.Utils", {
     },
 
     createDataTable: function() {
-      const custom = {
-        tableColumnModel: function(obj) {
-          return new qx.ui.table.columnmodel.Resize(obj);
-        }
-      };
-      const table = new qx.ui.table.Table(null, custom).set({
+      const table = new qx.ui.table.Table().set({
         selectable: true,
         statusBarVisible: false,
         showCellFocusIndicator: false,
@@ -144,10 +139,13 @@ qx.Class.define("sar.steps.Utils", {
         });
       }
       tableModel.setColumns(columnLabels);
+      table.setTableModel(tableModel);
+      for (let i=0; i<columnLabels.length; i++) {
+        table.setColumnWidth(i, 70);
+      }
       if ("rows" in data) {
         tableModel.setData(data["rows"]);
       }
-      table.setTableModel(tableModel);
     },
 
     createTrainingDataTable: function() {
