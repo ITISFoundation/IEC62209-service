@@ -70,7 +70,8 @@ API_VERSION: Final[str] = info.__version__
 API_VTAG: Final[str] = info.api_prefix_path_tag
 
 
-# NOTE: https://texteditor.com/ascii-frames/
+# SEE https://texteditor.com/ascii-frames/
+# SEE https://patorjk.com/software/taag/#p=testall&f=Fire%20Font-s&t=ICE62208-web
 APP_STARTED_BANNER_MSG = r"""
 
   _____ _____ ______  __ ___  ___   ___   ___                     _
