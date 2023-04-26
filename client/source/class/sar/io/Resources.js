@@ -69,6 +69,25 @@ qx.Class.define("sar.io.Resources", {
             method: "GET",
             url: "/training-set-generation/distribution"
           },
+          resetData: {
+            method: "GET",
+            url: "/training-set-generation/reset"
+          },
+        }
+      },
+      /*
+       * Load Training Data
+       */
+      "trainingData": {
+        endpoints: {
+          load: {
+            method: "POST",
+            url: "/training-data/load"
+          },
+          resetData: {
+            method: "GET",
+            url: "/training-data/reset"
+          },
         }
       },
       /*
@@ -100,14 +119,27 @@ qx.Class.define("sar.io.Resources", {
             method: "GET",
             url: "/analysis-creation/report"
           },
+          resetData: {
+            method: "GET",
+            url: "/analysis-creation/reset"
+          },
         }
-      }
+      },
+      /*
+       * Load Model
+       */
+      "model": {
+      },
     }
   },
 
   statics: {
     fetch: function(resource, endpoint, params, options = {}) {
       return this.getInstance().fetch(resource, endpoint, params, options);
+    },
+
+    getEndPoints: function(resourceName) {
+      return this.getInstance().getEndPoints(resourceName);
     }
   },
 
@@ -174,6 +206,10 @@ qx.Class.define("sar.io.Resources", {
 
         res[endpoint](params.url || null, params.data || null);
       });
-    }
+    },
+
+    getEndPoints: function(resourceName) {
+      return this.self().resources[resourceName].endpoints;
+    },
   }
 });
