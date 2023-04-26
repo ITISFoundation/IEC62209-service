@@ -82,48 +82,6 @@ qx.Class.define("sar.steps.Utils", {
       },
     },
 
-    TRAINING_DATA_COLUMNS: {
-      number: {
-        label: "no."
-      },
-      antenna: {
-        label: "antenna"
-      },
-      frequency: {
-        label: "f (MHz)"
-      },
-      power: {
-        label: "Pf (dBm)"
-      },
-      modulation: {
-        label: "Mod"
-      },
-      par: {
-        label: "PAPR (dB)"
-      },
-      bandwidth: {
-        label: "BW (MHz)"
-      },
-      distance: {
-        label: "s (mm)"
-      },
-      angle: {
-        label: "θ (°)"
-      },
-      x: {
-        label: "x (mm)"
-      },
-      y: {
-        label: "y (mm)"
-      },
-      sar10g: {
-        label: "SAR 10g (W/Kg)"
-      },
-      u10g: {
-        label: "u 10g (dB)"
-      },
-    },
-
     __getAliasFromId: function(id) {
       const entryFound = Object.entries(this.COLUMN_ALIASES).find(entry => entry[1].ids.includes(id));
       if (entryFound) {
@@ -163,90 +121,6 @@ qx.Class.define("sar.steps.Utils", {
     emptyDataTable: function(table) {
       if (table.getTableModel()) {
         table.getTableModel().setData([]);
-      }
-    },
-
-    createTrainingDataTable: function() {
-      const tableModel = new qx.ui.table.model.Simple();
-      const trainingDataColNames = Object.values(this.TRAINING_DATA_COLUMNS).map(col => col.label);
-      tableModel.setColumns(trainingDataColNames);
-      const custom = {
-        tableColumnModel: function(obj) {
-          return new qx.ui.table.columnmodel.Resize(obj);
-        }
-      };
-      const table = new qx.ui.table.Table(tableModel, custom).set({
-        selectable: true,
-        statusBarVisible: false,
-        showCellFocusIndicator: false,
-        forceLineHeight: false
-      });
-      return table;
-    },
-
-    populateTrainingDataTable: function(table, data) {
-      const tableModel = table.getTableModel();
-      // Some fields do not need to be displayed: filter them out
-      const filterOutIdxs = [];
-      if ("headings" in data) {
-        data["headings"].forEach((headerId, idx) => {
-          if (!Object.keys(this.TRAINING_DATA_COLUMNS).includes(headerId)) {
-            filterOutIdxs.push(idx);
-          }
-        })
-      }
-      const filterOutIdxsR = filterOutIdxs.reverse();
-      if ("rows" in data) {
-        for (let i=0; i<data["rows"].length; i++) {
-          filterOutIdxsR.forEach(filterOutIdx => {
-            if (data["rows"][i].length > filterOutIdx) {
-              data["rows"][i].splice(filterOutIdx, 1);
-            }
-          });
-        }
-        tableModel.setData(data["rows"]);
-      }
-    },
-
-    createdTestDataTable: function() {
-      const tableModel = new qx.ui.table.model.Simple();
-      tableModel.setColumns([
-        "no.",
-        "antenna",
-        "freq. (MHz)",
-        "Pin (dBm)",
-        "mod.",
-        "PAPR (db)",
-        "BW (MHz)",
-        "d (mm)",
-        "θ (°)",
-        "x (mm)",
-        "y (mm)",
-        "SAR 10g (W/Kg)",
-        "U 10g (dB)",
-      ]);
-      const custom = {
-        tableColumnModel: function(obj) {
-          return new qx.ui.table.columnmodel.Resize(obj);
-        }
-      };
-      const table = new qx.ui.table.Table(tableModel, custom).set({
-        selectable: true,
-        statusBarVisible: false,
-        showCellFocusIndicator: false,
-        forceLineHeight: false
-      });
-      table.setColumnWidth(0, 10);
-      return table;
-    },
-
-    populateTestDataTable: function(table, data) {
-      const tableModel = table.getTableModel();
-      if ("headings" in data) {
-        // tableModel.setColumns(data["headings"]);
-      }
-      if ("rows" in data) {
-        tableModel.setData(data["rows"]);
       }
     },
 
