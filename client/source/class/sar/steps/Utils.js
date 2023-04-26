@@ -192,7 +192,7 @@ qx.Class.define("sar.steps.Utils", {
       }
     },
 
-    testDataTable: function() {
+    createdTestDataTable: function() {
       const tableModel = new qx.ui.table.model.Simple();
       tableModel.setColumns([
         "no.",
