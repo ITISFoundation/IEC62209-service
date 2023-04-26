@@ -1,6 +1,9 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
+from ._meta import APP_FINISHED_BANNER_MSG, APP_STARTED_BANNER_MSG
 from .api import router
 from .routers import (
     analysis_creation,
@@ -12,8 +15,17 @@ from .routers import (
 from .settings import ApplicationSettings
 
 
+@asynccontextmanager
+async def _lifespan(app: FastAPI):
+    print(APP_STARTED_BANNER_MSG, flush=True)
+
+    yield
+
+    print(APP_FINISHED_BANNER_MSG, flush=True)
+
+
 def create_app():
-    app = FastAPI()
+    app = FastAPI(lifespan=_lifespan)
     app.state.settings = settings = ApplicationSettings()
 
     # routes
