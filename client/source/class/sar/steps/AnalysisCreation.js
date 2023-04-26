@@ -75,7 +75,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         column: 1
       });
       const rmsErrorTitle = new qx.ui.basic.Label().set({
-        value: "Norm. RMS error 10.2%<25%:",
+        value: "Norm. RMS error:",
         alignX: "right",
         textAlign: "right",
       });
@@ -228,7 +228,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       const filename = ("metadata" in data && "filename" in data["metadata"]) ? data["metadata"]["filename"] : "Model.json";
       sar.steps.Utils.downloadJson(data, filename);
 
-      this.__reportButton.setEnabled(false);
+      this.__reportButton.setEnabled(true);
     }
   }
 });
