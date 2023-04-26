@@ -36,6 +36,10 @@ qx.Class.define("sar.steps.Utils", {
         ids: ["modulation"],
         label: "Mod"
       },
+      description: {
+        ids: ["description"],
+        label: "Description"
+      },
       par: {
         ids: ["par"],
         label: "PAPR (dB)"
@@ -60,9 +64,17 @@ qx.Class.define("sar.steps.Utils", {
         ids: ["y"],
         label: "y (mm)"
       },
+      sar1g: {
+        ids: ["sar1g"],
+        label: "SAR 1g (W/Kg)"
+      },
       sar10g: {
         ids: ["sar10g"],
         label: "SAR 10g (W/Kg)"
+      },
+      u1g: {
+        ids: ["u1g"],
+        label: "u 1g (dB)"
       },
       u10g: {
         ids: ["u10g"],
