@@ -18,9 +18,9 @@ compose: ## creates docker-compose.yml
 	&& .osparc/bin/ooil.bash compose -f .osparc/docker-compose.yml
 
 
-.PHONY: build
-build: compose ## builds image
-	docker compose build
+.PHONY: build build-nc
+build build-nc: compose ## builds image. Suffix -nc disables cache
+	docker compose build $(if $(findstring -nc,$@),--no-cache,)
 
 
 .PHONY: push
