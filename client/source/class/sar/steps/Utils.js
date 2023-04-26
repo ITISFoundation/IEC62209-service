@@ -148,6 +148,12 @@ qx.Class.define("sar.steps.Utils", {
       }
     },
 
+    emptyDataTable: function(table) {
+      if (table.getTableModel()) {
+        table.getTableModel().setData([]);
+      }
+    },
+
     createTrainingDataTable: function() {
       const tableModel = new qx.ui.table.model.Simple();
       const trainingDataColNames = Object.values(this.TRAINING_DATA_COLUMNS).map(col => col.label);

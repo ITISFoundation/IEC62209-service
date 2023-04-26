@@ -85,6 +85,10 @@ qx.Class.define("sar.steps.LoadData", {
       sar.steps.Utils.populateDataTable(this._dataTable, data);
     },
 
+    __emptyTable: function() {
+      sar.steps.Utils.emptyDataTable(this._dataTable);
+    },
+
     _applyModel: function(model) {
       console.log("model", model);
     },
@@ -104,6 +108,8 @@ qx.Class.define("sar.steps.LoadData", {
 
       if (testData) {
         this._popoluateTable(testData);
+      } else {
+        this.__emptyTable();
       }
     },
   }
