@@ -72,7 +72,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         column: 0
       });
       const acceptanceValue = new qx.ui.basic.Label().set({
-        font: "text-14",
+        font: "text-16",
         alignY: "middle",
       });
       sar.steps.Utils.decoratePassFailLabel(acceptanceValue);
@@ -91,7 +91,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         column: 0
       });
       const rmsErrorValue = new qx.ui.basic.Label().set({
-        font: "text-14",
+        font: "text-16",
         alignY: "middle",
       });
       resultsLayout.add(rmsErrorValue, {

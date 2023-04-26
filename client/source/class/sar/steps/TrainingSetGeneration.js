@@ -67,10 +67,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
           data[key] = item.getValue()
         }
         const params = {
-          data,
-          options: {
-            resolveWResponse: true
-          }
+          data
         };
         sar.io.Resources.fetch("trainingSetGeneration", "generate", params)
           .then(() => this.__trainingDataGenerated())

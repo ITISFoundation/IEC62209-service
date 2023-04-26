@@ -275,11 +275,15 @@ qx.Class.define("sar.steps.Utils", {
           column: 0
         });
         if (data && entry.id in data && data[entry.id]) {
-          const valueLabel = new qx.ui.basic.Label(data[entry.id]);
+          const valueLabel = new qx.ui.basic.Label();
           modelViewerLayout.add(valueLabel, {
             row: idx,
             column: 1
           });
+          if (entry.id === "acceptanceCriteria") {
+            sar.steps.Utils.decoratePassFailLabel(valueLabel);
+          }
+          valueLabel.setValue(data[entry.id]);
         }
       });
       return modelViewerLayout;
@@ -287,22 +291,22 @@ qx.Class.define("sar.steps.Utils", {
 
     addMeasurementAreaToForm: function(form) {
       form.addGroupHeader("Measurement area (mm)");
-      const xMin = new qx.ui.form.Spinner().set({
+      const xArea = new qx.ui.form.Spinner().set({
         minimum: 80,
         maximum: 1000,
         value: 100
       });
-      form.add(xMin, "x", null, "measAreaX");
-      const yMin = new qx.ui.form.Spinner().set({
+      form.add(xArea, "x", null, "measAreaX");
+      const yArea = new qx.ui.form.Spinner().set({
         minimum: 160,
         maximum: 1000,
         value: 200
       });
-      form.add(yMin, "y", null, "measAreaY");
-      return [
-        xMin,
-        yMin
-      ]
+      form.add(yArea, "y", null, "measAreaY");
+      return {
+        xArea,
+        yArea
+      }
     },
 
     decoratePassFailLabel: function(label) {

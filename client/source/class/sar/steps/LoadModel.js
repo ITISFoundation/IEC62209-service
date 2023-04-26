@@ -69,13 +69,7 @@ qx.Class.define("sar.steps.LoadModel", {
         this._optionsLayout.add(modelViewer);
       }
 
-      this.fireDataEvent("modelSet", resp ? resp["modelSet"] : null);
-    },
-
-    // overriden
-    _popoluateTable: function(data) {
-      console.log("model", data);
-      this.base(arguments, data);
+      this.fireDataEvent("modelSet", (resp && "metadata" in resp) ? resp["metadata"] : null);
     },
   }
 });
