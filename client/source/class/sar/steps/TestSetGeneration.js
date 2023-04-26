@@ -183,7 +183,7 @@ qx.Class.define("sar.steps.TestSetGeneration", {
     },
 
     __populateDistributionImage: function() {
-      const endpoints = sar.io.Resources.resources["testSetGeneration"].endpoints;
+      const endpoints = sar.io.Resources.getEndPoints("testSetGeneration");
       this.__distributionImage.setSource(endpoints["getDistribution"].url);
     },
 

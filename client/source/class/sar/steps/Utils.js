@@ -405,7 +405,7 @@ qx.Class.define("sar.steps.Utils", {
       return image;
     },
 
-    createGenerateReportButton: function() {
+    createGenerateReportButton: function(resourceName) {
       const button = new sar.widget.FetchButton("Generate Report").set({
         enabled: false
       });

@@ -145,7 +145,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
     },
 
     __populateDistributionImage: function() {
-      const endpoints = sar.io.Resources.resources["trainingSetGeneration"].endpoints;
+      const endpoints = sar.io.Resources.getEndPoints("trainingSetGeneration");
       this.__distributionImage.setSource(endpoints["getDistribution"].url);
     },
 

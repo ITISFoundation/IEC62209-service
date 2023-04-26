@@ -210,17 +210,17 @@ qx.Class.define("sar.steps.AnalysisCreation", {
     },
 
     __populateSemivariogramImage: function() {
-      const endpoints = sar.io.Resources.resources["analysisCreation"].endpoints;
+      const endpoints = sar.io.Resources.getEndPoints("analysisCreation");
       this.__semivariogramImage.setSource(endpoints["getSemivariogram"].url);
     },
 
     __populateMarginalsImage: function() {
-      const endpoints = sar.io.Resources.resources["analysisCreation"].endpoints;
+      const endpoints = sar.io.Resources.getEndPoints("analysisCreation");
       this.__marginalsImage.setSource(endpoints["getMarginals"].url);
     },
 
     __populateDeviationsImage: function() {
-      const endpoints = sar.io.Resources.resources["analysisCreation"].endpoints;
+      const endpoints = sar.io.Resources.getEndPoints("analysisCreation");
       this.__deviationsImage.setSource(endpoints["getDeviations"].url);
     },
 
