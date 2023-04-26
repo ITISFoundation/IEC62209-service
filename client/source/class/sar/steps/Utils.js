@@ -282,15 +282,49 @@ qx.Class.define("sar.steps.Utils", {
             const resp = JSON.parse(req.responseText);
             successCbk.call(context, resp);
           }
-        } else if (req.status == 400) {
+        } else {
           console.error("transferFailed");
           if (failureCbk) {
             failureCbk.call();
+          } else {
+            const resp = JSON.parse(req.responseText);
+            if ("error" in resp) {
+              console.error();
+              const flashMessage = new sar.widget.FlashMessage(resp.error);
+              const win = new qx.ui.window.Window("Error").set({
+                layout: new qx.ui.layout.VBox(0),
+                contentPadding: 20,
+                resizable: false,
+                showClose: true,
+                showMaximize: false,
+                showMinimize: false,
+                modal: true,
+                width: 500
+              });
+              win.getChildControl("captionbar").set({
+                backgroundColor: "red"
+              });
+              win.add(flashMessage), {
+                flex: 1
+              };
+              win.center();
+              win.open();
+              flashMessage.addListener("closeMessage", () => win.close());
+              setTimeout(() => win.close(), 10000);
+            } else {
+              console.error(resp);
+            }
           }
         }
       });
-      req.addEventListener("error", e => console.error(e));
-      req.addEventListener("abort", e => console.error(e));
+      [
+        "error",
+        "abort"
+      ].forEach(errEv => {
+        req.addEventListener(errEv, e => {
+          console.error(e);
+        });
+      });
       req.open("POST", path, true);
       req.send(formData);
     },
