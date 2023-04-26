@@ -8,6 +8,7 @@ info: ## info in main packages
 	 @pip show iec62209
 	 @echo
 	 @pip show iec62209-service
+	 @echo "CLIENT_OUTPUT_DIR=${CLIENT_OUTPUT_DIR}"
 
 
 .PHONY: install-dev
