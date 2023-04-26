@@ -2,6 +2,8 @@ include ./scripts/common.Makefile
 
 
 APP_NAME := iec62209-service
+IMAGE_NAME ?= local/${APP_NAME}:latest
+
 
 .venv:
 	@python3 --version
@@ -13,11 +15,16 @@ APP_NAME := iec62209-service
 		setuptools
 	@$@/bin/pip3 list --verbose
 
-info: ## info on tools
-	 which python
-	 python --version
-	 which pip
-	 pip --version
+info: ## info on tools and environs
+	# environs tools
+	@which python
+	@python --version
+	@which pip
+	@pip --version
+	# environs
+	@echo 'IMAGE_NAME   =${IMAGE_NAME}'
+
+
 
 
 .PHONY: devenv
@@ -28,10 +35,11 @@ devenv: .venv ## create a python virtual environment with dev tools (e.g. linter
 	@echo "To activate the venv, execute 'source .venv/bin/activate'"
 
 
-.PHONY: build
-build: ## build image
+.PHONY: build build-nc
+build build-nc: ## build image. Suffix -nc disables cache
 	docker build \
-		--tag local/${APP_NAME}:latest \
+		$(if $(findstring -nc,$@),--no-cache,) \
+		--tag ${IMAGE_NAME} \
 		$(CURDIR)
 
 
@@ -41,7 +49,7 @@ run: ## runs container and serves in http://127.0.0.1:8000/
 		--tty \
 		--interactive \
 		--publish 8000:8000 \
-		local/${APP_NAME}:latest
+		${IMAGE_NAME}
 
 
 

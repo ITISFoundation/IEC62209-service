@@ -52,16 +52,18 @@ RUN which pip \
 
 WORKDIR /build
 
+COPY --chown=scu:scu server server
+RUN cd server \
+    && pip --no-cache-dir install -r requirements.txt \
+    && pip --no-cache-dir install .
+
+
 COPY --chown=scu:scu client client
 RUN cd client \
     && npm install \
     npx qx compile --debug --clean
 
 
-COPY --chown=scu:scu server server
-RUN cd server \
-    && pip --no-cache-dir install -r requirements.txt \
-    && pip --no-cache-dir install .
 
 
 # --------------------------Production stage -------------------
