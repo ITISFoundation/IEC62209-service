@@ -82,7 +82,7 @@ qx.Class.define("sar.steps.Utils", {
       },
       pass: {
         ids: ["pass"],
-        label: "Failure risk (%)"
+        label: "Failure Risk (%)"
       },
     },
 
