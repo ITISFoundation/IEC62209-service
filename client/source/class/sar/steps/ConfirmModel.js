@@ -139,8 +139,8 @@ qx.Class.define("sar.steps.ConfirmModel", {
             if ("Acceptance criteria" in data) {
               acceptanceValue.setValue(data["Acceptance criteria"]);
             }
-            if ("p-value" in data) {
-              normalityValue.setValue(data["p-value"]);
+            if ("Normality" in data) {
+              normalityValue.setValue(data["Normality"]);
             }
             if ("QQ location" in data) {
               qqLocationValue.setValue(data["QQ location"]);
