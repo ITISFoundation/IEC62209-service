@@ -69,7 +69,7 @@ qx.Class.define("sar.steps.ConfirmModel", {
         column: 0
       });
       const normalityTitle = new qx.ui.basic.Label().set({
-        value: "Normality: 0.293 > 0.05:",
+        value: "Normality:",
         alignX: "right",
         alignY: "middle",
         textAlign: "right",
@@ -79,7 +79,7 @@ qx.Class.define("sar.steps.ConfirmModel", {
         column: 0
       });
       const qqLocationTitle = new qx.ui.basic.Label().set({
-        value: "QQ location: -0.049 ∈ [-1, 1]:",
+        value: "QQ location:",
         alignX: "right",
         alignY: "middle",
         textAlign: "right",
@@ -89,7 +89,7 @@ qx.Class.define("sar.steps.ConfirmModel", {
         column: 0
       });
       const qqScaleTitle = new qx.ui.basic.Label().set({
-        value: "QQ scale: 0.944 ∈ [0.5, 1.5]:",
+        value: "QQ scale:",
         alignX: "right",
         alignY: "middle",
         textAlign: "right",
