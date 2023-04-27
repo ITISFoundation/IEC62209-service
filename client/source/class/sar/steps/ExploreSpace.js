@@ -15,6 +15,10 @@ qx.Class.define("sar.steps.ExploreSpace", {
   extend: sar.steps.StepBase,
 
   members: {
+    __exportButton: null,
+    __dataTable: null,
+    __distributionImage: null,
+
     // overriden
     _getDescriptionText: function() {
       return "\
@@ -29,52 +33,35 @@ qx.Class.define("sar.steps.ExploreSpace", {
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 
-      const searchButton = new qx.ui.form.Button("Search");
-      searchButton.addListener("execute", () => console.log("search"));
+      const searchButton = new sar.widget.FetchButton("Search");
+      searchButton.addListener("execute", () => {
+        searchButton.setFetching(true);
+        sar.io.Resources.fetch("searchSpace", "search")
+          .then(() => this.__spaceSearched())
+          .catch(err => console.error(err))
+          .finally(() => searchButton.setFetching(false));
+        
+      });
       optionsLayout.add(searchButton);
 
-      const exportButton = new qx.ui.form.Button("Export Critical tests").set({
+      const exportButton = this.__exportButton = new sar.widget.FetchButton("Export Critical tests").set({
         enabled: false
       });
-      exportButton.addListener("execute", () => console.log("Export Critical tests"));
+      exportButton.addListener("execute", () => {
+        searchButton.setFetching(true);
+        sar.io.Resources.fetch("searchSpace", "xport")
+          .then(() => this.__searchSpaceExported())
+          .catch(err => console.error(err))
+          .finally(() => exportButton.setFetching(false));
+        
+      });
       optionsLayout.add(exportButton);
 
       return optionsLayout;
     },
 
-    __createDataTable: function() {
-      const tableModel = new qx.ui.table.model.Simple();
-      tableModel.setColumns([
-        "ant",
-        "Pf (dBm)",
-        "modulation",
-        "s (mm)",
-        "θ (°)",
-        "x (mm)",
-        "y (mm)",
-        "sard",
-        "fail %",
-      ]);
-      const custom = {
-        tableColumnModel: function(obj) {
-          return new qx.ui.table.columnmodel.Resize(obj);
-        }
-      };
-      const table = new qx.ui.table.Table(tableModel, custom).set({
-        selectable: true,
-        statusBarVisible: false,
-        showCellFocusIndicator: false,
-        forceLineHeight: false
-      });
-      table.getTableColumnModel().setDataCellRenderer(0, new qx.ui.table.cellrenderer.Number());
-      table.getTableColumnModel().setDataCellRenderer(1, new qx.ui.table.cellrenderer.String());
-      table.getTableColumnModel().setDataCellRenderer(2, new qx.ui.table.cellrenderer.Number());
-      table.setColumnWidth(0, 20);
-      return table;
-    },
-
     __createDataView: function() {
-      const dataTable = this.__createDataTable();
+      const dataTable = this.__dataTable = sar.steps.Utils.createDataTable();
       const layout = new qx.ui.layout.VBox();
       const tabPage = new qx.ui.tabview.Page("Data").set({
         layout
@@ -84,7 +71,7 @@ qx.Class.define("sar.steps.ExploreSpace", {
     },
 
     __createDistributionView: function() {
-      const distributionImage = sar.steps.Utils.createImageViewer()
+      const distributionImage = this.__distributionImage = sar.steps.Utils.createImageViewer();
       const tabPage = sar.steps.Utils.createTabPage("Distribution", distributionImage);
       return tabPage;
     },
@@ -104,6 +91,32 @@ qx.Class.define("sar.steps.ExploreSpace", {
       resultsTabView.add(distributionView);
 
       return resultsLayout;
+    },
+
+    __spaceSearched: function() {
+      this.__exportButton.setEnabled(true);
+      this.__fetchResults();
+    },
+
+    __fetchResults: function() {
+      sar.io.Resources.fetch("searchSpace", "getData")
+        .then(data => this.__popoluateTable(data))
+        .catch(err => console.error(err));
+
+      this.__populateDistributionImage();
+    },
+
+    __popoluateTable: function(data) {
+      sar.steps.Utils.populateDataTable(this.__dataTable, data);
+    },
+
+    __populateDistributionImage: function() {
+      const endpoints = sar.io.Resources.getEndPoints("searchSpace");
+      this.__distributionImage.setSource(endpoints["getDistribution"].url);
+    },
+
+    __testDataExported: function(data) {
+      sar.steps.Utils.downloadCSV(data, "SearchSpace.csv");
     }
   }
 });
