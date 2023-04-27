@@ -273,7 +273,10 @@ qx.Class.define("sar.steps.Utils", {
         id: "normalizedRMSError",
         label: "Norm. RMS Error"
       }].forEach((entry, idx) => {
-        const titleLabel = new qx.ui.basic.Label(entry.label + ":");
+        const titleLabel = new qx.ui.basic.Label(entry.label + ":").set({
+          alignX: "right",
+          textAlign: "right",
+        });
         modelViewerLayout.add(titleLabel, {
           row: idx,
           column: 0

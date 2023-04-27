@@ -15,6 +15,7 @@ qx.Class.define("sar.steps.ExploreSpace", {
   extend: sar.steps.StepBase,
 
   members: {
+    __modelViewer: null,
     __exportButton: null,
     __dataTable: null,
     __distributionImage: null,
@@ -32,6 +33,9 @@ qx.Class.define("sar.steps.ExploreSpace", {
 
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+
+      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(null);
+      optionsLayout.add(modelViewer);
 
       const searchButton = new sar.widget.FetchButton("Search");
       searchButton.addListener("execute", () => {
@@ -91,6 +95,15 @@ qx.Class.define("sar.steps.ExploreSpace", {
       resultsTabView.add(distributionView);
 
       return resultsLayout;
+    },
+
+    // overriden
+    _applyModel: function(modelMetadata) {
+      if (this.__modelViewer) {
+        this._optionsLayout.remove(this.__modelViewer);
+      }
+      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(modelMetadata);
+      this._optionsLayout.addAt(modelViewer, 0);
     },
 
     __spaceSearched: function(data) {
