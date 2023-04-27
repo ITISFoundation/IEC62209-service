@@ -100,10 +100,7 @@ qx.Class.define("sar.steps.ConfirmModel", {
         column: 0
       });
       // values
-      const acceptanceValue = new qx.ui.basic.Label().set({
-        font: "text-16",
-        alignY: "middle",
-      });
+      const acceptanceValue = new qx.ui.basic.Label();
       sar.steps.Utils.decoratePassFailLabel(acceptanceValue);
       resultsLayout.add(acceptanceValue, {
         row: 0,
