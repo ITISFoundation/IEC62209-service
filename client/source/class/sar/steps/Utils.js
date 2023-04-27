@@ -314,9 +314,9 @@ qx.Class.define("sar.steps.Utils", {
         label.resetTextColor();
         const newValue = e.getData();
         if (newValue) {
-          if (newValue === "Pass") {
+          if (newValue.includes("Pass")) {
             label.setTextColor("blue");
-          } else if (newValue === "Fail") {
+          } else if (newValue.includes("Fail")) {
             label.setTextColor("red");
           }
         }
