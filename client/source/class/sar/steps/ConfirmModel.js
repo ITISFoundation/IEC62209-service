@@ -18,7 +18,6 @@ qx.Class.define("sar.steps.ConfirmModel", {
     __reportButton: null,
     __qqImage: null,
     __deviationsImage: null,
-    __semivariogramImage: null,
 
     // overriden
     _getDescriptionText: function() {
@@ -181,12 +180,6 @@ qx.Class.define("sar.steps.ConfirmModel", {
       return tabPage;
     },
 
-    __createSemivariogramView: function() {
-      const semivariogramImage = this.__semivariogramImage = sar.steps.Utils.createImageViewer();
-      const tabPage = sar.steps.Utils.createTabPage("Semivariogram", semivariogramImage);
-      return tabPage;
-    },
-
     _createResults: function() {
       const resultsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 
@@ -200,12 +193,6 @@ qx.Class.define("sar.steps.ConfirmModel", {
 
       const deviationsView = this.__createDeviationsView();
       resultsTabView.add(deviationsView);
-      /*
-      const residualsView = this.__createResidualsView();
-      resultsTabView.add(residualsView);
-      */
-      const variogramView = this.__createSemivariogramView();
-      resultsTabView.add(variogramView);
 
       return resultsLayout;
     },
@@ -218,7 +205,6 @@ qx.Class.define("sar.steps.ConfirmModel", {
     __fetchResults: function() {
       this.__populateQQImage();
       this.__populateDeviationsImage();
-      this.__populateSemivariogramImage();
     },
 
     __populateQQImage: function() {
@@ -229,11 +215,6 @@ qx.Class.define("sar.steps.ConfirmModel", {
     __populateDeviationsImage: function() {
       const endpoints = sar.io.Resources.getEndPoints("confirmModel");
       this.__deviationsImage.setSource(endpoints["getDeviations"].url);
-    },
-
-    __populateSemivariogramImage: function() {
-      const endpoints = sar.io.Resources.getEndPoints("confirmModel");
-      this.__semivariogramImage.setSource(endpoints["getSemivariogram"].url);
     },
   }
 });
