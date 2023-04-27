@@ -37,7 +37,7 @@ qx.Class.define("sar.steps.ExploreSpace", {
       searchButton.addListener("execute", () => {
         searchButton.setFetching(true);
         sar.io.Resources.fetch("searchSpace", "search")
-          .then(() => this.__spaceSearched())
+          .then(data => this.__spaceSearched(data))
           .catch(err => console.error(err))
           .finally(() => searchButton.setFetching(false));
         
@@ -93,15 +93,15 @@ qx.Class.define("sar.steps.ExploreSpace", {
       return resultsLayout;
     },
 
-    __spaceSearched: function() {
+    __spaceSearched: function(data) {
       this.__exportButton.setEnabled(true);
-      this.__fetchResults();
+      this.__fetchResults(data);
     },
 
-    __fetchResults: function() {
-      sar.io.Resources.fetch("searchSpace", "getData")
-        .then(data => this.__popoluateTable(data))
-        .catch(err => console.error(err));
+    __fetchResults: function(data) {
+      if (data) {
+        this.__popoluateTable(data);
+      }
 
       this.__populateDistributionImage();
     },

@@ -222,10 +222,6 @@ qx.Class.define("sar.io.Resources", {
             method: "GET",
             url: "/search-space/xport"
           },
-          getData: {
-            method: "GET",
-            url: "/search-space/data"
-          },
           getDistribution: {
             method: "GET",
             url: "/search-space/distribution"
