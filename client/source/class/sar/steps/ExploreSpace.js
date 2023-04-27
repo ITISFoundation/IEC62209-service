@@ -34,7 +34,7 @@ qx.Class.define("sar.steps.ExploreSpace", {
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
 
-      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(null);
+      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(null, true);
       optionsLayout.add(modelViewer);
 
       const searchButton = new sar.widget.FetchButton("Search");
@@ -102,7 +102,7 @@ qx.Class.define("sar.steps.ExploreSpace", {
       if (this.__modelViewer) {
         this._optionsLayout.remove(this.__modelViewer);
       }
-      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(modelMetadata);
+      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(modelMetadata, true);
       this._optionsLayout.addAt(modelViewer, 0);
     },
 

@@ -246,11 +246,23 @@ qx.Class.define("sar.steps.Utils", {
       return formRenderer;
     },
 
-    modelViewer: function(data) {
+    modelViewer: function(data, withTitle = false) {
       const modelViewerGrid = new qx.ui.layout.Grid(10, 10);
       const modelViewerLayout = new qx.ui.container.Composite(modelViewerGrid).set({
         allowGrowX: false
       });
+      let offset = 0;
+      if (withTitle) {
+        const infoLabel = new qx.ui.basic.Label("Model Information").set({
+          alignX: "right",
+          textAlign: "right"
+        });
+        modelViewerLayout.add(infoLabel, {
+          row: 0,
+          column: 0
+        });
+        offset++;
+      }
       [{
         id: "filename",
         label: "Filename"
@@ -278,13 +290,13 @@ qx.Class.define("sar.steps.Utils", {
           textAlign: "right",
         });
         modelViewerLayout.add(titleLabel, {
-          row: idx,
+          row: idx+offset,
           column: 0
         });
         if (data && entry.id in data && data[entry.id]) {
           const valueLabel = new qx.ui.basic.Label();
           modelViewerLayout.add(valueLabel, {
-            row: idx,
+            row: idx+offset,
             column: 1
           });
           if (["acceptanceCriteria", "normalizedRMSError"].includes(entry.id)) {
