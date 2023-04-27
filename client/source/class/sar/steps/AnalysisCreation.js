@@ -95,6 +95,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         font: "text-16",
         alignY: "middle",
       });
+      sar.steps.Utils.decoratePassFailLabel(rmsErrorValue);
       resultsLayout.add(rmsErrorValue, {
         row: 1,
         column: 1
