@@ -11,7 +11,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("sar.widget.IntroPage", {
+qx.Class.define("sar.widget.InfoPage", {
   extend: qx.ui.core.Widget,
 
   construct: function() {
@@ -20,10 +20,6 @@ qx.Class.define("sar.widget.IntroPage", {
     this._setLayout(new qx.ui.layout.VBox(10));
 
     this.builLayout();
-  },
-
-  events: {
-    "optionSelected": "qx.event.type.Data"
   },
 
   statics: {
