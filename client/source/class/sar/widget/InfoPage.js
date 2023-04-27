@@ -79,14 +79,16 @@ qx.Class.define("sar.widget.InfoPage", {
           control = this.self().linkLabel("- Link to the Samples", "https://raw.githubusercontent.com/ITISFoundation/IEC62209-service/main/assets/Samples.zip");
           this._add(control);
           break;
-        case "contact-email":
+        case "contact-email": {
+          const email = "support@sarvalidation.site";
           control = this.self().introLabel().set({
-            value: `Contact email <a href="mailto:sarvalidation@z43.swiss" style='color: black' target='_blank'>sarvalidation@z43.swiss</a>`,
+            value: `Contact email <a href="mailto:${email}" style='color: black' target='_blank'>${email}</a>`,
             font: "text-16",
             selectable: true,
           });
           this._add(control);
           break;
+        }
       }
       return control || this.base(arguments, id);
     },
