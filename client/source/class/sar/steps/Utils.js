@@ -80,6 +80,10 @@ qx.Class.define("sar.steps.Utils", {
         ids: ["u10g"],
         label: "u 10g (dB)"
       },
+      pass: {
+        ids: ["pass"],
+        label: "Failure risk (%)"
+      },
     },
 
     __getAliasFromId: function(id) {
