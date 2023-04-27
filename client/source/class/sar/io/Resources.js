@@ -214,7 +214,7 @@ qx.Class.define("sar.io.Resources", {
        */
       "searchSpace": {
         endpoints: {
-          generate: {
+          search: {
             method: "POST",
             url: "/search-space/search"
           },
