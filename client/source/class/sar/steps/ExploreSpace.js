@@ -48,7 +48,7 @@ qx.Class.define("sar.steps.ExploreSpace", {
         enabled: false
       });
       exportButton.addListener("execute", () => {
-        searchButton.setFetching(true);
+        exportButton.setFetching(true);
         sar.io.Resources.fetch("searchSpace", "xport")
           .then(() => this.__searchSpaceExported())
           .catch(err => console.error(err))
@@ -115,7 +115,7 @@ qx.Class.define("sar.steps.ExploreSpace", {
       this.__distributionImage.setSource(endpoints["getDistribution"].url);
     },
 
-    __testDataExported: function(data) {
+    __searchSpaceExported: function(data) {
       sar.steps.Utils.downloadCSV(data, "SearchSpace.csv");
     }
   }
