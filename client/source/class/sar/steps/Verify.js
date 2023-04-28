@@ -28,6 +28,7 @@ qx.Class.define("sar.steps.Verify", {
         <br>- the test cases exert a repulsive force on each other to ensure even coverage of the critical regions,\
         <br>- the test cases have meaningful coordinates.\
         <br><br>The resulting test conditions, with the computed z-values and associated probabilities to pass the mpe value are saved as a csv file.\
+        <br><br>The exploration process can take up to 5 minutes.\
       "
     },
 
