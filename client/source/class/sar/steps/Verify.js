@@ -15,6 +15,7 @@ qx.Class.define("sar.steps.Verify", {
   extend: sar.steps.StepBase,
 
   members: {
+    __modelViewer: null,
     __acceptanceValue: null,
     __deviationsImage: null,
     __reportButton: null,
@@ -32,6 +33,9 @@ qx.Class.define("sar.steps.Verify", {
 
     _createOptions: function() {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+
+      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(null, true, false);
+      optionsLayout.add(modelViewer);
 
       const stepGrid = new qx.ui.layout.Grid(20, 20);
       stepGrid.setColumnFlex(0, 1);
@@ -136,6 +140,15 @@ qx.Class.define("sar.steps.Verify", {
       resultsTabView.add(deviationsView);
 
       return resultsLayout;
+    },
+
+    // overriden
+    _applyModel: function(modelMetadata) {
+      if (this.__modelViewer) {
+        this._optionsLayout.remove(this.__modelViewer);
+      }
+      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(modelMetadata, true, false);
+      this._optionsLayout.addAt(modelViewer, 0);
     },
 
     __criticalDataAnalyzed: function() {
