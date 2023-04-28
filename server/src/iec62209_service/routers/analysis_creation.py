@@ -111,7 +111,7 @@ async def analysis_creation_xport(metadata: ModelMetadata) -> PlainTextResponse:
     )
 
 
-@router.get("/pdf", response_class=Response)
+@router.post("/pdf", response_class=Response)
 async def analysis_creation_pdf(tmp=Depends(create_temp_folder)) -> Response:
     from ..reports import tables
     from ..reports.texutils import typeset
