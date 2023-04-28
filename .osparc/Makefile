@@ -4,8 +4,9 @@ SHELL := /bin/bash
 
 
 REPO_DIR := $(abspath $(CURDIR)/..)
-IMAGES=$(shell ./bin/yq.bash eval '.services.*.image' docker-compose.yml)
+IMAGES := $(shell ./bin/yq.bash eval '.services.*.image' docker-compose.yml)
 export DOCKER_REGISTRY ?= registry:5000
+
 
 .PHONY: info
 info: ## lists environments and required tools
@@ -15,7 +16,7 @@ info: ## lists environments and required tools
 	@echo 'docker buildx  : $(shell docker buildx version 2>/dev/null || echo WARNING optional tool missing )'
 	@echo 'make           : $(shell make --version 2>&1 | head -n 1)'
 	@echo 'awk            : $(shell awk -W version 2>&1 | head -n 1)'
-	# environs
+	# environments
 	@echo "REPO_DIR        = ${REPO_DIR}"
 	@echo "IMAGES          = ${IMAGES}"
 	@echo "DOCKER_REGISTRY = ${DOCKER_REGISTRY}"
