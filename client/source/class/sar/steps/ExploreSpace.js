@@ -14,6 +14,10 @@
 qx.Class.define("sar.steps.ExploreSpace", {
   extend: sar.steps.StepBase,
 
+  events: {
+    "criticalsFound": "qx.event.type.Data"
+  },
+
   members: {
     __modelViewer: null,
     __criticalsValue: null,
@@ -138,7 +142,14 @@ qx.Class.define("sar.steps.ExploreSpace", {
 
     __spaceSearched: function(data) {
       this.__exportButton.setEnabled(true);
-      this.__criticalsValue.setValue((data && "rows" in data) ? data["rows"].length.toString() : "0");
+      if (data && "rows" in data) {
+        const nCriticals = data["rows"].length;
+        this.__criticalsValue.setValue(nCriticals.toString());
+        this.fireDataEvent("criticalsFound", nCriticals);
+      } else {
+        this.__criticalsValue.resetValue();
+      }
+
       this.__fetchResults(data);
     },
 

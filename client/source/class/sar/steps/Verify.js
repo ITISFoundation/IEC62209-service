@@ -15,6 +15,7 @@ qx.Class.define("sar.steps.Verify", {
   extend: sar.steps.StepBase,
 
   members: {
+    __acceptanceValue: null,
     __deviationsImage: null,
     __reportButton: null,
 
@@ -69,7 +70,7 @@ qx.Class.define("sar.steps.Verify", {
         column: 0
       });
       // values
-      const acceptanceValue = new qx.ui.basic.Label();
+      const acceptanceValue = this.__acceptanceValue = new qx.ui.basic.Label();
       sar.steps.Utils.decoratePassFailLabel(acceptanceValue);
       resultsLayout.add(acceptanceValue, {
         row: 0,
@@ -86,7 +87,7 @@ qx.Class.define("sar.steps.Verify", {
         sar.io.Resources.fetch("verify", "verify")
           .then(data => {
             if ("Acceptance criteria" in data) {
-              acceptanceValue.setValue(data["Acceptance criteria"]);
+              this.setAcceptanceValue(data["Acceptance criteria"]);
             }
             this.__criticalDataAnalyzed();
           })
@@ -103,6 +104,18 @@ qx.Class.define("sar.steps.Verify", {
       row++;
 
       return optionsLayout;
+    },
+
+    setAcceptanceValue: function(val) {
+      if (this.__acceptanceValue) {
+        this.__acceptanceValue.setValue(val);
+      }
+    },
+
+    resetAcceptanceValue: function() {
+      if (this.__acceptanceValue) {
+        this.__acceptanceValue.resetValue();
+      }
     },
 
     __createDeviationsView: function() {
