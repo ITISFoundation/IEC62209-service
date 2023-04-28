@@ -15,6 +15,7 @@ qx.Class.define("sar.steps.Verify", {
   extend: sar.steps.StepBase,
 
   members: {
+    __deviationsImage: null,
     __reportButton: null,
 
     // overriden
@@ -43,7 +44,7 @@ qx.Class.define("sar.steps.Verify", {
       optionsLayout.add(stepLayout);
 
       let row = 0;
-      const verifyButton = new qx.ui.form.Button("Verify").set({
+      const verifyButton = new sar.widget.FetchButton("Verify").set({
         allowGrowY: false
       });
       stepLayout.add(verifyButton, {
@@ -57,7 +58,27 @@ qx.Class.define("sar.steps.Verify", {
         row,
         column: 1
       });
+      // values
+      const acceptanceValue = new qx.ui.basic.Label();
+      sar.steps.Utils.decoratePassFailLabel(acceptanceValue);
+      resultsLayout.add(acceptanceValue, {
+        row,
+        column: 1
+      });
       row++;
+
+      verifyButton.addListener("execute", () => {
+        verifyButton.setFetching(true);
+        sar.io.Resources.fetch("verify", "verify")
+          .then(() => {
+            if ("Acceptance criteria" in data) {
+              acceptanceValue.setValue(data["Acceptance criteria"]);
+            }
+            this.__criticalDataAnalyzed();
+          })
+          .catch(err => console.error(err))
+          .finally(() => verifyButton.setFetching(false));
+      });
 
       const reportButton = this.__reportButton = sar.steps.Utils.createGenerateReportButton("verify");
       stepLayout.add(reportButton, {
@@ -71,7 +92,7 @@ qx.Class.define("sar.steps.Verify", {
     },
 
     __createDeviationsView: function() {
-      const deviationsImage = sar.steps.Utils.createImageViewer()
+      const deviationsImage = this.__deviationsImage = sar.steps.Utils.createImageViewer()
       const tabPage = sar.steps.Utils.createTabPage("Deviations", deviationsImage);
       return tabPage;
     },
@@ -88,6 +109,20 @@ qx.Class.define("sar.steps.Verify", {
       resultsTabView.add(deviationsView);
 
       return resultsLayout;
-    }
+    },
+
+    __criticalDataAnalyzed: function() {
+      this.__reportButton.setEnabled(true);
+      this.__fetchResults();
+    },
+
+    __fetchResults: function() {
+      this.__populateDeviationsImage();
+    },
+
+    __populateDeviationsImage: function() {
+      const endpoints = sar.io.Resources.getEndPoints("verify");
+      this.__deviationsImage.setSource(endpoints["getDeviations"].url);
+    },
   }
 });

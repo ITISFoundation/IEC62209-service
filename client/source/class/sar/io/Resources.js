@@ -244,6 +244,14 @@ qx.Class.define("sar.io.Resources", {
        */
       "verify": {
         endpoints: {
+          verify: {
+            method: "GET",
+            url: "/verify/results"
+          },
+          getDeviations: {
+            method: "GET",
+            url: "/verify/deviations"
+          },
         }
       },
     }
