@@ -23,7 +23,7 @@ qx.Class.define("sar.steps.LoadModel", {
 
     // overriden
     _getDescriptionText: function() {
-      return "Load Model"
+      return "Load the GPI model of the measurement system. This model is provided by the measurement system manufacturer or any other party that created the model. It is a json file."
     },
 
     // overriden
