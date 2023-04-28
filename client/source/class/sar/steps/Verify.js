@@ -23,12 +23,6 @@ qx.Class.define("sar.steps.Verify", {
     // overriden
     _getDescriptionText: function() {
       return "\
-        Explores the space of the valid model to find the most critical regions of the test space, such that:\
-        <br>- the test cases are pulled toward the most extreme regions of the data pace,\
-        <br>- the test cases exert a repulsive force on each other to ensure even coverage of the critical regions,\
-        <br>- the test cases have meaningful coordinates.\
-        <br><br>The resulting test conditions, with the computed z-values and associated probabilities to pass the mpe value are saved as a csv file.\
-        <br><br>The exploration process can take up to 5 minutes.\
       "
     },
 
