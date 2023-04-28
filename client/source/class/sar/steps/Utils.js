@@ -340,7 +340,7 @@ qx.Class.define("sar.steps.Utils", {
         const listItem = new qx.ui.form.ListItem(sarEntry.text);
         listItem.id = sarEntry.id;
         vpifaSelectBox.add(listItem);
-        if (idx === 1) {
+        if (idx === 0) {
           vpifaSelectBox.setSelection([listItem]);
         }
       });
@@ -360,7 +360,7 @@ qx.Class.define("sar.steps.Utils", {
         const listItem = new qx.ui.form.ListItem(sarEntry.text);
         listItem.id = sarEntry.id;
         peakSelectBox.add(listItem);
-        if (idx === 1) {
+        if (idx === 0) {
           peakSelectBox.setSelection([listItem]);
         }
       });
