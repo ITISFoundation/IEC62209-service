@@ -23,17 +23,20 @@ info: ## lists environments and required tools
 
 .PHONY: compose
 compose: ## creates docker-compose.yml
+	# creating compose specs
 	cd $(REPO_DIR) \
 	&& .osparc/bin/ooil.bash compose -f .osparc/docker-compose.yml
 
 
 .PHONY: build build-nc
 build build-nc: compose ## builds image. Suffix -nc disables cache
+	# building
 	docker compose build $(if $(findstring -nc,$@),--no-cache,)
 
 
 .PHONY: push
 push: ## retags and pushes to ${DOCKER_REGISTRY}
+	# tag & push
 	@for image in ${IMAGES}; do \
 		echo "Tagging and pushing ${DOCKER_REGISTRY}/$$image ..."; \
 		docker tag "$$image" "${DOCKER_REGISTRY}/$$image"; \
@@ -41,6 +44,12 @@ push: ## retags and pushes to ${DOCKER_REGISTRY}
 	done
 	# registry view
 	@curl --silent ${DOCKER_REGISTRY}/v2/_catalog | jq
+
+
+
+.PHONY: all
+all: compose build-nc push ## all workflow
+	@echo "'${IMAGES}' built, and pushed to '${DOCKER_REGISTRY}'"
 
 
 .PHONY: help
