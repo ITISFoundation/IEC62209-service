@@ -328,6 +328,46 @@ qx.Class.define("sar.steps.Utils", {
       }
     },
 
+    addVPIFASelectBoxToForm: function(form) {
+      const vpifaSelectBox = new qx.ui.form.SelectBox();
+      [{
+        id: "VPIFAV1",
+        text: "VPIFA v1",
+      }, {
+        id: "VPIFAV2",
+        text: "VPIFA v2",
+      }].forEach((sarEntry, idx) => {
+        const listItem = new qx.ui.form.ListItem(sarEntry.text);
+        listItem.id = sarEntry.id;
+        vpifaSelectBox.add(listItem);
+        if (idx === 1) {
+          vpifaSelectBox.setSelection([listItem]);
+        }
+      });
+      vpifaSelectBox.setEnabled(false);
+      form.add(vpifaSelectBox, "Select VPIFA set");
+    },
+
+    add2PEAKSelectBoxToForm: function(form) {
+      const peakSelectBox = new qx.ui.form.SelectBox();
+      [{
+        id: "peakV1",
+        text: "2-PEAK antenna v1",
+      }, {
+        id: "peakV2",
+        text: "2-PEAK antenna v2",
+      }].forEach((sarEntry, idx) => {
+        const listItem = new qx.ui.form.ListItem(sarEntry.text);
+        listItem.id = sarEntry.id;
+        peakSelectBox.add(listItem);
+        if (idx === 1) {
+          peakSelectBox.setSelection([listItem]);
+        }
+      });
+      peakSelectBox.setEnabled(false);
+      form.add(peakSelectBox, "Select 2-PEAK set");
+    },
+
     decoratePassFailLabel: function(label) {
       label.set({
         font: "text-16",

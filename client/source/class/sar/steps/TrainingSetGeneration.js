@@ -30,6 +30,8 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       const optionsLayout = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
 
       const form = new qx.ui.form.Form();
+      sar.steps.Utils.addVPIFASelectBoxToForm(form);
+      sar.steps.Utils.add2PEAKSelectBoxToForm(form);
       form.addGroupHeader("Frequency range (MHz)");
       const fRangeMin = new qx.ui.form.Spinner().set({
         minimum: 300,
