@@ -99,7 +99,7 @@ qx.Class.define("sar.steps.ExploreSpace", {
       exportButton.addListener("execute", () => {
         exportButton.setFetching(true);
         sar.io.Resources.fetch("searchSpace", "xport")
-          .then(() => this.__searchSpaceExported())
+          .then(data => this.__searchSpaceExported(data))
           .catch(err => console.error(err))
           .finally(() => exportButton.setFetching(false));
         
