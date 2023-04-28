@@ -4,7 +4,10 @@ SHELL := /bin/bash
 
 
 REPO_DIR := $(abspath $(CURDIR)/..)
-IMAGES := $(shell ./bin/yq.bash eval '.services.*.image' docker-compose.yml)
+
+# NOTE that IMAGES variable can change when docker-compose.yml gets rebuilt. Do NOT use := !!!
+IMAGES = $(shell ./bin/yq.bash eval '.services.*.image' docker-compose.yml)
+
 export DOCKER_REGISTRY ?= registry:5000
 
 
