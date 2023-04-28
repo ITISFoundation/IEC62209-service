@@ -45,23 +45,37 @@ qx.Class.define("sar.steps.Verify", {
 
       let row = 0;
       const verifyButton = new sar.widget.FetchButton("Verify").set({
+        alignY: "middle",
         allowGrowY: false
       });
       stepLayout.add(verifyButton, {
         row,
         column: 0
       });
-      const acceptanceTitle = new qx.ui.basic.Label().set({
-        value: "Acceptance criteria:"
+
+      const resultsGrid = new qx.ui.layout.Grid(10, 10);
+      const resultsLayout = new qx.ui.container.Composite(resultsGrid).set({
+        allowGrowX: false
       });
-      stepLayout.add(acceptanceTitle, {
-        row,
-        column: 1
+      // titles
+      const acceptanceTitle = new qx.ui.basic.Label().set({
+        value: "Acceptance criteria:",
+        alignX: "right",
+        alignY: "middle",
+        textAlign: "right",
+      });
+      resultsLayout.add(acceptanceTitle, {
+        row: 0,
+        column: 0
       });
       // values
       const acceptanceValue = new qx.ui.basic.Label();
       sar.steps.Utils.decoratePassFailLabel(acceptanceValue);
       resultsLayout.add(acceptanceValue, {
+        row: 0,
+        column: 1
+      });
+      stepLayout.add(resultsLayout, {
         row,
         column: 1
       });
@@ -70,7 +84,7 @@ qx.Class.define("sar.steps.Verify", {
       verifyButton.addListener("execute", () => {
         verifyButton.setFetching(true);
         sar.io.Resources.fetch("verify", "verify")
-          .then(() => {
+          .then(data => {
             if ("Acceptance criteria" in data) {
               acceptanceValue.setValue(data["Acceptance criteria"]);
             }
