@@ -242,6 +242,10 @@ qx.Class.define("sar.steps.Utils", {
         value: "V5.2.0"
       });
       form.add(softwareVersion, "Software version", null, "softwareVersion");
+      const manufacturer = new qx.ui.form.TextField().set({
+        value: ""
+      });
+      form.add(manufacturer, "Manufacturer", null, "manufacturer");
       const formRenderer = new qx.ui.form.renderer.Single(form);
       return formRenderer;
     },
@@ -278,6 +282,9 @@ qx.Class.define("sar.steps.Utils", {
       }, {
         id: "softwareVersion",
         label: "Software version"
+      }, {
+        id: "manufacturer",
+        label: "Manufacturer"
       }, {
         id: "acceptanceCriteria",
         label: "Acceptance criteria"
