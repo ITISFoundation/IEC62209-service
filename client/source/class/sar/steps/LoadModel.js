@@ -63,11 +63,9 @@ qx.Class.define("sar.steps.LoadModel", {
     _applyStepData: function(resp) {
       this.base(arguments, resp ? resp["data"] : null);
 
-      if (resp && "metadata" in resp) {
-        this._optionsLayout.remove(this.__modelViewer);
-        const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(resp["metadata"]);
-        this._optionsLayout.add(modelViewer);
-      }
+      this._optionsLayout.remove(this.__modelViewer);
+      const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(resp && "metadata" in resp ? resp["metadata"] : null);
+      this._optionsLayout.add(modelViewer);
 
       this.fireDataEvent("modelSet", (resp && "metadata" in resp) ? resp["metadata"] : null);
     },
