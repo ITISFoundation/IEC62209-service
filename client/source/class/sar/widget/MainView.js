@@ -240,6 +240,9 @@ qx.Class.define("sar.widget.MainView", {
 
     __trainingDataSet: function(trainingData) {
       this.__analysisCreation.stepButton.setEnabled(Boolean(trainingData));
+      if (trainingData === null) {
+        this.__analysisCreation.resetResults();
+      }
     },
 
     __modelSet: function(model) {
