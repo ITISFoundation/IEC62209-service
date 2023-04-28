@@ -20,6 +20,7 @@ info: ## lists environments and required tools
 	@echo "IMAGES          = ${IMAGES}"
 	@echo "DOCKER_REGISTRY = ${DOCKER_REGISTRY}"
 
+
 .PHONY: compose
 compose: ## creates docker-compose.yml
 	cd $(REPO_DIR) \
