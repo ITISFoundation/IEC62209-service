@@ -268,10 +268,16 @@ qx.Class.define("sar.widget.MainView", {
 
     __testDataSet: function(testData) {
       this.__confirmModel.stepButton.setEnabled(Boolean(testData));
+      if (testData === null) {
+        this.__confirmModel.resetResults();
+      }
     },
 
     __criticalDataSet: function(criticalData) {
       this.__verify.stepButton.setEnabled(Boolean(criticalData));
+      if (criticalData === null) {
+        this.__verify.resetResults();
+      }
     }
   }
 });
