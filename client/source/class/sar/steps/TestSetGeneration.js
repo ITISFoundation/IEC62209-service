@@ -71,6 +71,7 @@ qx.Class.define("sar.steps.TestSetGeneration", {
       optionsLayout.add(formRenderer);
 
       const createButton = new sar.widget.FetchButton("Create Test data");
+      sar.steps.Utils.setIdToWidget(createButton, "createTestDataBtn");
       createButton.addListener("execute", () => {
         createButton.setFetching(true);
         const data = {};

@@ -128,6 +128,12 @@ qx.Class.define("sar.steps.Utils", {
       }
     },
 
+    setIdToWidget: function(qWidget, id) {
+      if (qWidget.getContentElement) {
+        qWidget.getContentElement().setAttribute("osparc-test-id", id);
+      }
+    },
+
     downloadCSV: function (data, filename) {
       const blob = new Blob([data], {
         type: "text/csv"
