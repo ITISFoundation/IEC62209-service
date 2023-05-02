@@ -11,6 +11,11 @@
 
 ************************************************************************ */
 
+/**
+ * @ignore(fetch)
+ * @ignore(Headers)
+ */
+
 qx.Class.define("sar.steps.Utils", {
   type: "static",
 
