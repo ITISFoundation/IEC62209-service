@@ -64,6 +64,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       optionsLayout.add(formRenderer);
 
       const createButton = new sar.widget.FetchButton("Create Training data");
+      sar.steps.Utils.setIdToWidget(createButton, "createTrainingSetBtn");
       createButton.addListener("execute", () => {
         createButton.setFetching(true);
         const data = {};
@@ -83,6 +84,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       const exportButton = this.__exportButton = new sar.widget.FetchButton("Export Training data").set({
         enabled: false
       });
+      sar.steps.Utils.setIdToWidget(exportButton, "exportTrainingSetBtn");
       exportButton.addListener("execute", () => {
         exportButton.setFetching(true);
         sar.io.Resources.fetch("trainingSetGeneration", "xport")

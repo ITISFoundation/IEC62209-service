@@ -129,7 +129,7 @@ qx.Class.define("sar.steps.Utils", {
     },
 
     setIdToWidget: function(qWidget, id) {
-      if (qWidget.getContentElement) {
+      if (qWidget && qWidget.getContentElement) {
         qWidget.getContentElement().setAttribute("osparc-test-id", id);
       }
     },
