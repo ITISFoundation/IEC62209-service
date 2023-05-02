@@ -446,10 +446,25 @@ qx.Class.define("sar.steps.Utils", {
           method: "GET",
           headers: headers
         })
-          .then(async res => ({
-            filename,
-            blob: await res.blob()
-          }))
+          .then(async res => {
+            if ("status" in res && res.status === 200) {
+              return {
+                filename,
+                blob: await res.blob()
+              }
+            } else {
+              if ("responseText" in res) {
+                const resp = JSON.parse(res.responseText);
+                if ("error" in resp) {
+                  throw resp.error;
+                }
+              }
+              if ("statusText" in res) {
+                throw res.statusText;
+              }
+              throw "Error";
+            }
+          })
           .then(resObj => {
             // It is necessary to create a new blob object with mime-type explicitly set for all browsers except Chrome, but it works for Chrome too.
             const newBlob = new Blob([resObj.blob], {
@@ -472,7 +487,10 @@ qx.Class.define("sar.steps.Utils", {
               setTimeout(() => window.URL.revokeObjectURL(objUrl), 250);
             }
           })
-          .catch(err => console.errror(err))
+          .catch(err => {
+            console.error(err);
+            sar.widget.FlashMessage.popUpFM(err, "Error generating report");
+          })
           .finally(() => button.setFetching(false));
       });
       return button;
