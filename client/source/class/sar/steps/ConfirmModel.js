@@ -111,16 +111,19 @@ qx.Class.define("sar.steps.ConfirmModel", {
         column: 1
       });
       const normalityValue = new qx.ui.basic.Label();
+      sar.steps.Utils.decoratePassFailLabel(normalityValue);
       resultsLayout.add(normalityValue, {
         row: 1,
         column: 1
       });
       const qqLocationValue = new qx.ui.basic.Label();
+      sar.steps.Utils.decoratePassFailLabel(qqLocationValue);
       resultsLayout.add(qqLocationValue, {
         row: 2,
         column: 1
       });
       const qqScaleValue = new qx.ui.basic.Label();
+      sar.steps.Utils.decoratePassFailLabel(qqScaleValue);
       resultsLayout.add(qqScaleValue, {
         row: 3,
         column: 1
