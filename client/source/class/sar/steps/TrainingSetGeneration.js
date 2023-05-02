@@ -53,6 +53,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       form.add(fRangeMax, "Max", null, "fRangeMax");
       sar.steps.Utils.addMeasurementAreaToForm(form);
 
+      form.addGroupHeader(""); // just for adding some padding
       const sampleSize = new qx.ui.form.Spinner().set({
         minimum: 40,
         maximum: 1000,

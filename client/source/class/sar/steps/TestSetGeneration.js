@@ -60,6 +60,7 @@ qx.Class.define("sar.steps.TestSetGeneration", {
       this.__xArea = xArea;
       this.__yArea = yArea;
 
+      form.addGroupHeader(""); // just for adding some padding
       const sampleSize = new qx.ui.form.Spinner().set({
         minimum: 50,
         maximum: 50,
