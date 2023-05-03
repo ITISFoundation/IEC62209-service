@@ -114,7 +114,16 @@ qx.Class.define("sar.steps.TestSetGeneration", {
     // overriden
     _applyModel: function(modelMetadata) {
       if (modelMetadata) {
-        sar.steps.Utils.restrictMeasurementArea("testSetGeneration");
+        sar.io.Resources.fetch("testSetGeneration", "getModelArea")
+          .then(data => {
+            if ("measAreaX" in data) {
+              this.__xArea.setMaximum(parseInt(data["measAreaX"]));
+            }
+            if ("measAreaY" in data) {
+              this.__yArea.setMaximum(parseInt(data["measAreaY"]));
+            }
+          })
+          .catch(err => console.error(err));
       }
     },
 

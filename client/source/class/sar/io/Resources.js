@@ -214,10 +214,6 @@ qx.Class.define("sar.io.Resources", {
        */
       "searchSpace": {
         endpoints: {
-          getModelArea: {
-            method: "GET",
-            url: "/search-space/model-area"
-          },
           search: {
             method: "POST",
             url: "/search-space/search"
