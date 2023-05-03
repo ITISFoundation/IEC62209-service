@@ -117,10 +117,12 @@ qx.Class.define("sar.steps.TestSetGeneration", {
         sar.io.Resources.fetch("testSetGeneration", "getModelArea")
           .then(data => {
             if ("measAreaX" in data) {
-              this.__xArea.setMaximum(parseInt(data["measAreaX"]));
+              const xModel = parseInt(data["measAreaX"])
+              this.__xArea.setMaximum(Math.max(80, xModel));
             }
             if ("measAreaY" in data) {
-              this.__yArea.setMaximum(parseInt(data["measAreaY"]));
+              const yModel = parseInt(data["measAreaY"])
+              this.__yArea.setMaximum(Math.max(160, yModel));
             }
           })
           .catch(err => console.error(err));
