@@ -113,7 +113,9 @@ qx.Class.define("sar.steps.TestSetGeneration", {
 
     // overriden
     _applyModel: function(modelMetadata) {
-      console.log("set area mimimums from", modelMetadata);
+      if (modelMetadata) {
+        sar.steps.Utils.restrictMeasurementArea("testSetGeneration");
+      }
     },
 
     __createDistributionView: function() {

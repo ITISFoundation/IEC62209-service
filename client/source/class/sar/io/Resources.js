@@ -145,6 +145,10 @@ qx.Class.define("sar.io.Resources", {
        */
       "testSetGeneration": {
         endpoints: {
+          getModelArea: {
+            method: "GET",
+            url: "/test-set-generation/model-area"
+          },
           generate: {
             method: "POST",
             url: "/test-set-generation/generate"
@@ -210,6 +214,10 @@ qx.Class.define("sar.io.Resources", {
        */
       "searchSpace": {
         endpoints: {
+          getModelArea: {
+            method: "GET",
+            url: "/search-space/model-area"
+          },
           search: {
             method: "POST",
             url: "/search-space/search"

@@ -11,7 +11,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("sar.steps.ExploreSpace", {
+qx.Class.define("sar.steps.SearchSpace", {
   extend: sar.steps.StepBase,
 
   events: {
@@ -141,6 +141,10 @@ qx.Class.define("sar.steps.ExploreSpace", {
       }
       const modelViewer = this.__modelViewer = sar.steps.Utils.modelViewer(modelMetadata, true, false);
       this._optionsLayout.addAt(modelViewer, 0);
+      
+      if (modelMetadata) {
+        sar.steps.Utils.restrictMeasurementArea("searchSpace");
+      }
     },
 
     __spaceSearched: function(data) {

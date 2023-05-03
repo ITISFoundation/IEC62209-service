@@ -494,6 +494,20 @@ qx.Class.define("sar.steps.Utils", {
           .finally(() => button.setFetching(false));
       });
       return button;
-    }
+    },
+
+    restrictMeasurementArea: function(resourceName, measAreaXField, measAreaYField) {
+      sar.io.Resources.fetch(resourceName, "getModelArea")
+        .then(data => {
+          if ("measAreaX" in data) {
+            measAreaXField.setMaximum(parseInt(data["measAreaX"]));
+          }
+          if ("measAreaY" in data) {
+            measAreaYField.setMaximum(parseInt(data["measAreaY"]));
+          }
+        })
+        .catch(err => console.error(err));
+
+    },
   }
 });
