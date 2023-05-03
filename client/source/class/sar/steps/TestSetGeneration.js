@@ -57,6 +57,8 @@ qx.Class.define("sar.steps.TestSetGeneration", {
         xArea,
         yArea
       } = sar.steps.Utils.addMeasurementAreaToForm(form);
+      xArea.resetMinimum();
+      yArea.resetMinimum();
       this.__xArea = xArea;
       this.__yArea = yArea;
 
@@ -118,11 +120,11 @@ qx.Class.define("sar.steps.TestSetGeneration", {
           .then(data => {
             if ("measAreaX" in data) {
               const xModel = parseInt(data["measAreaX"])
-              this.__xArea.setMaximum(Math.max(80, xModel));
+              this.__xArea.setMaximum(xModel);
             }
             if ("measAreaY" in data) {
               const yModel = parseInt(data["measAreaY"])
-              this.__yArea.setMaximum(Math.max(160, yModel));
+              this.__yArea.setMaximum(yModel);
             }
           })
           .catch(err => console.error(err));
