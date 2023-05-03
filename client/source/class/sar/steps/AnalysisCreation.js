@@ -15,10 +15,10 @@ qx.Class.define("sar.steps.AnalysisCreation", {
   extend: sar.steps.StepBase,
 
   construct: function() {
-    this.base(arguments);
-
     this.__valueLabels = [];
     this.__images = [];
+
+    this.base(arguments);
   },
 
   members: {
