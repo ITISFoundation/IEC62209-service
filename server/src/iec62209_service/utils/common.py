@@ -88,6 +88,8 @@ class ModelMetadata(BaseModel):
     softwareVersion: str
     acceptanceCriteria: str
     normalizedRMSError: str
+    modelAreaX: int = 0
+    modelAreaY: int = 0
 
 
 ### Helper classes
@@ -172,8 +174,8 @@ class DataSetInterface:
                 row.append(data[heading][n])
             dataset.rows.append(row)
 
-        dataset.config.measAreaX = 2 * sample.mdata["xmax"]
-        dataset.config.measAreaY = 2 * sample.mdata["ymax"]
+        dataset.config.measAreaX = 2 * sample.mdata["xsup"]
+        dataset.config.measAreaY = 2 * sample.mdata["ysup"]
         dataset.config.sampleSize = nrows
 
         return dataset
