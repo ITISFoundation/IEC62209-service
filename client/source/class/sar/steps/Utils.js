@@ -339,10 +339,6 @@ qx.Class.define("sar.steps.Utils", {
         value: 200
       });
       form.add(yArea, "y", null, "measAreaY");
-      return {
-        xArea,
-        yArea
-      }
     },
 
     addVPIFASelectBoxToForm: function(form) {

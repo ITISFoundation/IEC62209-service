@@ -23,6 +23,8 @@ qx.Class.define("sar.steps.AnalysisCreation", {
 
   members: {
     __valueLabels: null,
+    __xArea: null,
+    __yArea: null,
     __images: null,
     __exportButton: null,
     __reportButton: null,
@@ -131,6 +133,8 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         column: 0,
         colSpan: 2
       });
+      this.__xArea = modelEditor._form.getItem("measAreaX");
+      this.__yArea = modelEditor._form.getItem("measAreaY");
       row++;
 
       const exportButton = this.__exportButton = new sar.widget.FetchButton("Export Model").set({
@@ -216,7 +220,24 @@ qx.Class.define("sar.steps.AnalysisCreation", {
     },
 
     __trainingDataAnalyzed: function() {
-      this.__exportButton.setEnabled(true);
+      sar.io.Resources.fetch("analysisCreation", "getModelConstraints")
+        .then(data => {
+          if ("xmin" in data) {
+            this.__xArea.setMinimum(data["xmin"]);
+          }
+          if ("xmax" in data) {
+            this.__xArea.setMaximum(data["xmax"]);
+          }
+          if ("ymin" in data) {
+            this.__yArea.setMinimum(data["ymin"]);
+          }
+          if ("ymax" in data) {
+            this.__yArea.setMaximum(data["ymax"]);
+          }
+          this.__exportButton.setEnabled(true);
+        })
+        .catch(err => console.error(err));
+
       this.__fetchResults();
     },
 
