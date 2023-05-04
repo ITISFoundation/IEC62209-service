@@ -144,7 +144,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         exportButton.setFetching(true);
         const data = {};
         for (const [key, item] of Object.entries(modelEditor._form.getItems())) {
-          data[key] = item.getValue()
+          data[key] = String(item.getValue())
         }
         data["acceptanceCriteria"] = acceptanceValue.getValue();
         data["normalizedRMSError"] = rmsErrorValue.getValue();

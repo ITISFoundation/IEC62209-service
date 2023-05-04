@@ -95,7 +95,7 @@ def write_sample_parameters_tex(cfg: SampleConfig, md: ModelMetadata, stage: Rep
         r"\begin{table}[h!]\centering",
         r"\begin{tabular}{|l|c|}\hline",
         r"\textbf{Parameter} & \textbf{Value} \\\hline",
-        r"Measurement area: $x$,$y$ (mm) & " + f"{md.modelAreaX}, {md.modelAreaY}" + r" \\\hline",
+        r"Measurement area: $x$,$y$ (mm) & " + md.modelAreaX + "," + md.modelAreaY + r" \\\hline",
         r"Frequency range (MHz) & " + f"{cfg.fRangeMin} -- {cfg.fRangeMax}" + r"\\\hline",
         r"Size of training data & " + f"{cfg.sampleSize}" + r" \\\hline"
         r"\end{tabular}",
