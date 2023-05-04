@@ -332,13 +332,13 @@ qx.Class.define("sar.steps.Utils", {
         maximum: 1000,
         value: 100
       });
-      form.add(xArea, "x", null, "measAreaX");
+      form.add(xArea, "x", null, "modelAreaX");
       const yArea = new qx.ui.form.Spinner().set({
         minimum: 160,
         maximum: 1000,
         value: 200
       });
-      form.add(yArea, "y", null, "measAreaY");
+      form.add(yArea, "y", null, "modelAreaY");
     },
 
     addVPIFASelectBoxToForm: function(form) {

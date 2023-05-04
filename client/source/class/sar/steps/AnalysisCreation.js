@@ -133,8 +133,8 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         column: 0,
         colSpan: 2
       });
-      this.__xArea = modelEditor._form.getItem("measAreaX");
-      this.__yArea = modelEditor._form.getItem("measAreaY");
+      this.__xArea = modelEditor._form.getItem("modelAreaX");
+      this.__yArea = modelEditor._form.getItem("modelAreaY");
       row++;
 
       const exportButton = this.__exportButton = new sar.widget.FetchButton("Export Model").set({
