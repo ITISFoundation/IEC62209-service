@@ -252,7 +252,18 @@ qx.Class.define("sar.steps.Utils", {
       this.addMeasurementAreaToForm(form);
 
       const formRenderer = new qx.ui.form.renderer.Single(form);
+      this.makeFormHeadersWider(formRenderer);
       return formRenderer;
+    },
+
+    makeFormHeadersWider: function(formSingleRenderer) {
+      formSingleRenderer._getChildren().forEach(item => {
+        const lProps = item.getLayoutProperties();
+        if ("colSpan" in lProps && lProps["colSpan"] === 2) {
+          // hack< way to find group headers
+          item.setMinWidth(180);
+        }
+      });
     },
 
     modelViewer: function(data, withTitle = false, long = true) {

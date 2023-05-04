@@ -62,6 +62,7 @@ qx.Class.define("sar.steps.TrainingSetGeneration", {
       form.add(sampleSize, "<b>Sample size</b>", null, "sampleSize");
 
       const formRenderer = new qx.ui.form.renderer.Single(form);
+      sar.steps.Utils.makeFormHeadersWider(formRenderer);
       optionsLayout.add(formRenderer);
 
       const createButton = new sar.widget.FetchButton("Create Training data");

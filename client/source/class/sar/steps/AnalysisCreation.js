@@ -128,6 +128,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       row++;
 
       const modelEditor = sar.steps.Utils.modelEditor();
+      sar.steps.Utils.makeFormHeadersWider(modelEditor);
       stepLayout.add(modelEditor, {
         row,
         column: 0,
