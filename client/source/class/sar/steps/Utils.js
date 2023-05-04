@@ -248,6 +248,9 @@ qx.Class.define("sar.steps.Utils", {
         value: "V5.2.0"
       });
       form.add(softwareVersion, "Software version", null, "softwareVersion");
+
+      this.addMeasurementAreaToForm(form);
+
       const formRenderer = new qx.ui.form.renderer.Single(form);
       return formRenderer;
     },
