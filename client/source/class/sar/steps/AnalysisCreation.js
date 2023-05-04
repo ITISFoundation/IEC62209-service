@@ -223,16 +223,16 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       sar.io.Resources.fetch("analysisCreation", "getModelConstraints")
         .then(data => {
           if ("xmin" in data) {
-            this.__xArea.setMinimum(data["xmin"]);
+            this.__xArea.setMinimum(parseInt(data["xmin"]));
           }
           if ("xmax" in data) {
-            this.__xArea.setMaximum(data["xmax"]);
+            this.__xArea.setMaximum(parseInt(data["xmax"]));
           }
           if ("ymin" in data) {
-            this.__yArea.setMinimum(data["ymin"]);
+            this.__yArea.setMinimum(parseInt(data["ymin"]));
           }
           if ("ymax" in data) {
-            this.__yArea.setMaximum(data["ymax"]);
+            this.__yArea.setMaximum(parseInt(data["ymax"]));
           }
           this.__exportButton.setEnabled(true);
         })
