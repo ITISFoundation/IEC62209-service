@@ -68,7 +68,7 @@ qx.Class.define("sar.steps.TestSetGeneration", {
       form.add(sampleSize, "<b>Sample size</b>", null, "sampleSize");
 
       const formRenderer = new qx.ui.form.renderer.Single(form);
-      this.makeFormHeadersWider(formRenderer);
+      sar.steps.Utils.makeFormHeadersWider(formRenderer);
       optionsLayout.add(formRenderer);
 
       const createButton = new sar.widget.FetchButton("Create Test data");
