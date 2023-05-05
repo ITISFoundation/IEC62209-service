@@ -51,7 +51,10 @@ async def confirm_model_qqplot(timestamp: str = "") -> Response:
 
 
 @router.get("/deviations", response_class=Response)
-async def confirm_model_deviations() -> Response:
+async def confirm_model_deviations(dummy: str = "") -> Response:
+    if not dummy:
+        # dummy parameter to avoid browser caching the plot
+        return Response(status_code=status.HTTP_400_BAD_REQUEST)
     try:
         buf = SampleInterface.testSet.plot_deviations()
         return StreamingResponse(buf, media_type="image/png")
