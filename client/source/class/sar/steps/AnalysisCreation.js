@@ -256,17 +256,20 @@ qx.Class.define("sar.steps.AnalysisCreation", {
 
     __populateSemivariogramImage: function() {
       const endpoints = sar.io.Resources.getEndPoints("analysisCreation");
-      this.__semivariogramImage.setSource(endpoints["getSemivariogram"].url);
+      const url = sar.steps.Utils.setTimestampOnQuery(endpoints["getSemivariogram"].url);
+      this.__semivariogramImage.setSource(url);
     },
 
     __populateMarginalsImage: function() {
       const endpoints = sar.io.Resources.getEndPoints("analysisCreation");
-      this.__marginalsImage.setSource(endpoints["getMarginals"].url);
+      const url = sar.steps.Utils.setTimestampOnQuery(endpoints["getMarginals"].url);
+      this.__marginalsImage.setSource(url);
     },
 
     __populateDeviationsImage: function() {
       const endpoints = sar.io.Resources.getEndPoints("analysisCreation");
-      this.__deviationsImage.setSource(endpoints["getDeviations"].url);
+      const url = sar.steps.Utils.setTimestampOnQuery(endpoints["getDeviations"].url);
+      this.__deviationsImage.setSource(url);
     },
 
     __modelExported: function(data) {
