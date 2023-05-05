@@ -225,12 +225,16 @@ qx.Class.define("sar.steps.AnalysisCreation", {
         .then(data => {
           if ("xmin" in data) {
             this.__xArea.setMinimum(parseInt(data["xmin"]));
+            // default to minimum
+            this.__xArea.setValue(parseInt(data["xmin"]));
           }
           if ("xmax" in data) {
             this.__xArea.setMaximum(parseInt(data["xmax"]));
           }
           if ("ymin" in data) {
             this.__yArea.setMinimum(parseInt(data["ymin"]));
+            // default to minimum
+            this.__yArea.setValue(parseInt(data["xmin"]));
           }
           if ("ymax" in data) {
             this.__yArea.setMaximum(parseInt(data["ymax"]));
