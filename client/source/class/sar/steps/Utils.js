@@ -436,6 +436,10 @@ qx.Class.define("sar.steps.Utils", {
       return image;
     },
 
+    setTimestampOnQuery: function(url) {
+      return url.replace("{timestamp}", Date.now());
+    },
+
     createGenerateReportButton: function(resourceName, filename) {
       const button = new sar.widget.FetchButton("Generate Report").set({
         enabled: false

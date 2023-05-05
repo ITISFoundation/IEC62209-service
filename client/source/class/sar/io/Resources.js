@@ -67,7 +67,7 @@ qx.Class.define("sar.io.Resources", {
           },
           getDistribution: {
             method: "GET",
-            url: "/training-set-generation/distribution"
+            url: "/training-set-generation/distribution?timestamp={timestamp}"
           },
           resetData: {
             method: "GET",
