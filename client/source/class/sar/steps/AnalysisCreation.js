@@ -26,6 +26,7 @@ qx.Class.define("sar.steps.AnalysisCreation", {
     __xArea: null,
     __yArea: null,
     __images: null,
+    __modelEditor: null,
     __exportButton: null,
     __reportButton: null,
     __semivariogramImage: null,
@@ -127,7 +128,8 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       });
       row++;
 
-      const modelEditor = sar.steps.Utils.modelEditor();
+      const modelEditor = this.__modelEditor = sar.steps.Utils.modelEditor();
+      modelEditor.setEnabled(false);
       sar.steps.Utils.makeFormHeadersWider(modelEditor);
       stepLayout.add(modelEditor, {
         row,
@@ -138,9 +140,8 @@ qx.Class.define("sar.steps.AnalysisCreation", {
       this.__yArea = modelEditor._form.getItem("modelAreaY");
       row++;
 
-      const exportButton = this.__exportButton = new sar.widget.FetchButton("Export Model").set({
-        enabled: false
-      });
+      const exportButton = this.__exportButton = new sar.widget.FetchButton("Export Model");
+      exportButton.setEnabled(false);
       exportButton.addListener("execute", () => {
         exportButton.setFetching(true);
         const data = {};
@@ -234,11 +235,12 @@ qx.Class.define("sar.steps.AnalysisCreation", {
           if ("ymin" in data) {
             this.__yArea.setMinimum(parseInt(data["ymin"]));
             // default to minimum
-            this.__yArea.setValue(parseInt(data["xmin"]));
+            this.__yArea.setValue(parseInt(data["ymin"]));
           }
           if ("ymax" in data) {
             this.__yArea.setMaximum(parseInt(data["ymax"]));
           }
+          this.__modelEditor.setEnabled(true);
           this.__exportButton.setEnabled(true);
         })
         .catch(err => console.error(err));
@@ -284,6 +286,8 @@ qx.Class.define("sar.steps.AnalysisCreation", {
 
     resetResults: function() {
       this.__resetValueLabels();
+      this.__modelEditor.setEnabled(false);
+      this.__exportButton.setEnabled(false);
       this.__resetImages();
       this.__reportButton.setEnabled(false);
     },
