@@ -271,6 +271,14 @@ qx.Class.define("sar.widget.MainView", {
       });
 
       [
+        this.__trainingSetGeneration,
+        this.__loadTrainingData,
+        this.__analysisCreation,
+      ].forEach(step => {
+        step.stepButton.setEnabled(!Boolean(model));
+      });
+
+      [
         this.__testSetGeneration,
         this.__loadTestData,
         this.__searchSpace,
