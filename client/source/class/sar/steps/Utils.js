@@ -336,20 +336,20 @@ qx.Class.define("sar.steps.Utils", {
       return modelViewerLayout;
     },
 
-    addMeasurementAreaToForm: function(form) {
+    addMeasurementAreaToForm: function(form, isMeasArea = false) {
       form.addGroupHeader("Measurement area (mm)");
       const xArea = new qx.ui.form.Spinner().set({
         minimum: 80,
         maximum: 1000,
         value: 100
       });
-      form.add(xArea, "x", null, "modelAreaX");
+      form.add(xArea, "x", null, isMeasArea ? "measAreaX" : "modelAreaX");
       const yArea = new qx.ui.form.Spinner().set({
         minimum: 160,
         maximum: 1000,
         value: 200
       });
-      form.add(yArea, "y", null, "modelAreaY");
+      form.add(yArea, "y", null, isMeasArea ? "measAreaY" : "modelAreaY");
     },
 
     addVPIFASelectBoxToForm: function(form) {
