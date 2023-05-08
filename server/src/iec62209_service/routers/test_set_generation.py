@@ -37,7 +37,10 @@ async def test_set_data() -> JSONResponse:
 
 
 @router.get("/distribution", response_class=Response)
-async def test_set_distribution() -> Response:
+async def test_set_distribution(timestamp: str = "") -> Response:
+    if not timestamp:
+        # timestamp parameter to avoid browser caching the plot
+        return Response(status_code=status.HTTP_400_BAD_REQUEST)
     try:
         buf = SampleInterface.testSet.plot_distribution()
         return StreamingResponse(buf, media_type="image/png")
@@ -60,7 +63,7 @@ async def test_set_get_model_area() -> JSONResponse:
     try:
         ModelInterface.raise_if_no_model()
         md: ModelMetadata = ModelInterface.get_metadata()
-        if len(md.modelAreaX) == 0 or len(md.modelAreaY) == 0:
+        if not (md.modelAreaX and md.modelAreaY):
             raise Exception(
                 "Model JSON missing area metadata. Please generate a new one."
             )

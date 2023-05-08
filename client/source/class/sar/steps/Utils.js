@@ -415,6 +415,8 @@ qx.Class.define("sar.steps.Utils", {
       const tabPage = new qx.ui.tabview.Page(title).set({
         layout
       });
+      // avoid ellipsis
+      tabPage.getChildControl("button").setMinWidth(title.length*10);
       tabPage.add(widget, {
         top: 0,
         bottom: 0,
@@ -434,6 +436,10 @@ qx.Class.define("sar.steps.Utils", {
         image.setSource(source);
       }
       return image;
+    },
+
+    setTimestampOnQuery: function(url) {
+      return url.replace("{timestamp}", Date.now());
     },
 
     createGenerateReportButton: function(resourceName, filename) {
